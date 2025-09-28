@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c55eeb15-36c3-4adb-b01f-f413c4f7df30" name="Changes" comment="Revert &quot;Create main.yml&quot;&#10;&#10;This reverts commit 1d9bfb70c9a75f27b6c8a19f2bcb3137a173512d." />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {}
+}]]></component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26.git&quot;,
+    &quot;accountId&quot;: &quot;7c0e90a3-8865-4e4a-8abb-4ad5f3b13172&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="33HZpQMgeYkdTIn5HJptWivEs7w" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c55eeb15-36c3-4adb-b01f-f413c4f7df30" name="Changes" comment="" />
+      <created>1758976139996</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1758976139996</updated>
+      <workItem from="1758976141488" duration="1182000" />
+      <workItem from="1759006964523" duration="198000" />
+      <workItem from="1759064215460" duration="2057000" />
+      <workItem from="1759066377197" duration="1697000" />
+    </task>
+    <task id="LOCAL-00001" summary="Add IntelliJ-related .gitignore file">
+      <option name="closed" value="true" />
+      <created>1759064353227</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759064353227</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Add IntelliJ-related .gitignore file">
+      <option name="closed" value="true" />
+      <created>1759064481601</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1759064481601</updated>
+    </task>
+    <task id="LOCAL-00003" summary=".">
+      <option name="closed" value="true" />
+      <created>1759064604950</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1759064604950</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add IntelliJ-related .gitignore file">
+      <option name="closed" value="true" />
+      <created>1759064780112</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1759064780112</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add IntelliJ-related .gitignore file">
+      <option name="closed" value="true" />
+      <created>1759064794175</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1759064794175</updated>
+    </task>
+    <task id="LOCAL-00006" summary=".">
+      <option name="closed" value="true" />
+      <created>1759066557333</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1759066557333</updated>
+    </task>
+    <task id="LOCAL-00007" summary=".">
+      <option name="closed" value="true" />
+      <created>1759066575535</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1759066575535</updated>
+    </task>
+    <task id="LOCAL-00008" summary=" `.gitignore`">
+      <option name="closed" value="true" />
+      <created>1759066749531</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1759066749531</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Revert &quot;Create main.yml&quot;&#10;&#10;This reverts commit 1d9bfb70c9a75f27b6c8a19f2bcb3137a173512d.">
+      <option name="closed" value="true" />
+      <created>1759066973191</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1759066973191</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Revert &quot;Create main.yml&quot;&#10;&#10;This reverts commit 1d9bfb70c9a75f27b6c8a19f2bcb3137a173512d.">
+      <option name="closed" value="true" />
+      <created>1759067705291</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1759067705291</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Revert &quot;Create main.yml&quot;&#10;&#10;This reverts commit 1d9bfb70c9a75f27b6c8a19f2bcb3137a173512d.">
+      <option name="closed" value="true" />
+      <created>1759067720480</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1759067720480</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="HIGHLIGHTERS">
+                <map>
+                  <entry key="CURRENT_BRANCH" value="true" />
+                  <entry key="MY_COMMITS" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add IntelliJ-related .gitignore file" />
+    <MESSAGE value=" `.gitignore`" />
+    <MESSAGE value="." />
+    <MESSAGE value="Merge branch 'master' of https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26" />
+    <MESSAGE value="Revert &quot;Create main.yml&quot;&#10;&#10;This reverts commit 1d9bfb70c9a75f27b6c8a19f2bcb3137a173512d." />
+    <option name="LAST_COMMIT_MESSAGE" value="Revert &quot;Create main.yml&quot;&#10;&#10;This reverts commit 1d9bfb70c9a75f27b6c8a19f2bcb3137a173512d." />
+  </component>
+</project>
