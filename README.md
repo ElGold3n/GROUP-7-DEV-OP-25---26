@@ -6,4 +6,9 @@ Strictly for DevOps 25-26 group 7 project collaboration.
 
 [![Releases](https://img.shields.io/github/release/ElGold3n/devops/all.svg?style=flat-square)](https://github.com/ElGold3n/devops/releases)
 
+# DevOps
+
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/ElGold3n/GROUP-7-DEV-OP-25---26/main.yml?branch=develop&style=flat-square)
+
+
 
