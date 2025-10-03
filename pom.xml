@@ -6,7 +6,7 @@
 
     <groupId>com.napier.devops</groupId>
     <artifactId>GROUP-7-DEV-OP-25---26</artifactId>
-    <version>0.1.0.1</version>
+    <version>0.1.0.2</version>
 
     <dependencies>
         <dependency>
