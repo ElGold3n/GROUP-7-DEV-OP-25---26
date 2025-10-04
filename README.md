@@ -1,4 +1,4 @@
-Strictly for DevOps 25-26 group 7 project collaboration.
+_Strictly for DevOps 25-26 group 7 project collaboration._
 
 ![workflow](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/actions/workflows/main.yml/badge.svg)
 
