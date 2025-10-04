@@ -78,14 +78,24 @@ Provides the number of speakers for Chinese, English, Hindi, Spanish, and Arabic
 
   ## Requirements and implementation details
   
- 1. Maven is used for dependency management and building the project.
- 2. The project MUST build to a self-contained JAR file.
- 3. A Dockerfile is provided for packaging the application and its dependencies into a working container.
- 4. GitHub Actions is configured to run on pushes/PRs to the automatically developed and release branches.
- 5. The pipeline includes steps to: 1. Build the Maven JAR. 2. Run tests. 3. Build and tag the Docker image.
+ 1. Build Tool: Maven is used for dependency management and building the project.
+ 2. Build Artifact: The project MUST build to a self-contained JAR file.
+ 3. Containerization: A Dockerfile is provided for packaging the application and its dependencies into a working container.
+ 4. CI/CD Pipeline: GitHub Actions is configured to run on pushes/PRs to the automatically developed and release branches.
+ 5. CI/CD Steps: The pipeline includes steps to: 1. Build the Maven JAR. 2. Run tests. 3. Build and tag the Docker image.
   
  
-
+  ## Development Workflow & Governance
+  
+  1. Branching Strategy: GitFlow is mandatory. Core branches include master (production-ready), develop (integration), and release/* (staging for releases).
+  2. Project Tracking: All development work is managed via GitHub Issues.
+  3. Task Definition: All tasks MUST be defined as User Stories in the Product Backlog.
+  4. Backlog Management: The Product Backlog is managed and prioritized through Zube.io (integrated with GitHub Issues).
+  5. Visual Workflow: A Kanban/Project Board tracks the overall project flow, and Sprint Boards track active sprint tasks.
+  6. Governance: A Code of Conduct is defined and enforced to maintain a professional and inclusive environment.
+  7. Releases: The first official release (e.g., v1.0.0) must be tagged on GitHub from the release branch.
+  
+     
   
 
 ![workflow](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/actions/workflows/main.yml/badge.svg)
