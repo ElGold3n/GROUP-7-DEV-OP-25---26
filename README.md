@@ -72,11 +72,21 @@ Direct access to the population figure for the World, a Continent, a Region, a C
   ###### Output
         Single Population Value
   #### C. Language Speakers
-Provides the number of speakers for Chinese, English, Hindi, Spanish, and Arabic globally, sorted from greatest to smallest, including the percentage of the world population that speaks the language.
+Provides the number of speakers for Chinese, English, Hindi, Spanish, and Arabic languages globally, sorted from the largest to the smallest, including the percentage of the world population that speaks each language.
   ###### Output
        Language, Speakers, % of World Population
 
-  ## Requirements
+  ## Requirements and implementation details
+  
+ 1. Maven is used for dependency management and building the project.
+ 2. The project MUST build to a self-contained JAR file.
+ 3. A Dockerfile is provided for packaging the application and its dependencies into a working container.
+ 4. GitHub Actions is configured to run on pushes/PRs to the automatically developed and release branches.
+ 5. The pipeline includes steps to: 1. Build the Maven JAR. 2. Run tests. 3. Build and tag the Docker image.
+  
+ 
+
+  
 
 ![workflow](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/actions/workflows/main.yml/badge.svg)
 
