@@ -1,0 +1,12 @@
+version: '3'
+services:
+  # Application Dockerfile is in root
+  app:
+    build: .
+
+  # Database Dockerfile is in /world-db
+  db:
+    build: world-db/.
+    restart: always
+    ports:
+      - "33060:3306"
