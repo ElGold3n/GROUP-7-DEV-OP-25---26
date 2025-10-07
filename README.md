@@ -94,9 +94,21 @@ Provides the number of speakers for Chinese, English, Hindi, Spanish, and Arabic
   5. Visual Workflow: A Kanban/Project Board tracks the overall project flow, and Sprint Boards track active sprint tasks.
   6. Governance: A Code of Conduct is defined and enforced to maintain a professional and inclusive environment.
   7. Releases: The first official release v0.1-alpha-2 must be tagged on GitHub from the release branch.
-  
-     
-  
+
+
+### Project Badges
+
+_The following badges are used to track the project's current status._
+
+- **Build Status** – shows whether the latest build of the project passes all automated builds on GitHub Actions.
+
+- **Release** – Outlines the latest version of the project that has been officially released (including pre-releases).
+
+- **License** – Represents the license under which the project is released.
+
+- **Zube.io** – Gives a visual representation of the Scrum/Kanban project board specifically set up for team task tracking.
+
+
 
 ![workflow](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/actions/workflows/main.yml/badge.svg)
 
