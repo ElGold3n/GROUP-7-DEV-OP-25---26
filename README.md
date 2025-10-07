@@ -104,4 +104,7 @@ Provides the number of speakers for Chinese, English, Hindi, Spanish, and Arabic
 
 [![Releases](https://img.shields.io/github/release/ElGold3n/devops/all.svg?style=flat-square)](https://github.com/ElGold3n/devops/releases)
 
+[![Zube Project](https://img.shields.io/badge/Project-Zube.io-blue?style=flat-square)](https://zube.io/group-7-dev-op-25-26/WorldPopulationReportingSystem)
+
+
 
