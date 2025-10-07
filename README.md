@@ -102,7 +102,7 @@ Provides the number of speakers for Chinese, English, Hindi, Spanish, and Arabic
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
 
-[![Release](https://img.shields.io/github/v/release/ElGold3n/devops?include_prereleases&style=flat-square)](https://github.com/ElGold3n/devops/releases)
+[![Release](https://img.shields.io/github/v/release/ElGold3n/GROUP-7-DEV-OP-25---26?include_prereleases&style=flat-square)](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/releases)
 
 [![Zube Project](https://img.shields.io/badge/Project-Zube.io-blue?style=flat-square)](https://zube.io/group-7-dev-op-25-26/WorldPopulationReportingSystem)
 
