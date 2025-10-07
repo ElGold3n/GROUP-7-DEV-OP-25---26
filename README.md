@@ -93,7 +93,7 @@ Provides the number of speakers for Chinese, English, Hindi, Spanish, and Arabic
   4. Backlog Management: The Product Backlog is managed and prioritized through Zube.io (integrated with GitHub Issues).
   5. Visual Workflow: A Kanban/Project Board tracks the overall project flow, and Sprint Boards track active sprint tasks.
   6. Governance: A Code of Conduct is defined and enforced to maintain a professional and inclusive environment.
-  7. Releases: The first official release (e.g., v1.0.0) must be tagged on GitHub from the release branch.
+  7. Releases: The first official release v0.1-alpha-2 must be tagged on GitHub from the release branch.
   
      
   
@@ -102,7 +102,7 @@ Provides the number of speakers for Chinese, English, Hindi, Spanish, and Arabic
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
 
-[![Releases](https://img.shields.io/github/release/ElGold3n/devops/all.svg?style=flat-square)](https://github.com/ElGold3n/devops/releases)
+[![Release](https://img.shields.io/github/v/release/ElGold3n/devops?include_prereleases&style=flat-square)](https://github.com/ElGold3n/devops/releases)
 
 [![Zube Project](https://img.shields.io/badge/Project-Zube.io-blue?style=flat-square)](https://zube.io/group-7-dev-op-25-26/WorldPopulationReportingSystem)
 
