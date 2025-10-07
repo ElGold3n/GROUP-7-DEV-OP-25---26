@@ -100,7 +100,7 @@ Provides the number of speakers for Chinese, English, Hindi, Spanish, and Arabic
 
 ![workflow](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/actions/workflows/main.yml/badge.svg)
 
-[![LICENSE](https://img.shields.io/github/license/ElGold3n/devops.svg?style=flat-square)](https://github.com/ElGold3n/devops/blob/master/LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
 
 [![Releases](https://img.shields.io/github/release/ElGold3n/devops/all.svg?style=flat-square)](https://github.com/ElGold3n/devops/releases)
 
