@@ -102,19 +102,27 @@ _The following badges are used to track the project's current status._
 
 - **Build Status** – shows whether the latest build of the project passes all automated builds on GitHub Actions.
 
-- **Release** – Outlines the latest version of the project that has been officially released (including pre-releases).
-
-- **License** – Represents the license under which the project is released.
-
-- **Zube.io** – Gives a visual representation of the Scrum/Kanban project board specifically set up for team task tracking.
-
 
 
 ![workflow](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/actions/workflows/main.yml/badge.svg)
 
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
+
+
+- **Release** – Outlines the latest version of the project that has been officially released (including pre-releases).
+  
 
 [![Release](https://img.shields.io/github/v/release/ElGold3n/GROUP-7-DEV-OP-25---26?include_prereleases&style=flat-square)](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/releases)
+
+
+- **License** – Represents the license under which the project is released.
+
+
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0)
+
+
+- **Zube.io** – Gives a visual representation of the Scrum/Kanban project board specifically set up for team task tracking.
+
+
 
 [![Zube Project](https://img.shields.io/badge/Project-Zube.io-blue?style=flat-square)](https://zube.io/group-7-dev-op-25-26/WorldPopulationReportingSystem)
 
