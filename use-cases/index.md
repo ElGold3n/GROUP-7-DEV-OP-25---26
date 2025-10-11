@@ -55,5 +55,3 @@ This index links to all 25 use case specifications, organized by category and ac
 - [UCD: Use Case Diagram](use-case-diaram.md) — Project Manager
 
 ---
-
-- [USE CASE DIAGRAM](use-case-diagram.md)
