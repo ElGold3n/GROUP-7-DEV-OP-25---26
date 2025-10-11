@@ -1,7 +1,6 @@
 # World Population Reporting System – Use Case Index
 
 This index links to all 25 use case specifications, organized by category and actor.  
-Each file is located in the same directory as this index file.
 
 ---
 
