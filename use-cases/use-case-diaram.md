@@ -2,12 +2,12 @@
 
 This diagram illustrates the interactions between three primary user roles and the system's core functionalities.
 
-## 🎭 Actors
+## Actors
 - **Data Analyst**
 - **Policy Maker**
 - **General User**
 
-## 🧩 Use Cases by Actor
+## Use Cases by Actor
 
 ### Data Analyst
 - View All Countries by Population
@@ -24,6 +24,6 @@ This diagram illustrates the interactions between three primary user roles and t
 - View Cities by Country/District
 - View Capital Cities
 
-## 🖼️ Diagram Preview
+## Diagram Preview
 
 ![Use Case Diagram](use-case-diagram.png)
