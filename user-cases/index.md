@@ -52,3 +52,5 @@ This index links to all 25 use case specifications, organized by category and ac
 - [UC-25: Project Boards & Zube.io Integration](use-case-uc-25.md) — Project Manager
 
 ---
+
+- [USE CASE DIAGRAM](use-case-diagram.md)
