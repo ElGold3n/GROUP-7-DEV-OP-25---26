@@ -27,5 +27,3 @@ This diagram illustrates the interactions between three primary user roles and t
 ## 🖼️ Diagram Preview
 
 ![Use Case Diagram](use-case-diagram.png)
-
-> This diagram was generated to match the structure and requirements outlined in the [SET08803 assessment specification](https://github.com/edinburgh-napier/SET08803/tree/main/assessment).
