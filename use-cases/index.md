@@ -51,4 +51,7 @@ This index links to all 25 use case specifications, organized by category and ac
 - [UC-24: Templates & Code of Conduct](use-case-uc-24.md) — Maintainer
 - [UC-25: Project Boards & Zube.io Integration](use-case-uc-25.md) — Project Manager
 
+
+- [UCD: Use Case Diagram](use-case-diaram.md) — Project Manager
+
 ---
