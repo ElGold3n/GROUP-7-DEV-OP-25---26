@@ -6,6 +6,13 @@ This project is a Java-based application designed to provide easy access to popu
 The system generates various reports on countries, cities, capital cities, populations, and languages as specified by the organization. 
 This project is being developed using the Scrum methodology and adheres strictly to a robust DevOps and CI/CD pipeline utilizing GitFlow, Maven, Docker, and GitHub Actions. 
 Reports include sorted lists of populations, top N results, and aggregated population statistics.
+## Product Backlog
+
+The product backlog is managed using **GitHub Issues** integrated with **Zube.io**.
+
+Each user story is defined as a GitHub Issue (linked to Zube), prioritized, and assigned to team members.  
+You can view the full backlog here: https://zube.io/group-7-dev-op-25-26/world-population-reporting-system/w/workspace-1/kanban.
+
 ## Features
 The system is tasked with generating reports across four major categories: Countries, Cities, Capital Cities, and Aggregate Population Data.
 ### 1. Country Reports
