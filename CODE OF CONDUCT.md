@@ -15,15 +15,15 @@ We are committed in adherence to:
 
 1. [ ] Respect, inclusivity, and professionalism at all times.
 
-2.[ ] Honest, transparent, and supportive communication.
+2. [ ] Honest, transparent, and supportive communication.
 
-3.[ ] Equal contribution and recognition for all collaborators.
+3. [ ] Equal contribution and recognition for all collaborators.
 
 4. [ ] Reliability and accountability in the completion of assigned tasks.
 
-5.[ ] Maintaining the integrity and academic standards specifically outlined by the module.
+5. [ ] Maintaining the integrity and academic standards specifically outlined by the module.
 
-6.[ ] Delivering clean, tested, and maintainable code.
+6. [ ] Delivering clean, tested, and maintainable code.
 
 # 4.Expected Behaviour
 
