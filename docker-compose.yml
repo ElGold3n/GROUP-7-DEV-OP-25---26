@@ -1,7 +1,6 @@
 services:
   db:
     build: world-db/.
-    container_name: world-mysql
     ports:
       - "33060:3306"
     healthcheck:
