@@ -19,10 +19,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      DB_URL: jdbc:mysql://db:3306/world?allowPublicKeyRetrieval=true&useSSL=false
-      DB_USER: root
-      DB_PASS: P@ssw0rd!
     command: ["java", "-jar", "app.jar"]
 
 volumes:
