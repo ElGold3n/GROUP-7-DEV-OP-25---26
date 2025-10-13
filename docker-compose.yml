@@ -3,6 +3,8 @@ services:
     build: world-db/.
     ports:
       - "33060:3306"
+    volumes:
+      - ./world.sql:/docker-entrypoint-initdb.d/world.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pP@ssw0rd!"]
       interval: 10s
