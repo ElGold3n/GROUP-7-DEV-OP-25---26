@@ -1,6 +1,9 @@
 # Use the latest MySQL image
 FROM mysql/mysql-server:latest
 
+# Set the working directory
+WORKDIR /tmp
+
 # Set root password and default database
 ENV MYSQL_ROOT_HOST=%
 ENV MYSQL_ROOT_PASSWORD=P@ssw0rd!
