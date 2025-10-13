@@ -1,62 +1,32 @@
 package com.napier.devops;
 
-import java.sql.*;
+import com.napier.devops.dao.*;
+import com.napier.devops.db.Database;
 
-public class App
-{
-    public static void main(String[] args)
-    {
-        try
-        {
-            // Load Database driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
-            System.out.println("Could not load SQL driver");
-            System.exit(-1);
-        }
+import java.sql.Connection;
+import java.util.Scanner;
 
-        // Connection to the database
-        Connection con = null;
-        int retries = 100;
-        for (int i = 0; i < retries; ++i)
-        {
-            System.out.println("Connecting to database...");
-            try
-            {
-                // Wait a bit for db to start
-                Thread.sleep(30000);
-                // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/world?allowPublicKeyRetrieval=true&useSSL=false", "root", "example");
-                System.out.println("Successfully connected");
-                // Wait a bit
-                Thread.sleep(10000);
-                // Exit for loop
-                break;
-            }
-            catch (SQLException sqle)
-            {
-                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
-                System.out.println(sqle.getMessage());
-            }
-            catch (InterruptedException ie)
-            {
-                System.out.println("Thread interrupted? Should not happen.");
-            }
-        }
+public class App {
+    public static void main(String[] args) {
 
-        if (con != null)
-        {
-            try
-            {
-                // Close connection
-                con.close();
-            }
-            catch (Exception e)
-            {
-                System.out.println("Error closing connection to database");
-            }
-        }
+        Database db = new Database();
+        db.connect();
+        Connection conn = db.getConnection();
+
+        Scanner scanner=new Scanner(System.in);
+
+        // Wire DAOs
+        CountryDAO countryDAO = new CountryDAO(conn);
+        CityDAO cityDAO = new CityDAO(conn);
+        CapitalCityDAO capitalDAO = new CapitalCityDAO(conn);
+        PopulationDAO populationDAO = new PopulationDAO(conn);
+        LookupDAO lookupDAO = new LookupDAO(conn);
+
+        // Delegate to MenuManager
+        MenuManager menu = new MenuManager(scanner, countryDAO, cityDAO, capitalDAO, populationDAO, lookupDAO);
+        menu.start();
+
+        db.disconnect();
+        System.out.println("👋 Goodbye!");
     }
 }

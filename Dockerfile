@@ -1,8 +1,28 @@
-# Use the latest openjdk image
-FROM openjdk:latest
-# Copy jar file to the working directory of the container
-COPY ./target/GROUP-7-DEV-OP-25---26-0.1.0.2-jar-with-dependencies.jar /tmp
-# Set the working directory of the container
-WORKDIR /tmp
-# Run the jar file
-ENTRYPOINT ["java", "-jar", "GROUP-7-DEV-OP-25---26-0.1.0.2-jar-with-dependencies.jar"]
+# --- Stage 1: Build with Maven ---
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
+
+WORKDIR /app
+
+# Copy pom.xml and download dependencies first (for caching)
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# Copy source and build
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# --- Stage 2: Runtime image ---
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+# Copy the fat JAR from the build stage
+COPY --from=builder /app/target/world-reporting-system-1.0.0-jar-with-dependencies.jar app.jar
+
+# Set environment variables (can be overridden in docker-compose.yml)
+ENV DB_URL=jdbc:mysql://db:3306/world?allowPublicKeyRetrieval=true&useSSL=false \
+    DB_USER=root \
+    DB_PASS=P@ssw0rd!
+
+# Run the app
+CMD ["java", "-jar", "app.jar"]
