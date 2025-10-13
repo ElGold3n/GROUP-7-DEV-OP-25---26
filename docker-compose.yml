@@ -1,5 +1,6 @@
 services:
   db:
+    build: world-db/.
     ports:
       - "33060:3306"
     volumes:
