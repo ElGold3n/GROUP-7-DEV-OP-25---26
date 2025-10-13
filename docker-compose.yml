@@ -1,6 +1,7 @@
 services:
   db:
     build: world-db/.
+    container_name: world-mysql
     restart: always
     ports:
       - "33060:3306"
