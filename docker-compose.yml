@@ -1,5 +1,6 @@
 services:
   db:
+    image: mysql:8.0
     build: world-db/.
     ports:
       - "33060:3306"
