@@ -19,10 +19,5 @@ WORKDIR /app
 # Copy the fat JAR from the build stage
 COPY --from=builder /app/target/world-reporting-system-1.0.0-jar-with-dependencies.jar app.jar
 
-# Set environment variables (can be overridden in docker-compose.yml)
-ENV DB_URL=jdbc:mysql://db:3306/world?allowPublicKeyRetrieval=true&useSSL=false \
-    DB_USER=root \
-    DB_PASS=P@ssw0rd!
-
 # Run the app
 CMD ["java", "-jar", "app.jar"]
