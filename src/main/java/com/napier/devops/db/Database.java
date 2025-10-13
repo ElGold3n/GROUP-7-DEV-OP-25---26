@@ -9,14 +9,14 @@ public class Database {
 
     // Default values (can be overridden by environment variables)
     private static final String DEFAULT_URL =
-            "jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false";
+            "jdbc:mysql://localhost:33060/world?allowPublicKeyRetrieval=true&useSSL=false";
     private static final String DEFAULT_USER = "root";
     private static final String DEFAULT_PASS = "P@ssw0rd!";
 
     public void connect() {
-        String url = System.getenv().getOrDefault("DB_URL", "jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false");
-        String user = System.getenv().getOrDefault("DB_USER", "root");
-        String pass = System.getenv().getOrDefault("DB_PASS", "P@ssw0rd!");
+        String url = System.getenv().getOrDefault("DB_URL", DEFAULT_URL);
+        String user = System.getenv().getOrDefault("DB_USER", DEFAULT_USER);
+        String pass = System.getenv().getOrDefault("DB_PASS", DEFAULT_PASS);
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

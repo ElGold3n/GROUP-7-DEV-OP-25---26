@@ -1,7 +1,8 @@
-# Use the official MySQL 8 image
-FROM mysql:8.0
+# Use the latest MySQL image
+FROM mysql/mysql-server:latest
 
 # Set root password and default database
+ENV MYSQL_ROOT_HOST=%
 ENV MYSQL_ROOT_PASSWORD=P@ssw0rd!
 ENV MYSQL_DATABASE=world
 
@@ -10,4 +11,4 @@ ENV MYSQL_DATABASE=world
 COPY world.sql /docker-entrypoint-initdb.d/
 
 # Expose MySQL port
-EXPOSE 3306
+EXPOSE 33060

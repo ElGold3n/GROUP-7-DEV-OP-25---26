@@ -1,20 +1,9 @@
-version: "3.9"
-
 services:
   db:
-    image: mysql:8.0
-    container_name: world-mysql
+    build: world-db/.
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: P@ssw0rd!
-      MYSQL_DATABASE: world
     ports:
-      - "3306:3306"
-    volumes:
-      # Persistent data volume
-      - db_data:/var/lib/mysql
-      # Initialization script (must be a valid SQL file)
-      - ./world.sql:/docker-entrypoint-initdb.d/world.sql:ro
+      - "33060:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pP@ssw0rd!"]
       interval: 10s
@@ -29,7 +18,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      DB_URL: jdbc:mysql://db:3306/world?allowPublicKeyRetrieval=true&useSSL=false
+      DB_URL: jdbc:mysql://db:33060/world?allowPublicKeyRetrieval=true&useSSL=false
       DB_USER: root
       DB_PASS: P@ssw0rd!
     command: ["java", "-jar", "app.jar"]
