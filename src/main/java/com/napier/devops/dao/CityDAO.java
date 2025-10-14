@@ -13,14 +13,14 @@ public class CityDAO {
     }
 
     public List<City> getCitiesByPopulation() {
-        String sql = "SELECT city.Name, country.Name AS Country, city.District, city.Population " +
+        String sql = "SELECT city.ID, city.Name, country.Name AS Country, city.District, city.Population " +
                 "FROM city JOIN country ON city.CountryCode=country.Code ORDER BY city.Population DESC";
         return queryCities(sql);
     }
 
     public List<City> getCitiesByPopulation(int n) {
-        String sql = "SELECT city.ID, city.Name, city.CountryCode, city.District, city.Population " +
-                "FROM city ORDER BY city.Population DESC LIMIT ?";
+        String sql = "SELECT city.ID, city.Name, country.Name AS Country, city.District, city.Population " +
+                "FROM city JOIN country ON city.CountryCode=country.Code ORDER BY city.Population DESC LIMIT ?";
         return queryCities(sql, n);
     }
 
