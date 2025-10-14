@@ -15,17 +15,17 @@ services:
       retries: 5
       start_period: 20s
 
- # world-reporting-app:
- #   build: .
- #   depends_on:
- #     world-mysql:
- #       condition: service_healthy
- #   environment:
- #     DB_URL: jdbc:mysql://world-mysql:3306/world?allowPublicKeyRetrieval=true&useSSL=false
- #     DB_USER: root
- #     DB_PASS: P@ssw0rd!
- #     BATCH_MODE: "true"
- #   command: ["java", "-jar", "app.jar"]
+  world-reporting-app:
+    build: .
+    depends_on:
+      world-mysql:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://world-mysql:3306/world?allowPublicKeyRetrieval=true&useSSL=false
+      DB_USER: root
+      DB_PASS: P@ssw0rd!
+      BATCH_MODE: "true"
+    command: ["java", "-jar", "app.jar"]
 
 volumes:
   db_data:
