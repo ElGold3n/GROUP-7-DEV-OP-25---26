@@ -12,7 +12,7 @@ services:
       # Persistent data volume
       - db_data:/var/lib/mysql
       # Initialization script (must be a valid SQL file)
-      - ./world.db:/docker-entrypoint-initdb.d:ro
+      - ./world-db:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pP@ssw0rd!"]
       interval: 10s
