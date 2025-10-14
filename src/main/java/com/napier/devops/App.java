@@ -82,7 +82,7 @@ public class App {
                 r.getSpeakers(),
                 String.format("%.2f%%", r.getPercentage())
         ));
-        System.out.println("\nGlobal Population Distribution");
+        System.out.println("\nGlobal Language Distribution");
         tp5.print(20);
     }
 
