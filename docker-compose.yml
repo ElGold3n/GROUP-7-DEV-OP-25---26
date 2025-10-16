@@ -1,12 +1,42 @@
-version: '3'
 services:
-  # Application Dockerfile is in root
+  db:
+    image: mysql:latest
+    container_name: world-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: P@ssw0rd!
+      MYSQL_DATABASE: world
+    ports:
+      - "3306:3306"
+    volumes:
+      # Persistent data volume
+      - db_data:/var/lib/mysql
+      # Initialization script (must be a valid SQL file)
+      - ./world-db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pP@ssw0rd!"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
   app:
     build: .
-
-  # Database Dockerfile is in /world-db
-  db:
-    build: world-db/.
-    restart: always
+    container_name: world-reporting-app
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://db:3306/world?allowPublicKeyRetrieval=true&useSSL=false
+      DB_USER: root
+      DB_PASS: P@ssw0rd!
+      BATCH_MODE: "true"
+      WEB_MODE: "true"
+    command: ["java", "-jar", "app.jar"]
+    stdin_open: true
+    tty: true
     ports:
-      - "33060:3306"
+      - "8081:8081"
+
+volumes:
+  db_data:

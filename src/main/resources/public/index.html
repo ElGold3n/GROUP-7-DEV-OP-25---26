@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>World Reporting App 🌍</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; }
+        nav { background: #2c3e50; overflow: hidden; }
+        nav ul { list-style-type: none; margin: 0; padding: 0; }
+        nav ul li { float: left; position: relative; }
+        nav ul li a, nav ul li button {
+            display: block; color: white; text-decoration: none;
+            padding: 14px 20px; background: #2c3e50; border: none; cursor: pointer;
+        }
+        nav ul li a:hover, nav ul li button:hover { background: #34495e; }
+        nav ul li ul { display: none; position: absolute; background: #34495e; min-width: 200px; z-index: 1; }
+        nav ul li:hover ul { display: block; }
+        nav ul li ul li { float: none; }
+        nav ul li ul li a { padding: 12px 16px; }
+        nav::after { content: ""; clear: both; display: table; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background: #f4f4f4; }
+        #filters { margin: 20px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+
+        <li>
+            <button>Countries ▾</button>
+            <ul>
+                <li><a href="#" onclick="loadReport('countries')">Top Countries</a></li>
+                <li><a href="#" onclick="loadReport('countries?scope=continent')">By Continent</a></li>
+                <li><a href="#" onclick="loadReport('countries?scope=region')">By Region</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <button>Cities ▾</button>
+            <ul>
+                <li><a href="#" onclick="loadReport('cities')">Top Cities</a></li>
+                <li><a href="#" onclick="loadReport('cities?scope=continent')">By Continent</a></li>
+                <li><a href="#" onclick="loadReport('cities?scope=country')">By Country</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <button>Capitals ▾</button>
+            <ul>
+                <li><a href="#" onclick="loadReport('capitals')">Top Capitals</a></li>
+                <li><a href="#" onclick="loadReport('capitals?scope=region')">By Region</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <button>Populations ▾</button>
+            <ul>
+                <li><a href="#" onclick="loadReport('populations?scope=continent')">By Continent</a></li>
+                <li><a href="#" onclick="loadReport('populations?scope=region')">By Region</a></li>
+                <li><a href="#" onclick="loadReport('populations?scope=country')">By Country</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <button>Languages ▾</button>
+            <ul>
+                <li><a href="#" onclick="loadReport('languages')">Global Distribution</a></li>
+                <li><a href="#" onclick="loadReport('languages?scope=continent')">By Continent</a></li>
+                <li><a href="#" onclick="loadReport('languages?scope=country')">By Country</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
+
+<div id="filters">
+    <label for="limit">Top N results:</label>
+    <select id="limit" onchange="reloadWithLimit()">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+    </select>
+</div>
+
+<div id="report" style="padding:20px;">
+    <h2>Welcome to the World Reporting App 🌍</h2>
+    <p>Select a report from the menu above.</p>
+</div>
+
+<script>
+    // Detect touch support
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    if (isTouch) {
+        document.querySelectorAll("nav ul li button").forEach(btn => {
+            btn.addEventListener("click", e => {
+                e.preventDefault();
+                const submenu = btn.nextElementSibling;
+                // Close other open menus
+                document.querySelectorAll("nav ul li ul").forEach(ul => {
+                    if (ul !== submenu) ul.style.display = "none";
+                });
+                // Toggle current submenu
+                submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+            });
+        });
+    }
+
+    async function loadReport(endpoint) {
+        try {
+            const res = await fetch(`/reports/${endpoint}`);
+            if (!res.ok) throw new Error("Network error");
+            const data = await res.json();
+            renderTable(data);
+        } catch (err) {
+            document.getElementById('report').innerHTML = `<p>Error loading report: ${err.message}</p>`;
+        }
+    }
+
+    function renderTable(data) {
+        if (!Array.isArray(data) || data.length === 0) {
+            document.getElementById('report').innerHTML = "<p>No data available</p>";
+            return;
+        }
+        let headers = Object.keys(data[0]);
+        let html = "<table><thead><tr>";
+        headers.forEach(h => html += `<th>${h}</th>`);
+        html += "</tr></thead><tbody>";
+        data.forEach(row => {
+            html += "<tr>";
+            headers.forEach(h => html += `<td>${row[h]}</td>`);
+            html += "</tr>";
+        });
+        html += "</tbody></table>";
+        document.getElementById('report').innerHTML = html;
+    }
+</script>
+
+</body>
+</html>
