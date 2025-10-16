@@ -31,7 +31,7 @@ services:
       DB_USER: root
       DB_PASS: P@ssw0rd!
       BATCH_MODE: "true"
-      WEB_MODE: "false"
+      WEB_MODE: "true"
     command: ["java", "-jar", "app.jar"]
     stdin_open: true
     tty: true
