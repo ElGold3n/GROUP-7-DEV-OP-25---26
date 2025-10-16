@@ -9,9 +9,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      # Persistent data volume
       - db_data:/var/lib/mysql
-      # Initialization script (must be a valid SQL file)
       - ./world-db:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pP@ssw0rd!"]
@@ -20,6 +18,7 @@ services:
       retries: 5
       start_period: 20s
 
+  # Batch mode app
   app:
     build: .
     container_name: world-reporting-app
@@ -31,12 +30,28 @@ services:
       DB_USER: root
       DB_PASS: P@ssw0rd!
       BATCH_MODE: "true"
-      WEB_MODE: "false"
     command: ["java", "-jar", "app.jar"]
     stdin_open: true
     tty: true
+
+  # Web mode app
+  web:
+    build: .
+    container_name: world-reporting-web
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:mysql://db:3306/world?allowPublicKeyRetrieval=true&useSSL=false
+      DB_USER: root
+      DB_PASS: P@ssw0rd!
+      BATCH_MODE: "false"
+      WEB_MODE: "true"
+    command: ["java", "-jar", "app.jar"]
     ports:
       - "8081:8081"
+    stdin_open: true
+    tty: true
 
 volumes:
   db_data:
