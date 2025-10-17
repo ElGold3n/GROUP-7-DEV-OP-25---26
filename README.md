@@ -133,5 +133,25 @@ _The following badges are used to track the project's current status._
 
 [![Zube Project](https://img.shields.io/badge/Project-Zube.io-blue?style=flat-square)](https://zube.io/group-7-dev-op-25-26/WorldPopulationReportingSystem)
 
+______________________________________________________________________________________________________________
 
+## Build Status
+
+| Branch | Status |
+|---------|--------|
+| Master  | ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/ElGold3n/GROUP-7-DEV-OP-25---26/main.yml?branch=master&style=flat-square) |
+| Develop | ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/ElGold3n/GROUP-7-DEV-OP-25---26/main.yml?branch=develop&style=flat-square) |
+
+## _Code Coverage_
+
+| Branch | Coverage |
+|---------|-----------|
+| Master  | [![Coverage Status](https://img.shields.io/codecov/c/github/ElGold3n/GROUP-7-DEV-OP-25---26/master.svg)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/branch/master) |
+
+## _Release & License_
+
+| Type    | Badge |
+|---------|--------|
+| Release | [![Releases](https://img.shields.io/github/release/ElGold3n/GROUP-7-DEV-OP-25---26/all.svg?style=flat-square)](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/releases) |
+| License | [![LICENSE](https://img.shields.io/github/license/ElGold3n/GROUP-7-DEV-OP-25---26.svg?style=flat-square)](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/blob/master/LICENSE) |
 
