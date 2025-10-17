@@ -5,31 +5,15 @@ jobs:
   build:
     name: devopsGroup Actions
     runs-on: ubuntu-22.04
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'adopt'
-
       - name: Build with Maven
         run: mvn package
-
       - name: Run docker compose
         run: docker compose up --abort-on-container-exit
-
-      - name: Run tests with coverage
-        run: mvn test
-
-      # ✅ NEW: Upload code coverage to Codecov to reflect on badge status.
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./target/site/jacoco/jacoco.xml
-          flags: unittests
-          fail_ci_if_error: true
