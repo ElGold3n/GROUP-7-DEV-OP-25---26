@@ -1,62 +1,125 @@
 package com.napier.devops.models;
 
+
 public class Language {
+
+    private boolean isContinent;
+    private boolean isRegion;
+    private boolean isCountry;
+
     private String language;
     private long speakers;
-    private long totalPopulation;
-    private long globalPopulation;
 
-    public Language(String language, long speakers, long totalPopulation) {
+    private String continent;
+    private String region;
+    private String country;
+
+    private String percentOfGlobalPopulation;
+    private String percentOfContinentPopulation;
+    private String percentOfRegionPopulation;
+    private String percentOfCountryPopulation;
+
+    private long globalPopulation; // optional context
+
+    // --- Constructors ---
+
+    // Global
+    public Language(String language, long speakers, String percentOfGlobalPopulation) {
+        this.isContinent = false;
+        this.isRegion    = false;
+        this.isCountry    = false;
+
         this.language = language;
         this.speakers = speakers;
-        this.totalPopulation = totalPopulation;
-        this.globalPopulation = 0;
+        this.percentOfGlobalPopulation = percentOfGlobalPopulation;
     }
 
-    public Language(String language, long speakers, long totalPopulation, long globalPopulation) {
-        this(language, speakers,  totalPopulation);
-        this.globalPopulation = globalPopulation;
+    // Continent / Region / Country
+    public Language(String type, String language, long speakers,
+                    String percentOfPopulation, String percentOfGlobalPopulation, String location) {
+        if (type.equals("Continent")) {
+            setContinent(location, true);
+            this.percentOfContinentPopulation = percentOfPopulation;
+        }
+
+        if (type.equals("Region")) {
+            setRegion(location, true);
+            this.isContinent = false;
+            this.isCountry   = false;
+            this.percentOfRegionPopulation = percentOfPopulation;
+        }
+
+        if (type.equals("Country")) {
+            setCountry(location, true);
+            this.isContinent = false;
+            this.isRegion    = false;
+            this.percentOfCountryPopulation = percentOfPopulation;
+       }
+        this.language = language;
+        this.speakers = speakers;
+        this.percentOfGlobalPopulation = percentOfGlobalPopulation;
+    }
+/*
+    // Continent
+    public Language(String continent, String language, long speakers,
+                    String percentOfContinentPopulation, String percentOfGlobalPopulation) {
+        this.region = region;
+        this.language = language;
+        this.speakers = speakers;
+        this.percentOfRegionPopulation = percentOfRegionPopulation;
+        this.percentOfGlobalPopulation = percentOfGlobalPopulation;
     }
 
-    // --- Getters ---
-    public String getLanguage() {
-        return language;
+    // Region
+    public Language(String region, String language, long speakers,
+                    String percentOfRegionPopulation, String percentOfGlobalPopulation) {
+        this.region = region;
+        this.language = language;
+        this.speakers = speakers;
+        this.percentOfRegionPopulation = percentOfRegionPopulation;
+        this.percentOfGlobalPopulation = percentOfGlobalPopulation;
     }
 
-    public long getSpeakers() {
-        return speakers;
+    // Country
+    public Language(String country, String language, long speakers,
+                    String percentOfCountryPopulation, String percentOfGlobalPopulation) {
+        this.country = country;
+        this.language = language;
+        this.speakers = speakers;
+        this.percentOfCountryPopulation = percentOfCountryPopulation;
+        this.percentOfGlobalPopulation = percentOfGlobalPopulation;
+    }
+*/
+    // --- Getters/Setters ---
+    public boolean isContinent() { return isContinent; }
+    public boolean isRegion() { return isRegion; }
+    public boolean isCountry() { return isCountry; }
+
+    public String getLanguage() { return language; }
+    public long getSpeakers() { return speakers; }
+    public String getContinent() { return continent; }
+    public String getRegion() { return region; }
+    public String getCountry() { return country; }
+    public String getPercentOfGlobalPopulation() { return percentOfGlobalPopulation; }
+    public String getPercentOfContinentPopulation() { return percentOfContinentPopulation; }
+    public String getPercentOfRegionPopulation() { return percentOfRegionPopulation; }
+    public String getPercentOfCountryPopulation() { return percentOfCountryPopulation; }
+
+    public void setContinent(String continent, boolean isContinent) {
+        this.isContinent = isContinent;
+        this.continent = continent;
     }
 
-    public long getTotalPopulation() {
-        return totalPopulation;
+    public void setRegion(String region, boolean isRegion) {
+        this.isRegion = isRegion;
+        this.region = region;
     }
-
-    public long getGlobalPopulation() {
-        return globalPopulation;
+    public void setCountry(String country, boolean isCountry) {
+        this.isCountry = isCountry;
+        this.country = country;
     }
-
-    // --- Setters ---
     public void setGlobalPopulation(long globalPopulation) {
         this.globalPopulation = globalPopulation;
     }
-
-    // --- Percentage Calculations ---
-    /** Percentage of the population in the current scope (country/continent/region). */
-    public double getPercentageOfPopulation() {
-        return totalPopulation == 0 ? 0 : (speakers * 100.0 / totalPopulation);
-    }
-
-    /** Percentage of the global population that speaks this language. */
-    public double getPercentageOfGlobal() {
-        return globalPopulation == 0 ? 0 : (speakers * 100.0 / globalPopulation);
-    }
-
-    // --- Debugging / Logging ---
-    @Override
-    public String toString() {
-        return String.format(
-                "Language: %s | Speakers: %d | %% of Population: %.2f%% | %% of Global: %.2f%%",
-                language, speakers, getPercentageOfPopulation(), getPercentageOfGlobal()
-        );
-    }
+    public long getGlobalPopulation() { return globalPopulation; }
 }

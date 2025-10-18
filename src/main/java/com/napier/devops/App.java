@@ -73,7 +73,7 @@ public class App {
         tp2.print(20);
 
         // Generate population by continent
-        var populations = populationDAO.getContinentPopulations();
+        var populations = populationDAO.getGlobalPopulations();
         TablePrinter tp4 = new TablePrinter("Continent", "Total", "In Cities", "Not in Cities");
         populations.forEach(p -> tp4.addRow(
                 p.getLabel(),
@@ -89,7 +89,7 @@ public class App {
         languages.forEach(r -> tp5.addRow(
                 r.getLanguage(),
                 r.getSpeakers(),
-                String.format("%.2f%%", r.getPercentageOfGlobal())
+                r.getPercentOfGlobalPopulation()
         ));
         System.out.println("\nGlobal Language Distribution");
         tp5.print(20);

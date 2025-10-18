@@ -32,7 +32,7 @@ public class LookupDAO {
         return querySingleColumnLookup(sql, "District");
     }
 
-    public List<Lookup> getDistrictsByCountry(String countryCode) {
+    public List<Lookup> getDistrictsByCountryCode(String countryCode) {
         String sql = "SELECT DISTINCT District FROM city WHERE CountryCode = ? ORDER BY District";
         List<Lookup> list = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -42,7 +42,22 @@ public class LookupDAO {
                 list.add(new Lookup("District", rs.getString("District")));
             }
         } catch (SQLException e) {
-            System.err.println("❌ Error fetching districts: " + e.getMessage());
+            System.err.println("Error fetching districts: " + e.getMessage());
+        }
+        return list;
+    }
+
+    public List<Lookup> getDistrictsByCountryName(String countryName) {
+        String sql = "SELECT DISTINCT district FROM city JOIN country ON city.CountryCode=country.Code WHERE country.Name= ? ORDER BY District";
+        List<Lookup> list = new ArrayList<>();
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, countryName);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                list.add(new Lookup("District", rs.getString("District")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching districts: " + e.getMessage());
         }
         return list;
     }

@@ -2,12 +2,15 @@ package com.napier.devops.models;
 
 public class Population {
     private String label;             // e.g. Continent, Region, or Country name
+    private long globalPopulation;     // total global
     private long totalPopulation;     // total population
     private long cityPopulation;      // people living in cities
     private long nonCityPopulation;   // people not living in cities
 
     // --- Constructors ---
-    public Population() {}
+    public Population(long globalPopulation) {
+        this.globalPopulation = globalPopulation;
+    }
 
     public Population(String label, long totalPopulation, long cityPopulation, long nonCityPopulation) {
         this.label = label;
@@ -19,6 +22,9 @@ public class Population {
     // --- Getters & Setters ---
     public String getLabel() { return label; }
     public void setLabel(String label) { this.label = label; }
+
+    public long getGlobalPopulation() { return globalPopulation; }
+    public void setGlobalPopulation(long globalPopulation) { this.globalPopulation = globalPopulation; }
 
     public long getTotalPopulation() { return totalPopulation; }
     public void setTotalPopulation(long totalPopulation) { this.totalPopulation = totalPopulation; }
@@ -48,4 +54,6 @@ public class Population {
                 nonCityPopulation, getNonCityPercentage()
         );
     }
+
+
 }

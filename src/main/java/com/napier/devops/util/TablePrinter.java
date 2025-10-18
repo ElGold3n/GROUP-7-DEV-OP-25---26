@@ -20,7 +20,7 @@ public class TablePrinter {
 
     public void print(int pageSize) {
         if (rows.isEmpty()) {
-            System.out.println("⚠️ No results found.");
+            System.out.println("No results found.");
             return;
         }
 
@@ -50,7 +50,7 @@ public class TablePrinter {
 
     public void print(int pageSize, Scanner scanner) {
         if (rows.isEmpty()) {
-            System.out.println("⚠️ No results found.");
+            System.out.println("No results found.");
             return;
         }
 
@@ -83,14 +83,14 @@ public class TablePrinter {
                 switch (choice) {
                     case "n" -> {
                         if (currentPage < totalPages - 1) currentPage++;
-                        else System.out.println("⚠️ Already at last page.");
+                        else System.out.println("Already at last page.");
                     }
                     case "p" -> {
                         if (currentPage > 0) currentPage--;
-                        else System.out.println("⚠️ Already at first page.");
+                        else System.out.println("Already at first page.");
                     }
                     case "e" -> { return; }
-                    default -> System.out.println("⚠️ Invalid option.");
+                    default -> System.out.println("Invalid option.");
                 }
         }
     }
