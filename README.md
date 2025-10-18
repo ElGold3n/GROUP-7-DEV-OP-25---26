@@ -156,3 +156,61 @@ _The following tracked project's code coverage is an estimation not actuality,wi
 | Release | [![Releases](https://img.shields.io/github/release/ElGold3n/GROUP-7-DEV-OP-25---26/all.svg?style=plastic-square)](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/releases)                  |
 | License | [![LICENSE](https://img.shields.io/github/license/ElGold3n/GROUP-7-DEV-OP-25---26.svg?style=plastic-square&color=blue)](https://github.com/ElGold3n/GROUP-7-DEV-OP-25---26/blob/master/LICENSE) |
 
+___________________________________________________________________
+
+## Requirements Implementation Evidence Summary
+
+**1 requirement of 32 has been implemented, which is   **3.15%** of the total requirements.**
+
+---
+
+## Evidence of Features Implemented   
+
+✅ Yes   ❌ No
+
+## 🔵 Project Requirements Evidence
+
+**0 of 32 requirements have been implemented (0.0%).**
+
+
+
+| ID                           | Name                                                                    | Met   | Screenshot |
+|------------------------------|-------------------------------------------------------------------------|-------|------------|
+| **Country Reports**   🗺️    |                                                                         |       |            |
+| 1                            | All the countries in the world, sorted by population.                   |       |            |
+| 2                            | All the countries in a continent, sorted by population.                 |       |            |
+| 3                            | All the countries in a region, sorted by population.                    |       |            |
+| 4                            | 🔝Top N of populated countries in the world.                            |       |            |
+| 5                            | 🔝 Top N of populated countries in a continent.                         |       |            |
+| 6                            | 🔝  Top N of populated countries in a region.                           |       |            |
+| **City Reports**    🌆       |                                                                         |       |            |
+| 7                            | All the cities in the world, sorted by population.                      |       |            |
+| 8                            | All the cities in a continent, sorted by population.                    |       |            |
+| 9                            | All the cities in a region, sorted by population.                       |       |            |
+| 10                           | All the cities in a country, sorted by population.                      |       |            |
+| 11                           | All the cities in a district, sorted by population.                     |       |            |
+| 12                           | 🔝 Top N of populated cities in the world.                              |       |            |
+| 13                           | 🔝 Top N of populated cities in a continent.                            |       |            |
+| 14                           | 🔝 Top N of populated cities in a region.                               |       |            |
+| 15                           | 🔝 Top N of populated cities in a country.                              |       |            |
+| 16                           | 🔝 Top N of populated cities in a district.                             |       |            |
+| **Capital City Reports** 🏛️ |                                                                         |       |            |
+| 17                           | All the capital cities in the world, sorted by population.              |       |            |
+| 18                           | All the capital cities in a continent, sorted by population.            |       |            |
+| 19                           | All the capital cities in a region, sorted by population.               |       |            |
+| 20                           | 🔝 Top N of populated capital cities in the world.                      |       |            |
+| 21                           | 🔝 Top N of populated capital cities in a continent.                    |       |            |
+| 22                           | 🔝 Top N of populated capital cities in a region.                       |       |            |
+| **Population Reports**  👥   |                                                                         |       |            |
+| 23                           | All the population data (total, city, non-city) by continent.           |       |            |
+| 24                           | All the population data (total, city, non-city) by region.              |       |            |
+| 25                           | All the population data (total, city, non-city) by country.             |       |            |
+| **Population Access**   🌍   |                                                                         |       |            |
+| 26                           | World population.                                                       |       |            |
+| 27                           | Continent population.                                                   |       |            |
+| 28                           | Region population.                                                      |       |            |
+| 29                           | Country population.                                                     |       |            |
+| 30                           | District population.                                                    |       |            |
+| 31                           | City population.                                                        |       |            |
+| **Language Reports** 🗣️     |                                                                         |       |            |
+| 32                           | All the speakers of Chinese, English, Hindi, Spanish, Arabic (% world). | ✅ Yes |            |
