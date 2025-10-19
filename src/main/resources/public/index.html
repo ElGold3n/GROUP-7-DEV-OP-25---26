@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>World Reporting App</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <h2>Reports</h2>
+        <nav>
+            <ul>
+                <li><button class="menu-item" data-endpoint="countries">Countries</button></li>
+                <li><button class="menu-item" data-endpoint="cities">Cities</button></li>
+                <li><button class="menu-item" data-endpoint="capitals">Capital Cities</button></li>
+                <li><button class="menu-item" data-endpoint="populations">Population</button></li>
+                <li><button class="menu-item" data-endpoint="languages">Language</button></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="toolbar">
+            <div class="site-title"><h1>World Reporting System</h1></div>
+            <div class="breadcrumbs" id="breadcrumbs">Home</div>
+        </header>
+
+        <section id="controls" style="display:none;">
+            <div class="controls">
+                <label>
+                    <span>Scope</span>
+                    <select id="scopeSelect"></select>
+                </label>
+                <label>
+                    <span>Scope name</span>
+                    <select id="scopeName"></select>
+                </label>
+                <label id="districtLabel" style="display:none;">
+                    <span>District (cities only)</span>
+                    <select id="districtSelect"></select>
+                </label>
+                <label>
+                    <span>Top‑N (backend)</span>
+                    <select id="topN">
+                        <option value="-1">All</option>
+                        <option value="5">Top 5</option>
+                        <option value="10">Top 10</option>
+                        <option value="25">Top 25</option>
+                        <option value="50">Top 50</option>
+                        <option value="100">Top 100</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Rows per page (frontend)</span>
+                    <select id="pageSize">
+                        <option value="-1">All</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </label>
+                <button id="applyFilters" class="applyFilters">Apply</button>
+            </div>
+        </section>
+
+        <section id="introduction">
+            <h3>Welcome to the World Reporting App!</h3>
+            <p>Use the sidebar to choose a report type (Countries, Cities, Capitals, Populations, or Languages). Then:
+            <ol>
+            <li>Select a Scope (Global, Continent, Region, Country, or District).</li>
+            <li>Pick a Scope Name from the dropdown.</li>
+            <li> (For Cities) choose a District if needed.</li>
+            <li>Adjust Top‑N for backend results and Rows per page for how many you see at once.</li>
+            <li>Click Apply to load your report.</li>
+            </ol>
+        </section>
+
+        <section id="tableArea" class="table-area" style="display:none;">
+            <div id="tableContainer"></div>
+            <div class="pagination" id="pagination">
+                <button id="prevPage" disabled>Prev</button>
+                <span id="pageInfo">Page 1</span>
+                <button id="nextPage" disabled>Next</button>
+                <label>
+                    Jump to:
+                    <input type="number" id="jumpPage" min="1" style="width:60px;" />
+                </label>
+                <button id="jumpBtn">Go</button>
+            </div>
+        </section>
+        <section id="statusBar" class="status-bar" aria-live="polite"></section>
+
+    </main>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
