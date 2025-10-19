@@ -23,6 +23,18 @@ public class CountryDAO {
         return queryCountries(sql, n);
     }
 
+    public List<Country> getCountriesInContinent() {
+        String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
+                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Continent, country.Population DESC";
+        return queryCountries(sql);
+    }
+
+    public List<Country> getCountriesInContinent(int n) {
+        String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
+                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Continent, country.Population DESC LIMIT ?";
+        return queryCountries(sql, n);
+    }
+
     public List<Country> getCountriesInContinent(String continent) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
                 "FROM country LEFT JOIN city ON country.Capital=city.ID WHERE Continent=? ORDER BY country.Population DESC";
@@ -34,6 +46,18 @@ public class CountryDAO {
                 "FROM country LEFT JOIN city ON country.Capital=city.ID WHERE Continent=? ORDER BY country.Population DESC LIMIT ?";
         return queryCountries(sql, continent, n);
 
+    }
+
+    public List<Country> getCountriesInRegion() {
+        String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
+                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Region, country.Population DESC";
+        return queryCountries(sql);
+    }
+
+    public List<Country> getCountriesInRegion(int n) {
+        String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
+                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Region, country.Population DESC LIMIT ?";
+        return queryCountries(sql, n);
     }
 
     public List<Country> getCountriesInRegion(String region) {

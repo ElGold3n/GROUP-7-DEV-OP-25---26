@@ -243,7 +243,7 @@ public class PopulationDAO {
 
                 "(SELECT SUM(ci.Population) " +
                 "FROM city ci JOIN country co2 ON ci.CountryCode = co2.Code " +
-                "WHERE co2.CountryCode  = c.Code) AS city_population, " +
+                "WHERE co2.Code  = c.Code) AS city_population, " +
 
                 "(SELECT SUM(co.Population) " +
                 "FROM country co " +
@@ -268,7 +268,7 @@ public class PopulationDAO {
 
                 "(SELECT SUM(ci.Population) " +
                 "FROM city ci JOIN country co2 ON ci.CountryCode = co2.Code " +
-                "WHERE co2.CountryCode  = c.Code) AS city_population, " +
+                "WHERE co2.Code  = c.Code) AS city_population, " +
 
                 "(SELECT SUM(co.Population) " +
                 "FROM country co " +
@@ -286,7 +286,7 @@ public class PopulationDAO {
         return queryPopulation(sql, n);
     }
 
-    public List<Population> getCountryPopulations(String name) {
+    public List<Population> getCountryPopulationByCode(String country) {
         String sql = "SELECT c.Name AS Country, " +
                 "(SELECT SUM(co.Population) " +
                 "FROM country co WHERE co.Code = c.Code) " +
@@ -294,25 +294,24 @@ public class PopulationDAO {
 
                 "(SELECT SUM(ci.Population) " +
                 "FROM city ci JOIN country co2 ON ci.CountryCode = co2.Code " +
-                "WHERE co2.CountryCode  = c.Code) AS city_population, " +
+                "WHERE co2.Code  = c.Code) AS city_population, " +
 
                 "(SELECT SUM(co.Population) " +
                 "FROM country co " +
-                "WHERE co.Region = c.Region)" +
-                " - " +
+                "WHERE co.Code = c.Code)  - " +
                 "(SELECT SUM(ci.Population) " +
                 "FROM city ci " +
                 "JOIN country co2 ON ci.CountryCode = co2.Code " +
                 "WHERE co2.Code = c.Code) AS non_city_population " +
 
                 "FROM country c " +
-                "WHERE c.Name = ?" +
+                "WHERE c.Code = ? " +
                 "GROUP BY c.Code, total_population " +
                 "ORDER BY total_population DESC";
-        return queryPopulation(sql, name);
+        return queryPopulation(sql, country);
     }
 
-    public List<Population> getCountryPopulations(String name, int n) {
+    public List<Population> getCountryPopulationByCode(String country, int n) {
         String sql = "SELECT c.Name AS Country, " +
                 "(SELECT SUM(co.Population) " +
                 "FROM country co WHERE co.Code = c.Code) " +
@@ -320,24 +319,76 @@ public class PopulationDAO {
 
                 "(SELECT SUM(ci.Population) " +
                 "FROM city ci JOIN country co2 ON ci.CountryCode = co2.Code " +
-                "WHERE co2.CountryCode  = c.Code) AS city_population, " +
+                "WHERE co2.Code  = c.Code) AS city_population, " +
 
                 "(SELECT SUM(co.Population) " +
                 "FROM country co " +
-                "WHERE co.Region = c.Region)" +
-                " - " +
+                "WHERE co.Code = c.Code)  - " +
                 "(SELECT SUM(ci.Population) " +
                 "FROM city ci " +
                 "JOIN country co2 ON ci.CountryCode = co2.Code " +
                 "WHERE co2.Code = c.Code) AS non_city_population " +
 
                 "FROM country c " +
-                "WHERE c.Name = ?" +
+                "WHERE c.Code = ? " +
                 "GROUP BY c.Code, total_population " +
                 "ORDER BY total_population DESC " +
                 "LIMIT ?";
-        return queryPopulation(sql, name, n);
+        return queryPopulation(sql, country, n);
     }
+
+    public List<Population> getCountryPopulations(String country) {
+        String sql = "SELECT c.Name AS Country, " +
+                "(SELECT SUM(co.Population) " +
+                "FROM country co WHERE co.Code = c.Code) " +
+                "AS total_population, " +
+
+                "(SELECT SUM(ci.Population) " +
+                "FROM city ci JOIN country co2 ON ci.CountryCode = co2.Code " +
+                "WHERE co2.Code  = c.Code) AS city_population, " +
+
+                "(SELECT SUM(co.Population) " +
+                "FROM country co " +
+                "WHERE co.Code = c.Code)  - " +
+                "(SELECT SUM(ci.Population) " +
+                "FROM city ci " +
+                "JOIN country co2 ON ci.CountryCode = co2.Code " +
+                "WHERE co2.Code = c.Code) AS non_city_population " +
+
+                "FROM country c " +
+                "WHERE c.Name = ? " +
+                "GROUP BY c.Code, total_population " +
+                "ORDER BY total_population DESC";
+        return queryPopulation(sql, country);
+    }
+
+    public List<Population> getCountryPopulations(String country, int n) {
+        String sql = "SELECT c.Name AS Country, " +
+                "(SELECT SUM(co.Population) " +
+                "FROM country co WHERE co.Code = c.Code) " +
+                "AS total_population, " +
+
+                "(SELECT SUM(ci.Population) " +
+                "FROM city ci JOIN country co2 ON ci.CountryCode = co2.Code " +
+                "WHERE co2.Code  = c.Code) AS city_population, " +
+
+                "(SELECT SUM(co.Population) " +
+                "FROM country co " +
+                "WHERE co.Code = c.Code)" +
+                " - " +
+                "(SELECT SUM(ci.Population) " +
+                "FROM city ci " +
+                "JOIN country co2 ON ci.CountryCode = co2.Code " +
+                "WHERE co2.Code = c.Code) AS non_city_population " +
+
+                "FROM country c " +
+                "WHERE c.Name = ? " +
+                "GROUP BY c.Code, total_population " +
+                "ORDER BY total_population DESC " +
+                "LIMIT ?";
+        return queryPopulation(sql, country, n);
+    }
+
 
     private List<Population> queryPopulation(String sql, Object... params) {
         List<Population> results = new ArrayList<>();

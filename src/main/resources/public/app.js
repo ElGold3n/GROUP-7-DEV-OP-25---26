@@ -407,7 +407,7 @@ function deriveCellValue(endpoint, header, row, global) {
         const nonCity = num(m.noncitypopulation);
 
         switch (header) {
-            case "Label": return m.label;
+            case "Name": return m.label;
             case "Total Population": return total;
             case "Living in Cities": return city;
             case "Living in Cities (%)": return total > 0 ? ((city * 100) / total).toFixed(2) : "0.00";

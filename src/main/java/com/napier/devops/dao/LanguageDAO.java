@@ -148,6 +148,22 @@ public class LanguageDAO {
         return queryLanguages(sql, country);
     }
 
+    public List<Language> getLanguagesByCountryCode(String country, int n) {
+        String sql = "SELECT co.Name AS Country, cl.Language, " +
+                "SUM(co.Population * cl.Percentage / 100) AS total_speakers, " +
+                "(SUM(co.Population * cl.Percentage / 100) * 100.0) / " +
+                "(SELECT c1.Population FROM country c1 WHERE c1.Code = co.Code) AS percent_of_country, " +
+                "(SUM(co.Population * cl.Percentage / 100) * 100.0) / " +
+                "(SELECT SUM(Population) FROM country) AS percent_of_global " +
+                "FROM countrylanguage cl " +
+                "JOIN country co ON cl.CountryCode = co.Code " +
+                "WHERE co.Code = ? " +
+                "GROUP BY co.Code, co.Name, cl.Language " +
+                "ORDER BY co.Name, total_speakers DESC " +
+                "LIMIT ?";
+        return queryLanguages(sql, country, n);
+    }
+
     private long getGlobalPopulation() {
         String sql = "SELECT SUM(Population) AS WorldPop FROM country";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {

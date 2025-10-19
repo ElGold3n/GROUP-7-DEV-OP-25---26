@@ -49,17 +49,33 @@ public class WebServer {
             List<Country> countries;
             if ("continent".equalsIgnoreCase(scope)) {
                 if(limit < 0) {
-                    countries = countryDAO.getCountriesInContinent(name);
+                    if ( name == null || name.isEmpty() ) {
+                        countries = countryDAO.getCountriesInContinent();
+                    } else {
+                        countries = countryDAO.getCountriesInContinent(name);
+                    }
                 }
                 else {
-                    countries = countryDAO.getCountriesInContinent(name, limit);
+                    if ( name == null || name.isEmpty() ) {
+                        countries = countryDAO.getCountriesInContinent(limit);
+                    } else {
+                        countries = countryDAO.getCountriesInContinent(name, limit);
+                    }
                 }
             } else if ("region".equalsIgnoreCase(scope)) {
                 if(limit < 0) {
-                    countries = countryDAO.getCountriesInRegion(name);
+                    if ( name == null || name.isEmpty() ) {
+                        countries = countryDAO.getCountriesInRegion();
+                    } else {
+                        countries = countryDAO.getCountriesInRegion(name);
+                    }
                 }
                 else {
-                    countries = countryDAO.getCountriesInRegion(name, limit);
+                    if ( name == null || name.isEmpty() ) {
+                        countries = countryDAO.getCountriesInRegion(limit);
+                    } else {
+                        countries = countryDAO.getCountriesInRegion(name, limit);
+                    }
                 }
             } else {
                 if (limit < 0) {
@@ -213,16 +229,16 @@ public class WebServer {
             } else if ("region".equalsIgnoreCase(scope)) {
                 if (limit < 0) {
                     if (name == null || name.isEmpty()) {
-                        // If a specific region name is provided, fetch that region’s population
+                        // If a specific region name is not provided, fetch all region populations
                         pops = populationDAO.getRegionPopulations();
                     } else {
-                        // Otherwise, fetch all region populations
+                        // Otherwise, fetch that region’s population
                         pops = populationDAO.getRegionPopulations(name);
                     }
                 }
                 else {
                     if (name == null || name.isEmpty()) {
-                        // If a specific region name is provided, fetch that region’s population
+                        // If a specific region name is not provided, fetch all region populations
                         pops = populationDAO.getRegionPopulations(limit);
                     } else {
                         // Otherwise, fetch all region populations

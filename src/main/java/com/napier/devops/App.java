@@ -66,14 +66,14 @@ public class App {
         tp2.print(20);
 
         // Generate top N capital cities
-        var topCapitals = capitalDAO.getCapitalCitiesByPopulation(20);
+        var topCapitals = capitalDAO.getCapitalCitiesByPopulation(10);
         TablePrinter tp3 = new TablePrinter("ID", "Capital", "Country", "Continent", "Region", "Population");
         topCapitals.forEach(c -> tp3.addRow(c.getId(), c.getName(), c.getCountry(), c.getContinent(), c.getRegion(), c.getPopulation()));
         System.out.println("\nTop 10 Capital Cities by Population");
         tp2.print(20);
 
-        // Generate population by continent
-        var populations = populationDAO.getGlobalPopulations();
+        // Generate top N populations
+        var populations = populationDAO.getGlobalPopulations(10);
         TablePrinter tp4 = new TablePrinter("Continent", "Total", "In Cities", "Not in Cities");
         populations.forEach(p -> tp4.addRow(
                 p.getLabel(),
@@ -81,17 +81,18 @@ public class App {
                 p.getCityPopulation(),
                 p.getNonCityPopulation()
         ));
-        System.out.println("\nGlobal Population Distribution");
+        System.out.println("\nTop 10 Populations Globally");
         tp4.print(20);
 
-        var languages = languageDAO.getLanguagesByPopulation();
+        // Generate top N Languages
+        var languages = languageDAO.getLanguagesByPopulation(5);
         TablePrinter tp5 = new TablePrinter("Language", "Speakers", "% of Global Population");
         languages.forEach(r -> tp5.addRow(
                 r.getLanguage(),
                 r.getSpeakers(),
                 r.getPercentOfGlobalPopulation()
         ));
-        System.out.println("\nGlobal Language Distribution");
+        System.out.println("\nTop 5 Languages");
         tp5.print(20);
     }
 

@@ -16,8 +16,10 @@ public class MenuManager {
     private final LanguageDAO languageDAO;
     private final Deque<String> breadcrumb = new ArrayDeque<>();
 
-    public MenuManager(Scanner scanner, CountryDAO countryDAO, CityDAO cityDAO,
-                       CapitalCityDAO capitalDAO, PopulationDAO populationDAO, LookupDAO lookupDAO, LanguageDAO languageDAO) {
+    public MenuManager(
+            Scanner scanner, CountryDAO countryDAO, CityDAO cityDAO, CapitalCityDAO capitalDAO,
+            PopulationDAO populationDAO, LookupDAO lookupDAO, LanguageDAO languageDAO
+    ) {
         this.scanner = scanner;
         this.countryDAO = countryDAO;
         this.cityDAO = cityDAO;
@@ -28,7 +30,7 @@ public class MenuManager {
     }
 
 
-    // --- Entry Point ---
+    // --- Main Menu ---
     public void start() {
         breadcrumb.push("Main Menu");
         boolean running = true;
@@ -56,6 +58,7 @@ public class MenuManager {
         }
         breadcrumb.pop();
     }
+
 
     // --- Countries Submenu ---
     private void showCountries() {
@@ -167,6 +170,7 @@ public class MenuManager {
         }
         breadcrumb.pop();
     }
+
 
     // --- Cities ---
     private void showCities() {
@@ -466,6 +470,7 @@ public class MenuManager {
     }
 
 
+    // --- Languages ---
     private void showLanguages() {
         breadcrumb.push("Language Reports");
         boolean running = true;
@@ -480,29 +485,64 @@ public class MenuManager {
             System.out.print("Choose an option: ");
 
             switch (scanner.nextLine().trim()) {
+                case "1" -> showGlobalLanguageReports();
+                case "2" -> showContinentalLanguageReports();
+                case "3" -> showRegionalLanguageReports();
+                case "4" -> showCountryLanguageReports();
+                case "0" -> running = false;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+        breadcrumb.pop();
+    }
+
+    private void showGlobalLanguageReports() {
+        breadcrumb.push("Global Language Reports");
+        boolean running = true;
+        while (running) {
+            showBreadcrumb();
+            System.out.println("\n--- Global Language Reports ---");
+            System.out.println("1. All spoken languages globally (most → least)");
+            System.out.println("2. Top N spoken languages");
+            System.out.println("0. Back");
+            System.out.print("Choose an option: ");
+
+            switch (scanner.nextLine().trim()) {
+                case "1" -> printLanguages(languageDAO.getLanguagesByPopulation());
+                case "2" -> {
+                    System.out.print("Enter N: ");
+                    int n = Integer.parseInt(scanner.nextLine());
+                    printLanguages(languageDAO.getLanguagesByPopulation(n));
+                }
+                case "0" -> running = false;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+        breadcrumb.pop();
+    }
+
+    private void showContinentalLanguageReports() {
+        breadcrumb.push("Continental Language Reports");
+        boolean running = true;
+        while (running) {
+            showBreadcrumb();
+            System.out.println("\n--- Continental Language Reports ---");
+            System.out.println("1. All languages in a continent");
+            System.out.println("2. Top N languages in a continent");
+            System.out.println("0. Back");
+            System.out.print("Choose an option: ");
+
+            switch (scanner.nextLine().trim()) {
                 case "1" -> {
-                    List<Language> reports = languageDAO.getLanguagesByPopulation();
-                    printLanguages(reports);
+                    String continent = chooseContinent();
+                    if (continent != null) printLanguages(languageDAO.getLanguagesByContinent(continent));
                 }
                 case "2" -> {
                     String continent = chooseContinent();
                     if (continent != null) {
-                        List<Language> reports = languageDAO.getLanguagesByContinent(continent);
-                        printLanguages(reports);
-                    }
-                }
-                case "3" -> {
-                    String region = chooseRegion();
-                    if (region != null) {
-                        List<Language> reports = languageDAO.getLanguagesByRegion(region);
-                        printLanguages(reports);
-                    }
-                }
-                case "4" -> {
-                    String country = chooseCountry();
-                    if (country != null) {
-                        List<Language> reports = languageDAO.getLanguagesByCountryCode(country);
-                        printLanguages(reports);
+                        System.out.print("Enter N: ");
+                        int n = Integer.parseInt(scanner.nextLine());
+                        printLanguages(languageDAO.getLanguagesByContinent(continent, n));
                     }
                 }
                 case "0" -> running = false;
@@ -511,6 +551,69 @@ public class MenuManager {
         }
         breadcrumb.pop();
     }
+
+    private void showRegionalLanguageReports() {
+        breadcrumb.push("Regional Language Reports");
+        boolean running = true;
+        while (running) {
+            showBreadcrumb();
+            System.out.println("\n--- Regional Language Reports ---");
+            System.out.println("1. All languages in a region");
+            System.out.println("2. Top N languages in a region");
+            System.out.println("0. Back");
+            System.out.print("Choose an option: ");
+
+            switch (scanner.nextLine().trim()) {
+                case "1" -> {
+                    String region = chooseRegion();
+                    if (region != null) printLanguages(languageDAO.getLanguagesByRegion(region));
+                }
+                case "2" -> {
+                    String region = chooseRegion();
+                    if (region != null) {
+                        System.out.print("Enter N: ");
+                        int n = Integer.parseInt(scanner.nextLine());
+                        printLanguages(languageDAO.getLanguagesByRegion(region, n));
+                    }
+                }
+                case "0" -> running = false;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+        breadcrumb.pop();
+    }
+
+    private void showCountryLanguageReports() {
+        breadcrumb.push("Country Language Reports");
+        boolean running = true;
+        while (running) {
+            showBreadcrumb();
+            System.out.println("\n--- Country Language Reports ---");
+            System.out.println("1. All languages in a country");
+            System.out.println("2. Top N languages in a country");
+            System.out.println("0. Back");
+            System.out.print("Choose an option: ");
+
+            switch (scanner.nextLine().trim()) {
+                case "1" -> {
+                    String countryCode = chooseCountry();
+                    if (countryCode != null) printLanguages(languageDAO.getLanguagesByCountryCode(countryCode));
+                }
+                case "2" -> {
+                    String countryCode = chooseCountry();
+                    if (countryCode != null) {
+                        System.out.print("Enter N: ");
+                        int n = Integer.parseInt(scanner.nextLine());
+                        printLanguages(languageDAO.getLanguagesByCountryCode(countryCode, n));
+                    }
+                }
+                case "0" -> running = false;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+        breadcrumb.pop();
+    }
+
 
     // --- Populations ---
     private void showPopulations() {
@@ -519,16 +622,18 @@ public class MenuManager {
         while (running) {
             showBreadcrumb();
             System.out.println("\n--- Population Distribution ---");
-            System.out.println("1. By Continent");
-            System.out.println("2. By Region");
-            System.out.println("3. By Country");
+            System.out.println("1. Global Population");
+            System.out.println("2. Population by Continent");
+            System.out.println("3. Population by Region");
+            System.out.println("4. Population by Country");
             System.out.println("0. Back");
             System.out.print("Choose an option: ");
 
             switch (scanner.nextLine().trim()) {
-                case "1" -> printPopulations("Continent", populationDAO.getGlobalPopulations());
-                case "2" -> printPopulations("Region", populationDAO.getRegionPopulations());
-                case "3" -> printPopulations("Country", populationDAO.getCountryPopulations());
+                case "1" -> showGlobalPopulationReports();
+                case "2" -> showContinentalPopulationReports();
+                case "3" -> showRegionalPopulationReports();
+                case "4" -> showCountryPopulationReports();
                 case "0" -> running = false;
                 default -> System.out.println("Invalid choice.");
             }
@@ -536,7 +641,126 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
-    // --- Helpers ---
+    private void showGlobalPopulationReports() {
+        breadcrumb.push("Global Population Reports");
+        boolean running = true;
+        while (running) {
+            showBreadcrumb();
+            System.out.println("\n--- Global Population Reports ---");
+            System.out.println("1. All populations (largest → smallest)");
+            System.out.println("2. Top N populations");
+            System.out.println("0. Back");
+            System.out.print("Choose an option: ");
+
+            switch (scanner.nextLine().trim()) {
+                case "1" -> printPopulations("Global", populationDAO.getGlobalPopulations());
+                case "2" -> {
+                    System.out.print("Enter N: ");
+                    int n = Integer.parseInt(scanner.nextLine());
+                    printPopulations("Global", populationDAO.getGlobalPopulations(n));
+                }
+                case "0" -> running = false;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+        breadcrumb.pop();
+    }
+
+    private void showContinentalPopulationReports() {
+        breadcrumb.push("Continental Population Reports");
+        boolean running = true;
+        while (running) {
+            showBreadcrumb();
+            System.out.println("\n--- Continental Population Reports ---");
+            System.out.println("1. All populations in a continent");
+            System.out.println("2. Top N populations in a continent");
+            System.out.println("0. Back");
+            System.out.print("Choose an option: ");
+
+            switch (scanner.nextLine().trim()) {
+                case "1" -> {
+                    String continent = chooseContinent();
+                    if (continent != null) printPopulations("Continent", populationDAO.getContinentPopulations(continent));
+                }
+                case "2" -> {
+                    String continent = chooseContinent();
+                    if (continent != null) {
+                        System.out.print("Enter N: ");
+                        int n = Integer.parseInt(scanner.nextLine());
+                        printPopulations("Continent", populationDAO.getContinentPopulations(continent, n));
+                    }
+                }
+                case "0" -> running = false;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+        breadcrumb.pop();
+    }
+
+    private void showRegionalPopulationReports() {
+        breadcrumb.push("Regional Population Reports");
+        boolean running = true;
+        while (running) {
+            showBreadcrumb();
+            System.out.println("\n--- Regional Population Reports ---");
+            System.out.println("1. All populations in a region");
+            System.out.println("2. Top N populations in a region");
+            System.out.println("0. Back");
+            System.out.print("Choose an option: ");
+
+            switch (scanner.nextLine().trim()) {
+                case "1" -> {
+                    String region = chooseRegion();
+                    if (region != null) printPopulations("Region", populationDAO.getRegionPopulations(region));
+                }
+                case "2" -> {
+                    String region = chooseRegion();
+                    if (region != null) {
+                        System.out.print("Enter N: ");
+                        int n = Integer.parseInt(scanner.nextLine());
+                        printPopulations("Region", populationDAO.getRegionPopulations(region, n));
+                    }
+                }
+                case "0" -> running = false;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+        breadcrumb.pop();
+    }
+
+    private void showCountryPopulationReports() {
+        breadcrumb.push("Country Population Reports");
+        boolean running = true;
+        while (running) {
+            showBreadcrumb();
+            System.out.println("\n--- Country Population Reports ---");
+            System.out.println("1. All populations in a country");
+            //System.out.println("2. Top N populations in a country");
+            System.out.println("0. Back");
+            System.out.print("Choose an option: ");
+
+            switch (scanner.nextLine().trim()) {
+                case "1" -> {
+                    String country = chooseCountry();
+                    if (country != null) printPopulations("Country", populationDAO.getCountryPopulationByCode(country));
+                }
+                /*case "2" -> {
+                    String country = chooseCountry();
+                    if (country != null) {
+                        System.out.print("Enter N: ");
+                        int n = Integer.parseInt(scanner.nextLine());
+                        printPopulations("Country", populationDAO.getCountryPopulationByCode(country, n));
+                    }
+                }*/
+                case "0" -> running = false;
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+        breadcrumb.pop();
+    }
+
+
+    // --- Print Utilities ---
     private void printCountries(List<Country> countries) {
         TablePrinter tp = new TablePrinter("Code", "Name", "Continent", "Region", "Population", "Capital");
         countries.forEach(c -> tp.addRow(c.getCode(), c.getName(), c.getContinent(), c.getRegion(), c.getPopulation(), c.getCapital()));
@@ -627,7 +851,7 @@ public class MenuManager {
                     r.getPercentOfGlobalPopulation()
             ));
             tp.print(20, scanner);
-        } /*else {
+        } else {
             // Default: global report
             tp = new TablePrinter("Language", "Speakers (Global)", "% of Global Population");
             reports.forEach(r -> tp.addRow(
@@ -635,13 +859,13 @@ public class MenuManager {
                     r.getSpeakers(),
                     r.getPercentOfGlobalPopulation()
             ));
-        }*/
+        }
 
-//        tp.print(20, scanner);
+        tp.print(20, scanner);
     }
 
 
-    
+    // --- Input/Selection Utilities ---
     private String chooseContinent() {
         List<Lookup> continents = lookupDAO.getAllContinents();
         for (int i = 0; i < continents.size(); i++) {

@@ -27,7 +27,7 @@ public class Language {
     public Language(String language, long speakers, String percentOfGlobalPopulation) {
         this.isContinent = false;
         this.isRegion    = false;
-        this.isCountry    = false;
+        this.isCountry   = false;
 
         this.language = language;
         this.speakers = speakers;
