@@ -62,7 +62,7 @@ public class CityDAO {
     public List<City> getCitiesInCountryByCode(String country, int n) {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, District, city.Population " +
                 "FROM city JOIN country ON city.CountryCode = country.Code " +
-                "WHERE country.Code=? ORDER BY city.Population DESC";
+                "WHERE country.Code=? ORDER BY city.Population DESC LIMIT ?";
         return queryCities(sql, country, n);
     }
 
@@ -76,7 +76,7 @@ public class CityDAO {
     public List<City> getCitiesInCountryByName(String country, int n) {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, District, city.Population " +
                 "FROM city JOIN country ON city.CountryCode = country.Code " +
-                "WHERE country.Name=? ORDER BY city.Population DESC";
+                "WHERE country.Name=? ORDER BY city.Population DESC LIMIT ?";
         return queryCities(sql, country, n);
     }
 

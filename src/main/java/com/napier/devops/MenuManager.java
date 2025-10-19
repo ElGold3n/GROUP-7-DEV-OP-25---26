@@ -673,7 +673,7 @@ public class MenuManager {
             showBreadcrumb();
             System.out.println("\n--- Continental Population Reports ---");
             System.out.println("1. All populations in a continent");
-            System.out.println("2. Top N populations in a continent");
+            //System.out.println("2. Top N populations in a continent");
             System.out.println("0. Back");
             System.out.print("Choose an option: ");
 
@@ -682,14 +682,14 @@ public class MenuManager {
                     String continent = chooseContinent();
                     if (continent != null) printPopulations("Continent", populationDAO.getContinentPopulations(continent));
                 }
-                case "2" -> {
+                /*case "2" -> {
                     String continent = chooseContinent();
                     if (continent != null) {
                         System.out.print("Enter N: ");
                         int n = Integer.parseInt(scanner.nextLine());
                         printPopulations("Continent", populationDAO.getContinentPopulations(continent, n));
                     }
-                }
+                }*/
                 case "0" -> running = false;
                 default -> System.out.println("Invalid choice.");
             }
@@ -704,7 +704,7 @@ public class MenuManager {
             showBreadcrumb();
             System.out.println("\n--- Regional Population Reports ---");
             System.out.println("1. All populations in a region");
-            System.out.println("2. Top N populations in a region");
+            //System.out.println("2. Top N populations in a region");
             System.out.println("0. Back");
             System.out.print("Choose an option: ");
 
@@ -713,14 +713,14 @@ public class MenuManager {
                     String region = chooseRegion();
                     if (region != null) printPopulations("Region", populationDAO.getRegionPopulations(region));
                 }
-                case "2" -> {
+                /*case "2" -> {
                     String region = chooseRegion();
                     if (region != null) {
                         System.out.print("Enter N: ");
                         int n = Integer.parseInt(scanner.nextLine());
                         printPopulations("Region", populationDAO.getRegionPopulations(region, n));
                     }
-                }
+                }*/
                 case "0" -> running = false;
                 default -> System.out.println("Invalid choice.");
             }
