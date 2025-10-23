@@ -14,7 +14,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/// This WebServer class is responsible for defining and exposing Restful API endpoints
+/// for the World Reporting Application.
+/// This uses the Spark Java micro-framework to handle HTTP requests as well as responses,
+/// and GSON is to convert Java objects into JSON format.
+/// Endpoints in this class allow clients to query the data about countries, cities,
+/// Capital cities, Populations, and Languages, all retrieved from a relational database.
+
 public class WebServer {
+   /// DAO (Data Access Object) instances for database interaction.
     private final CountryDAO countryDAO;
     private final CityDAO cityDAO;
     private final CapitalCityDAO capitalDAO;
@@ -22,6 +30,9 @@ public class WebServer {
     private final LanguageDAO languageDAO;
     private final LookupDAO lookupDAO;
     private final Gson gson = new Gson();
+
+    /// Constructor initializes the database connection and DAO objects.
+    /// This ensures that all endpoints can have access to the data consistently via the DAO layer.
 
     public WebServer() throws SQLException {
         Connection conn = DatabaseManager.getConnection();
@@ -32,21 +43,39 @@ public class WebServer {
         this.languageDAO = new LanguageDAO(conn);
         this.lookupDAO = new LookupDAO(conn);
     }
+
+    /// Initializes the Spark web server, sets up routing, and defines all REST endpoints.
+
     public void start() {
+        /// Sets the port number that the server listens to for incoming requests.
+
         port(8081);
+
+        /// Serve static files such as HTML, CSS, and JS from the /public directory inside resources.
         staticFiles.location("/public");
 
+        /// Root endpoint to confirm that the server is running.
         // Root
         get("/", (req, res) -> "World Reporting App is running on port 8081");
+
+
+        /// -------------------------------
+        /// COUNTRY REPORT ENDPOINTS
+        /// -------------------------------
 
         // --- Countries ---
         get("/reports/countries", (req, res) -> {
             res.type("application/json");
+
+            /// Reads query parameters for filtering.
             String scope = req.queryParams("scope");   // global, continent, region
             String name  = req.queryParams("name");    // e.g. "Asia"
             int limit    = parseLimit(req.queryParams("limit"));
 
             List<Country> countries;
+
+            /// Determines which DAO method to call based on scope and limit.
+
             if ("continent".equalsIgnoreCase(scope)) {
                 if(limit < 0) {
                     if ( name == null || name.isEmpty() ) {
@@ -78,6 +107,7 @@ public class WebServer {
                     }
                 }
             } else {
+                /// Default: return all countries
                 if (limit < 0) {
                     countries = countryDAO.getCountriesByPopulation();
                 }
@@ -85,10 +115,17 @@ public class WebServer {
                     countries = countryDAO.getCountriesByPopulation(limit);
                 }
             }
+
+            /// Convert results to JSON
             return gson.toJson(countries);
         });
 
-        // --- Cities ---
+
+
+        /// -------------------------------
+        /// CITY REPORT ENDPOINTS
+        /// -------------------------------
+
         get("/reports/cities", (req, res) -> {
             res.type("application/json");
             String scope = req.queryParams("scope");   // global, continent, region, country, district
@@ -97,6 +134,8 @@ public class WebServer {
             int limit = parseLimit(req.queryParams("limit"));
 
             List<City> cities;
+
+            /// Handles each scope type separately.
             if ("continent".equalsIgnoreCase(scope)) {
                 if(limit < 0) {
                     cities = cityDAO.getCitiesInContinent(name);
@@ -136,6 +175,7 @@ public class WebServer {
                     cities = cityDAO.getCitiesInDistrict(name, limit);
                 }
             } else {
+                /// Default: return all cities ordered by population.
                 if (limit < 0) {
                     cities = cityDAO.getCitiesByPopulation();
                 }
@@ -146,7 +186,11 @@ public class WebServer {
             return gson.toJson(cities);
         });
 
-        // --- Capitals ---
+
+        /// -------------------------------
+        /// CAPITAL CITY REPORTS
+        /// -------------------------------
+
         get("/reports/capitals", (req, res) -> {
             res.type("application/json");
             String scope = req.queryParams("scope");   // global, continent, region
@@ -154,6 +198,8 @@ public class WebServer {
             int limit = parseLimit(req.queryParams("limit"));
 
             List<CapitalCity> capitals;
+
+            /// Retrieve capital cities based on scope and filters
             if ("continent".equalsIgnoreCase(scope)) {
                 if (limit < 0) {
                     if ( name == null || name.isEmpty() ) {
@@ -199,7 +245,10 @@ public class WebServer {
             return gson.toJson(capitals);
         });
 
-// --- Populations ---
+        /// -------------------------------
+        /// POPULATION REPORTS
+        /// -------------------------------
+
         get("/reports/populations", (req, res) -> {
             res.type("application/json");
             String scope = req.queryParams("scope");   // global, continent, region, country
@@ -207,71 +256,74 @@ public class WebServer {
             int limit = parseLimit(req.queryParams("limit"));
 
             List<Population> pops;
+
+             /// Determine which population query to execute.
             if ("continent".equalsIgnoreCase(scope)) {
                 if(limit < 0) {
                     if (name == null || name.isEmpty()) {
-                        // Fetch populations grouped at the global/continent level
+                        /// Fetch populations grouped at the global/continent level
                         pops = populationDAO.getGlobalPopulations();
                     } else {
-                        // If a specific continent name is provided, fetch that continent’s population
+                        /// If a specific continent name is provided, fetch that continent’s population
                         pops = populationDAO.getContinentPopulations(name);
                     }
                 }
                 else {
                     if (name == null || name.isEmpty()) {
-                        // Fetch populations grouped at the global/continent level
+                        /// Fetch populations grouped at the global/continent level
                         pops = populationDAO.getGlobalPopulations(limit);
                     } else {
-                        // If a specific continent name is provided, fetch that continent’s population
+                        /// If a specific continent name is provided, fetch that continent’s population
                         pops = populationDAO.getContinentPopulations(name, limit);
                     }
                 }
             } else if ("region".equalsIgnoreCase(scope)) {
                 if (limit < 0) {
                     if (name == null || name.isEmpty()) {
-                        // If a specific region name is not provided, fetch all region populations
+                        /// If a specific region name is not provided, fetch all region populations
                         pops = populationDAO.getRegionPopulations();
                     } else {
-                        // Otherwise, fetch that region’s population
+                        /// Otherwise, fetch that region’s population
                         pops = populationDAO.getRegionPopulations(name);
                     }
                 }
                 else {
                     if (name == null || name.isEmpty()) {
-                        // If a specific region name is not provided, fetch all region populations
+                        /// If a specific region name is not provided, fetch all region populations
                         pops = populationDAO.getRegionPopulations(limit);
                     } else {
-                        // Otherwise, fetch all region populations
+                        /// Otherwise, fetch all region populations
                         pops = populationDAO.getRegionPopulations(name, limit);
                     }
                 }
             } else if ("country".equalsIgnoreCase(scope)) {
                 if (limit < 0) {
                     if (name == null || name.isEmpty()) {
-                        // If a specific country name is provided, fetch that country’s population
+                        /// If a specific country name is provided, fetch that country’s population
                         pops = populationDAO.getCountryPopulations();
                     } else {
-                        // Otherwise, fetch all country populations
+                        /// Otherwise, fetch all country populations
                         pops = populationDAO.getCountryPopulations(name);
                     }
                 }
                 else {
                     if (name == null || name.isEmpty()) {
-                        // If a specific country name is provided, fetch that country’s population
+                        /// If a specific country name is provided, fetch that country’s population
                         pops = populationDAO.getCountryPopulations(limit);
                     } else {
-                        // Otherwise, fetch all country populations
+                        /// Otherwise, fetch all country populations
                         pops = populationDAO.getCountryPopulations(name, limit);
                     }
                 }
             } else {
-                // Default: return global populations (grouped by continent)
+                /// Default: return global populations (grouped by continent)
                 pops = populationDAO.getGlobalPopulations();
             }
 
 
             Map<String,Object> response = new HashMap<>();
-            // Sum across all rows for global context
+
+            /// Sum across all rows for global context
             long globalPop = populationDAO.getGlobalPopulation();
             response.put("globalPopulation", globalPop);
             response.put("data", pops);
@@ -279,14 +331,18 @@ public class WebServer {
             return gson.toJson(response);
         });
 
-        // --- Languages ---
+        /// -------------------------------
+        /// LANGUAGE REPORTS
+        /// -------------------------------
         get("/reports/languages", (req, res) -> {
             res.type("application/json");
-            String scope = req.queryParams("scope");   // global, continent, region, country
+            String scope = req.queryParams("scope");   /// global, continent, region, country
             String name  = req.queryParams("name");
             int limit = parseLimit(req.queryParams("limit"));
 
             List<Language> langs;
+
+            /// Determine which language dataset to fetch.
             if ("continent".equalsIgnoreCase(scope)) {
                 if(limit < 0) {
                     if (name == null || name.isEmpty()) {
@@ -336,7 +392,7 @@ public class WebServer {
                 langs = languageDAO.getLanguagesByPopulation();
             }
 
-            // Apply limit manually if DAO doesn’t support it
+            /// Apply limit manually if DAO doesn’t support it
             if (limit > 0 && langs.size() > limit) {
                 langs = langs.subList(0, limit);
             }
@@ -344,30 +400,32 @@ public class WebServer {
         });
 
 
-// --- Lookups ---
+        /// -------------------------------
+        /// LOOKUP DATA (Helper Endpoints)
+        /// -------------------------------
 
-// Continents
+        /// Continents
         get("/lookups/continents", (req, res) -> {
             res.type("application/json");
             List<Lookup> continents = lookupDAO.getAllContinents();
             return gson.toJson(continents);
         });
 
-// Regions
+          /// Regions
         get("/lookups/regions", (req, res) -> {
             res.type("application/json");
             List<Lookup> regions = lookupDAO.getAllRegions();
             return gson.toJson(regions);
         });
 
-// Countries
+        /// Countries
         get("/lookups/countries", (req, res) -> {
             res.type("application/json");
             List<Lookup> countries = lookupDAO.getAllCountries();
             return gson.toJson(countries);
         });
 
-// Districts (requires country name)
+         /// Districts (requires country name)
         get("/lookups/districts", (req, res) -> {
             res.type("application/json");
             String countryName = req.queryParams("country");
@@ -381,7 +439,8 @@ public class WebServer {
 
 
     }
-
+    /// Parses an integer limit parameter from a query string.
+    /// Returns -1 if invalid or not provided.
     private int parseLimit(String limitParam) {
         try {
             return limitParam != null ? Integer.parseInt(limitParam) : -1;
