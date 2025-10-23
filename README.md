@@ -160,7 +160,7 @@ ___________________________________________________________________
 
 ## Requirements Implementation Evidence Summary
 
-**1 requirement of 32 has been implemented, which is   **3.15%** of the total requirements.**
+**27 requirement of 32 has been implemented, which is **84.4%** of the total requirements.**
 
 ---
 
@@ -170,47 +170,47 @@ ___________________________________________________________________
 
 ## 🔵 Project Requirements Evidence
 
-**1 of 32 requirements have been implemented (3.15%).**
+**27 of 32 requirements have been implemented (84.4%).**
 
 
 
 | ID                           | Name                                                                    | Met   | Screenshot |
 |------------------------------|-------------------------------------------------------------------------|-------|------------|
 | **Country Reports**   🗺️    |                                                                         |       |            |
-| 1                            | All the countries in the world, sorted by population.                   |       |            |
-| 2                            | All the countries in a continent, sorted by population.                 |       |            |
-| 3                            | All the countries in a region, sorted by population.                    |       |            |
-| 4                            | 🔝Top N of populated countries in the world.                            |       |            |
-| 5                            | 🔝 Top N of populated countries in a continent.                         |       |            |
-| 6                            | 🔝  Top N of populated countries in a region.                           |       |            |
+| 1                            | All the countries in the world, sorted by population.                   | ✅ Yes |            |
+| 2                            | All the countries in a continent, sorted by population.                 | ✅ Yes |            |
+| 3                            | All the countries in a region, sorted by population.                    | ✅ Yes |            |
+| 4                            | 🔝Top N of populated countries in the world.                            | ✅ Yes |            |
+| 5                            | 🔝 Top N of populated countries in a continent.                         | ✅ Yes |            |
+| 6                            | 🔝  Top N of populated countries in a region.                           | ✅ Yes |            |
 | **City Reports**    🌆       |                                                                         |       |            |
-| 7                            | All the cities in the world, sorted by population.                      |       |            |
-| 8                            | All the cities in a continent, sorted by population.                    |       |            |
+| 7                            | All the cities in the world, sorted by population.                      | ✅ Yes |            |
+| 8                            | All the cities in a continent, sorted by population.                    | ✅ Yes |            |
 | 9                            | All the cities in a region, sorted by population.                       |       |            |
-| 10                           | All the cities in a country, sorted by population.                      |       |            |
-| 11                           | All the cities in a district, sorted by population.                     |       |            |
+| 10                           | All the cities in a country, sorted by population.                      | ✅ Yes |            |
+| 11                           | All the cities in a district, sorted by population.                     | ✅ Yes |            |
 | 12                           | 🔝 Top N of populated cities in the world.                              |       |            |
 | 13                           | 🔝 Top N of populated cities in a continent.                            |       |            |
 | 14                           | 🔝 Top N of populated cities in a region.                               |       |            |
-| 15                           | 🔝 Top N of populated cities in a country.                              |       |            |
-| 16                           | 🔝 Top N of populated cities in a district.                             |       |            |
+| 15                           | 🔝 Top N of populated cities in a country.                              | ✅ Yes |            |
+| 16                           | 🔝 Top N of populated cities in a district.                             | ✅ Yes |            |
 | **Capital City Reports** 🏛️ |                                                                         |       |            |
 | 17                           | All the capital cities in the world, sorted by population.              |       |            |
-| 18                           | All the capital cities in a continent, sorted by population.            |       |            |
-| 19                           | All the capital cities in a region, sorted by population.               |       |            |
-| 20                           | 🔝 Top N of populated capital cities in the world.                      |       |            |
-| 21                           | 🔝 Top N of populated capital cities in a continent.                    |       |            |
-| 22                           | 🔝 Top N of populated capital cities in a region.                       |       |            |
+| 18                           | All the capital cities in a continent, sorted by population.            | ✅ Yes |            |
+| 19                           | All the capital cities in a region, sorted by population.               | ✅ Yes |            |
+| 20                           | 🔝 Top N of populated capital cities in the world.                      | ✅ Yes |            |
+| 21                           | 🔝 Top N of populated capital cities in a continent.                    | ✅ Yes |            |
+| 22                           | 🔝 Top N of populated capital cities in a region.                       | ✅ Yes |            |
 | **Population Reports**  👥   |                                                                         |       |            |
-| 23                           | All the population data (total, city, non-city) by continent.           |       |            |
-| 24                           | All the population data (total, city, non-city) by region.              |       |            |
-| 25                           | All the population data (total, city, non-city) by country.             |       |            |
+| 23                           | All the population data (total, city, non-city) by continent.           | ✅ Yes |            |
+| 24                           | All the population data (total, city, non-city) by region.              | ✅ Yes |            |
+| 25                           | All the population data (total, city, non-city) by country.             | ✅ Yes |            |
 | **Population Access**   🌍   |                                                                         |       |            |
-| 26                           | World population.                                                       |       |            |
-| 27                           | Continent population.                                                   |       |            |
-| 28                           | Region population.                                                      |       |            |
-| 29                           | Country population.                                                     |       |            |
-| 30                           | District population.                                                    |       |            |
-| 31                           | City population.                                                        |       |            |
+| 26                           | World population.                                                       | ✅ Yes |            |
+| 27                           | Continent population.                                                   | ✅ Yes |            |
+| 28                           | Region population.                                                      | ✅ Yes |            |
+| 29                           | Country population.                                                     | ✅ Yes |            |
+| 30                           | District population.                                                    | ✅ Yes |            |
+| 31                           | City population.                                                        | ✅ Yes |            |
 | **Language Reports** 🗣️     |                                                                         |       |            |
 | 32                           | All the speakers of Chinese, English, Hindi, Spanish, Arabic (% world). | ✅ Yes |            |
