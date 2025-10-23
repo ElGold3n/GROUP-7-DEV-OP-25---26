@@ -145,9 +145,9 @@ ________________________________________________________________________________
 ## _Code Coverage_ 
 _The following tracked project's code coverage is an estimation not actuality,will change when i get the codes running properly*_
 
-| Branch | Coverage | 
-|---------|-----------|
-| Master  |![Coverage Status](https://img.shields.io/badge/Coverage-80%25-brightgreen)|
+| Branch | Coverage                                                                    | 
+|---------|-----------------------------------------------------------------------------|
+| Master  | ![Coverage Status](https://img.shields.io/badge/Coverage-84%25-brightgreen) |
 
 ## _Release & License_
 
