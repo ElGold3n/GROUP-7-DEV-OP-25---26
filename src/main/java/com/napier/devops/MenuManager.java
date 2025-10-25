@@ -6,16 +6,38 @@ import com.napier.devops.util.TablePrinter;
 
 import java.util.*;
 
+/**
+ * This Menu Manager handles the interactive command-line menu system for the World Reporting Application.
+ * It displays menu options to users and processes their selections to generate various reports
+ * about countries, cities, capitals, populations, and languages.
+ */
+
+
 public class MenuManager {
+    // Scanner reads user input from the console
     private final Scanner scanner;
+
+    // DAO (Data Access Object) instances - these communicate with the database
     private final CountryDAO countryDAO;
     private final CityDAO cityDAO;
     private final CapitalCityDAO capitalDAO;
     private final PopulationDAO populationDAO;
     private final LookupDAO lookupDAO;
     private final LanguageDAO languageDAO;
+
+    // Breadcrumb tracks the user's navigation path (like "Main Menu > Cities > Global Reports")
     private final Deque<String> breadcrumb = new ArrayDeque<>();
 
+    /**
+     * Constructor - initializes the MenuManager with all necessary dependencies
+     * @param scanner - for reading user input
+     * @param countryDAO - for country data operations
+     * @param cityDAO - for city data operations
+     * @param capitalDAO - for capital city data operations
+     * @param populationDAO - for population statistics
+     * @param lookupDAO - for dropdown lists (continents, regions, etc.)
+     * @param languageDAO - for language data operations
+     */
     public MenuManager(
             Scanner scanner, CountryDAO countryDAO, CityDAO cityDAO, CapitalCityDAO capitalDAO,
             PopulationDAO populationDAO, LookupDAO lookupDAO, LanguageDAO languageDAO
@@ -31,6 +53,11 @@ public class MenuManager {
 
 
     // --- Main Menu ---
+
+    /**
+     * This initiates the main menu loop.
+     * Displays options and processes user choices until they exit.
+     */
     public void start() {
         breadcrumb.push("Main Menu");
         boolean running = true;
@@ -61,6 +88,10 @@ public class MenuManager {
 
 
     // --- Countries Submenu ---
+
+    /**
+     * Displays the Countries submenu with options for different scopes (Global, Continental, Regional)
+     */
     private void showCountries() {
         breadcrumb.push("Countries");
         boolean running = true;
@@ -81,9 +112,13 @@ public class MenuManager {
                 default -> System.out.println("Invalid choice.");
             }
         }
-        breadcrumb.pop();
+        breadcrumb.pop(); // Remove "Countries" when going back
+
     }
 
+    /**
+     * Shows global country reports - All countries worldwide or top N countries
+     */
     private void showGlobalCountryReports() {
         breadcrumb.push("Global Reports");
         boolean running = true;
@@ -140,6 +175,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows country reports filtered by region
+     */
     private void showRegionalCountryReports() {
         breadcrumb.push("Regional Reports");
         boolean running = true;
@@ -173,6 +211,10 @@ public class MenuManager {
 
 
     // --- Cities ---
+
+    /**
+     * Displays the Cities main submenu with various filtering options
+     */
     private void showCities() {
         breadcrumb.push("Cities");
         boolean running = true;
@@ -200,6 +242,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows global city reports - all cities worldwide
+     */
     private void showGlobalCityReports() {
         breadcrumb.push("Global Reports");
         boolean running = true;
@@ -225,6 +270,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows city reports filtered by continent
+     */
     private void showContinentalCityReports() {
         breadcrumb.push("Continental Reports");
         boolean running = true;
@@ -256,6 +304,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows city reports filtered by region
+     */
     private void showRegionalCityReports() {
         breadcrumb.push("Regional Reports");
         boolean running = true;
@@ -287,6 +338,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows city reports for a specific country
+     */
     private void showCountryCityReports() {
         breadcrumb.push("Country Reports");
         boolean running = true;
@@ -318,6 +372,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows city reports for a specific district within a country
+     */
     private void showDistrictCityReports() {
         breadcrumb.push("District Reports");
         boolean running = true;
@@ -359,6 +416,10 @@ public class MenuManager {
 
 
     // --- Capitals ---
+
+    /**
+     * Displays the Capital Cities main submenu
+     */
     private void showCapitals() {
         breadcrumb.push("Capital City Reports");
         boolean running = true;
@@ -382,6 +443,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows global capital city reports
+     */
     private void showGlobalCapitalReports() {
         breadcrumb.push("Global Capital Reports");
         boolean running = true;
@@ -407,6 +471,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows capital city reports filtered by continent
+     */
     private void showContinentalCapitalReports() {
         breadcrumb.push("Continental Capital Reports");
         boolean running = true;
@@ -438,6 +505,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows capital city reports filtered by region
+     */
     private void showRegionalCapitalReports() {
         breadcrumb.push("Regional Capital Reports");
         boolean running = true;
@@ -471,6 +541,10 @@ public class MenuManager {
 
 
     // --- Languages ---
+
+    /**
+     * Displays the Languages main submenu
+     */
     private void showLanguages() {
         breadcrumb.push("Language Reports");
         boolean running = true;
@@ -496,6 +570,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows global language reports - languages spoken worldwide
+     */
     private void showGlobalLanguageReports() {
         breadcrumb.push("Global Language Reports");
         boolean running = true;
@@ -521,6 +598,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows language reports filtered by continent
+     */
     private void showContinentalLanguageReports() {
         breadcrumb.push("Continental Language Reports");
         boolean running = true;
@@ -552,6 +632,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows language reports filtered by region
+     */
     private void showRegionalLanguageReports() {
         breadcrumb.push("Regional Language Reports");
         boolean running = true;
@@ -583,6 +666,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows language reports for a specific country
+     */
     private void showCountryLanguageReports() {
         breadcrumb.push("Country Language Reports");
         boolean running = true;
@@ -616,6 +702,10 @@ public class MenuManager {
 
 
     // --- Populations ---
+
+    /**
+     * Displays the Population Distribution main submenu
+     */
     private void showPopulations() {
         breadcrumb.push("Population Distribution");
         boolean running = true;
@@ -641,6 +731,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows global population statistics
+     */
     private void showGlobalPopulationReports() {
         breadcrumb.push("Global Population Reports");
         boolean running = true;
@@ -666,6 +759,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows population statistics by continent
+     */
     private void showContinentalPopulationReports() {
         breadcrumb.push("Continental Population Reports");
         boolean running = true;
@@ -697,6 +793,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows population statistics by region
+     */
     private void showRegionalPopulationReports() {
         breadcrumb.push("Regional Population Reports");
         boolean running = true;
@@ -728,6 +827,9 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
+    /**
+     * Shows population statistics by country
+     */
     private void showCountryPopulationReports() {
         breadcrumb.push("Country Population Reports");
         boolean running = true;
@@ -761,18 +863,34 @@ public class MenuManager {
 
 
     // --- Print Utilities ---
+
+    /**
+     * Prints a list of countries in a formatted table with pagination support
+     * @param countries - the list of Country objects to display
+     */
     private void printCountries(List<Country> countries) {
+        // Create a table with specified column headers
         TablePrinter tp = new TablePrinter("Code", "Name", "Continent", "Region", "Population", "Capital");
+        // Create a table with specified column headers
         countries.forEach(c -> tp.addRow(c.getCode(), c.getName(), c.getContinent(), c.getRegion(), c.getPopulation(), c.getCapital()));
+        // Display 20 rows per page, allow user to navigate the page
         tp.print(20, scanner);
     }
 
+    /**
+     * Prints a list of cities in a formatted table
+     * @param cities - the list of City objects to display
+     */
     private void printCities(List<City> cities) {
         TablePrinter tp = new TablePrinter("Name", "Country", "District", "Population");
         cities.forEach(c -> tp.addRow(c.getName(), c.getCountry(), c.getDistrict(), c.getPopulation()));
         tp.print(20, scanner);
     }
 
+    /**
+     * Prints a list of capital cities in a formatted table
+     * @param cities - the list of CapitalCity objects to display
+     */
     private void printCapitalCities(List<CapitalCity> cities) {
         TablePrinter tp = new TablePrinter("Name", "Country", "Continent", "Region", "Population");
         cities.forEach(c -> tp.addRow(
@@ -785,6 +903,11 @@ public class MenuManager {
         tp.print(20, scanner);
     }
 
+    /**
+     * Prints population distribution data showing city vs. non-city populations
+     * @param label - the category label (e.g., "Global", "Continent", "Region")
+     * @param populations - the list of Population objects to display
+     */
     private void printPopulations(String label, List<Population> populations) {
         TablePrinter tp = new TablePrinter(
                 label,
@@ -795,11 +918,13 @@ public class MenuManager {
                 "Not Living in Cities (%)"
         );
 
+        // For each population entry, add a row with formatted percentages
         populations.forEach(p -> tp.addRow(
                 p.getLabel(),
                 p.getTotalPopulation(),
                 p.getCityPopulation(),
-                String.format("%.2f%%", p.getCityPercentage()),
+                String.format("%.2f%%", p.getCityPercentage()), //Format as percentage with 2 decimal places
+
                 p.getNonCityPopulation(),
                 String.format("%.2f%%", p.getNonCityPercentage())
         ));
@@ -807,6 +932,11 @@ public class MenuManager {
         tp.print(20, scanner);
     }
 
+    /**
+     * Prints language data in a formatted table.
+     * The table format dynamically adjusts based on the scope (global, continent, region, or country).
+     * @param reports - the list of Language objects to display
+     */
     private void printLanguages(List<Language> reports) {
         if (reports == null || reports.isEmpty()) {
             System.out.println("No language data available.");
@@ -816,12 +946,13 @@ public class MenuManager {
         // Dynamically decide headers based on what the Language model exposes
         TablePrinter tp;
 
-        // Example: if continent/region/country is included in the report
+        // Example: if a continent / region / country is included in the report
         boolean hasContinent = reports.get(0).isContinent();
         boolean hasRegion    = reports.get(0).isRegion();
         boolean hasCountry   = reports.get(0).isCountry();
 
-        if (hasContinent == true) {
+        if (hasContinent) {
+            // Continental report - shows language data grouped by continent
             tp = new TablePrinter("Continent", "Language", "Speakers", "% of Continent", "% of Global");
             reports.forEach(r -> tp.addRow(
                     r.getContinent(),
@@ -831,7 +962,8 @@ public class MenuManager {
                     r.getPercentOfGlobalPopulation()
             ));
             tp.print(20, scanner);
-        } else if (hasRegion == true) {
+        } else if (hasRegion) {
+            // Regional report - shows language data grouped by region
             tp = new TablePrinter("Region", "Language", "Speakers", "% of Region", "% of Global");
             reports.forEach(r -> tp.addRow(
                     r.getRegion(),
@@ -841,7 +973,8 @@ public class MenuManager {
                     r.getPercentOfGlobalPopulation()
             ));
             tp.print(20, scanner);
-        } else if (hasCountry == true) {
+        } else if (hasCountry) {
+            // Country report - shows language data for a specific country
             tp = new TablePrinter("Country", "Language", "Speakers", "% of Country", "% of Global");
             reports.forEach(r -> tp.addRow(
                     r.getCountry(),
@@ -852,7 +985,7 @@ public class MenuManager {
             ));
             tp.print(20, scanner);
         } else {
-            // Default: global report
+            // Default: global report - shows languages spoken worldwide
             tp = new TablePrinter("Language", "Speakers (Global)", "% of Global Population");
             reports.forEach(r -> tp.addRow(
                     r.getLanguage(),
@@ -866,16 +999,23 @@ public class MenuManager {
 
 
     // --- Input/Selection Utilities ---
+
     private String chooseContinent() {
         List<Lookup> continents = lookupDAO.getAllContinents();
+        // Display a numbered list of continents
         for (int i = 0; i < continents.size(); i++) {
             System.out.println((i + 1) + ". " + continents.get(i).getValue());
         }
         System.out.print("Select a continent (0 = Cancel): ");
         int choice = Integer.parseInt(scanner.nextLine());
+        // Return null if the user chose 0 (cancel), otherwise return the selected continent
         return choice == 0 ? null : continents.get(choice - 1).getValue();
     }
 
+    /**
+     * Displays a list of regions and lets the user select one
+     * @return the selected region name, or null if user cancels
+     */
     private String chooseRegion() {
         List<Lookup> regions = lookupDAO.getAllRegions();
         for (int i = 0; i < regions.size(); i++) {
@@ -886,32 +1026,48 @@ public class MenuManager {
         return choice == 0 ? null : regions.get(choice - 1).getValue();
     }
 
+    /**
+     * Displays a list of countries and lets the user select one by entering its code
+     * @return the country code (e.g., "USA"), or null if the user cancels
+     */
     private String chooseCountry() {
         List<Lookup> countries = lookupDAO.getAllCountries();
 
         System.out.println("\n--- Available Countries ---");
+        // Display each country with its 3-letter code
         for (Lookup c : countries) {
-            System.out.printf("%-5s : %s%n", c.getType(), c.getValue());
+            System.out.printf("%-5s : %s%n", c.getType(), c.getValue()); // Type contains the country code
+
         }
 
         System.out.print("Enter a country code (0 = Cancel): ");
-        String input = scanner.nextLine().trim().toUpperCase();
+        String input = scanner.nextLine().trim().toUpperCase(); // Convert to uppercase for consistency
 
-        if (input.equals("0")) return null;
 
+        if (input.equals("0")) return null; // User cancelled
+
+
+        // Validate that the entered code exists in the list
         boolean exists = countries.stream()
                 .anyMatch(c -> c.getType().equalsIgnoreCase(input));
         if (!exists) {
             System.out.println("Invalid country code. Try again.");
-            return chooseCountry();
+            return chooseCountry(); // Recursively ask again
+
         }
 
         return input;
     }
 
+    /**
+     * Displays a list of districts for a specific country and lets the user select one
+     * @param countryCode - the 3-letter country code (e.g., "USA")
+     * @return the selected district name, or null if user cancels or no districts exist
+     */
     private String chooseDistrict(String countryCode) {
         List<Lookup> districts = lookupDAO.getDistrictsByCountryCode(countryCode);
 
+        // Check if this country has any districts
         if (districts.isEmpty()) {
             System.out.println("No districts found for this country.");
             return null;
@@ -928,18 +1084,24 @@ public class MenuManager {
             choice = Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a number.");
-            return chooseDistrict(countryCode); // retry
+            return chooseDistrict(countryCode); // Retry on invalid input
+
         }
 
         if (choice == 0) return null;
         if (choice < 1 || choice > districts.size()) {
             System.out.println("Invalid choice. Try again.");
-            return chooseDistrict(countryCode); // retry
+            return chooseDistrict(countryCode); // Retry on out-of-range selection
+
         }
 
         return districts.get(choice - 1).getValue();
     }
 
+    /**
+     * Displays the breadcrumb trail showing the user's current location in the menu hierarchy
+     * Example output: "Main Menu > Cities > Global Reports"
+     */
     private void showBreadcrumb() {
         System.out.println("\n" + String.join(" > ", breadcrumb));
     }
