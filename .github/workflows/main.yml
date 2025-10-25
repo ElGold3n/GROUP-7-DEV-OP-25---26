@@ -1,30 +1,44 @@
+# GitHub Actions Workflow for DevOps Group 7
+# This workflow builds the Java application, creates Docker images,
+# and runs the complete application stack for testing.
 name: A workflow for DevOps Group 7
 
+# Trigger: Runs on every push to any branch.
 on: push
 
 jobs:
   build:
     name: devopsGroup Actions
+
+    # Use Ubuntu 22.04 LTS for stability
     runs-on: ubuntu-22.04
 
     steps:
+      # Step 1: Check out the repository code
       - name: Checkout
         uses: actions/checkout@v4
 
-      # If you need Java build first (Maven/Gradle)
+      # Step 2: Set up Java Development Kit
+      # Java 17 is ultimately required for this project's dependencies and features
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'adopt' # Using AdoptOpenJDK distribution.
 
+      # Step 3: Build the application using Maven
+      # This compiles the code, runs tests, and packages the application
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      # Build the Docker image for the webapp
+
+      # Step 4: Build the Docker image for the webapp
+      # This creates a containerized version of the application
       - name: Build webapp container
         run: docker build -t webapp:latest .
 
-      # Run docker compose and wait for containers to finish
+      # Step 5: Run the complete application stack
+      # --abort-on-container-exit ensures the workflow fails if any container crashes
+      # --build rebuilds images if necessary
       - name: Run docker compose
         run: docker compose up --abort-on-container-exit --build
