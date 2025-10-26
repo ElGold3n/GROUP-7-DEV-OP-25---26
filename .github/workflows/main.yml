@@ -30,7 +30,7 @@ jobs:
       # NOTE: Your pom.xml must be configured to use the JaCoCo plugin
       # to generate a report (e.g., target/site/jacoco/jacoco.xml) during this phase.
       - name: Build with Maven and Generate Coverage
-        run: mvn -B clean install --file pom.xml
+        run: mvn -B clean verify jacoco:report --file pom.xml
 
       # Step 4: Upload coverage reports to Codecov
       # This step automatically looks for standard JaCoCo XML reports.
