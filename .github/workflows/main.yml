@@ -37,7 +37,7 @@ jobs:
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
-          # If your repository is private, you may need a CODECOV_TOKEN
+          #CODECOV_TOKEN
           # token: ${{ secrets.CODECOV_TOKEN }}
           files: target/site/jacoco/jacoco.xml  # Default JaCoCo report location
           fail_ci_if_error: true # Recommended: fail the CI if the upload fails
