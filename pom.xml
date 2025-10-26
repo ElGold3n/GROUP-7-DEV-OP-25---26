@@ -45,13 +45,49 @@
 
     <build>
         <plugins>
+            <!-- JaCoCo Plugin for Code Coverage Reports (REQUIRED FOR CODECOV) -->
+            <plugin>
+                <!-- The JaCoCo plugin instruments code and generates reports during the build -->
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.11</version>
+                <executions>
+                    <!-- Execution 1: Prepares the agent before tests are run -->
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- Execution 2: Generates the XML report after tests are verified -->
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- The default output directory is target/site/jacoco/jacoco.xml,
+                         which the codecov action expects. -->
+                    <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                    <dataFile>${project.build.directory}/jacoco.exec</dataFile>
+                    <includes>
+                        <!-- Ensure JaCoCo only tracks your main application code -->
+                        <include>com/napier/devops/*</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <!-- END JaCoCo Plugin -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>14</source>
-                    <target>14</target>
+                    <!-- Updated source/target to match properties block (Java 17) -->
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
 
