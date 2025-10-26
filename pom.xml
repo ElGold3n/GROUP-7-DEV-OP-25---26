@@ -1,120 +1,167 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
+
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
 
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.napier.devops</groupId>
+
     <artifactId>world-reporting-system</artifactId>
+
     <version>1.0.0</version>
+
     <packaging>jar</packaging>
 
+
+
     <properties>
+
         <maven.compiler.source>17</maven.compiler.source>
+
         <maven.compiler.target>17</maven.compiler.target>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
     </properties>
 
+
+
     <dependencies>
+
         <dependency>
+
             <groupId>com.mysql</groupId>
+
             <artifactId>mysql-connector-j</artifactId>
+
             <version>8.0.33</version>
+
         </dependency>
 
+
+
         <dependency>
+
             <groupId>org.junit.jupiter</groupId>
+
             <artifactId>junit-jupiter</artifactId>
+
             <version>5.10.0</version>
+
             <scope>test</scope>
+
         </dependency>
 
+
+
         <dependency>
+
             <groupId>com.sparkjava</groupId>
+
             <artifactId>spark-core</artifactId>
+
             <version>2.9.4</version>
+
         </dependency>
 
+
+
         <dependency>
+
             <groupId>com.google.code.gson</groupId>
+
             <artifactId>gson</artifactId>
+
             <version>2.13.1</version>
+
         </dependency>
+
+
 
     </dependencies>
 
+
+
     <build>
+
         <plugins>
-            <!-- JaCoCo Plugin for Code Coverage Reports (REQUIRED FOR CODECOV) -->
-            <plugin>
-                <!-- The JaCoCo plugin instruments code and generates reports during the build -->
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.11</version>
-                <executions>
-                    <!-- Execution 1: Prepares the agent before tests are run -->
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <!-- Execution 2: Generates the XML report after tests are verified -->
-                    <execution>
-                        <id>report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <!-- The default output directory is target/site/jacoco/jacoco.xml,
-                         which the codecov action expects. -->
-                    <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
-                    <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-                    <includes>
-                        <!-- Ensure JaCoCo only tracks your main application code -->
-                        <include>com/napier/devops/*</include>
-                    </includes>
-                </configuration>
-            </plugin>
-            <!-- END JaCoCo Plugin -->
 
             <plugin>
+
                 <groupId>org.apache.maven.plugins</groupId>
+
                 <artifactId>maven-compiler-plugin</artifactId>
+
                 <version>3.11.0</version>
+
                 <configuration>
-                    <!-- Updated source/target to match properties block (Java 17) -->
-                    <source>17</source>
-                    <target>17</target>
+
+                    <source>14</source>
+
+                    <target>14</target>
+
                 </configuration>
+
             </plugin>
 
+
+
             <plugin>
+
                 <groupId>org.apache.maven.plugins</groupId>
+
                 <artifactId>maven-assembly-plugin</artifactId>
+
                 <version>3.6.0</version>
+
                 <configuration>
+
                     <descriptorRefs>
+
                         <descriptorRef>jar-with-dependencies</descriptorRef>
+
                     </descriptorRefs>
+
                     <archive>
+
                         <manifest>
+
                             <mainClass>com.napier.devops.App</mainClass>
+
                         </manifest>
+
                     </archive>
+
                 </configuration>
+
                 <executions>
+
                     <execution>
+
                         <id>make-assembly</id>
+
                         <phase>package</phase>
+
                         <goals>
+
                             <goal>single</goal>
+
                         </goals>
+
                     </execution>
+
                 </executions>
+
             </plugin>
+
         </plugins>
+
     </build>
+
 </project>

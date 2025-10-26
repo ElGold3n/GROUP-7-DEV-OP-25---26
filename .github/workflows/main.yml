@@ -26,28 +26,18 @@ jobs:
           java-version: '17'
           distribution: 'adopt' # Using AdoptOpenJDK distribution.
 
-      # Step 3: Build the application using Maven, including coverage
-      # NOTE: Your pom.xml must be configured to use the JaCoCo plugin
-      # to generate a report (e.g., target/site/jacoco/jacoco.xml) during this phase.
-      - name: Build with Maven and Generate Coverage
-        run: mvn -B clean verify jacoco:report --file pom.xml
+      # Step 3: Build the application using Maven
+      # This compiles the code, runs tests, and packages the application
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
 
-      # Step 4: Upload coverage reports to Codecov
-      # This step automatically looks for standard JaCoCo XML reports.
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          #CODECOV_TOKEN
-          # token: ${{ secrets.CODECOV_TOKEN }}
-          files: target/site/jacoco/jacoco.xml  # Default JaCoCo report location
-          fail_ci_if_error: true # Recommended: fail the CI if the upload fails
 
-      # Step 5: Build the Docker image for the webapp
+      # Step 4: Build the Docker image for the webapp
       # This creates a containerized version of the application
       - name: Build webapp container
         run: docker build -t webapp:latest .
 
-      # Step 6: Run the complete application stack
+      # Step 5: Run the complete application stack
       # --abort-on-container-exit ensures the workflow fails if any container crashes
       # --build rebuilds images if necessary
       - name: Run docker compose
