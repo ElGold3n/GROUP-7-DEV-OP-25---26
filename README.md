@@ -143,11 +143,12 @@ ________________________________________________________________________________
 | Develop | ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/ElGold3n/GROUP-7-DEV-OP-25---26/main.yml?branch=develop&style=for-the-badge-square)     |
 
 ## _Code Coverage_ 
-_The following tracked project's code coverage is an estimation not actuality, CODECOV IS NOT YET SETUP._
+# _**The following tracked project's code coverage is an estimation not actuality, CODECOV IS NOT YET SETUP**._
 
-| Branch | Coverage                                                                    | 
-|---------|-----------------------------------------------------------------------------|
-| Master  | ![Coverage Status](https://img.shields.io/badge/Coverage-84%25-brightgreen) |
+| Branch | Codecov Coverage                                                                                                            | 
+|--------|-----------------------------------------------------------------------------------------------------------------------------|
+| Master | [![Codecov](https://img.shields.io/badge/Codecov-76%25-middlegreen?logo=codecov&logoColor=brightpink)](https://codecov.io/) |
+|
 
 ## _Release & License_
 
