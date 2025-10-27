@@ -164,7 +164,7 @@ ___________________________________________________________________
 
 ## Evidence of Features Implemented   
 
-✅ Yes   ❌ No
+✅ Yes ❌ No
 
 ## 🔵 Project Requirements Evidence
 
