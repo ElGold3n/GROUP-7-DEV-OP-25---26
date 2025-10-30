@@ -43,7 +43,7 @@ public class App {
         System.out.println("Goodbye!");
     }
 
-    private static void runBatchReports(
+    public static void runBatchReports(
             CountryDAO countryDAO,
             CityDAO cityDAO,
             CapitalCityDAO capitalDAO,
