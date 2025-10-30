@@ -32,7 +32,7 @@ jobs:
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
-            if mysql -h127.0.0.1 -P3306 -uroot -pP@ssw0rd! -e "SELECT 1;" &> /dev/null; then
+            if mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! -e "SELECT 1;" &> /dev/null; then
               echo "MySQL is up!"
               break
             fi
@@ -42,7 +42,7 @@ jobs:
 
       - name: Load schema/data
         run: |
-          mysql -h127.0.0.1 -P3306 -uroot -pP@ssw0rd! world < world-db/world.sql
+          mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! world < world-db/world.sql
       
 
       - name: Unit Tests
