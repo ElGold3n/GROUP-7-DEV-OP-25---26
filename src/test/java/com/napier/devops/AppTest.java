@@ -14,14 +14,14 @@ public class AppTest {
     static PopulationDAO populationDAO;
     static LookupDAO lookupDAO;
     static LanguageDAO languageDAO;
-
-
+    static Database db;
+    static Connection conn;
 
     static void init() {
         app = new App();
-        Database db = new Database();
+        db = new Database();
         db.connect();
-        Connection conn = db.getConnection();
+        conn = db.getConnection();
 
         // Wire DAOs
         countryDAO = new CountryDAO(conn);
