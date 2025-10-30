@@ -6,12 +6,10 @@ jobs:
   UnitTests:
     name: Unit Test Build Action
     runs-on: ubuntu-22.04
-    
+
     services:
       mysql:
         image: mysql:latest
-        container_name: world-mysql
-        restart: always
         environment:
           MYSQL_ROOT_PASSWORD: P@ssw0rd!
           MYSQL_DATABASE: world
