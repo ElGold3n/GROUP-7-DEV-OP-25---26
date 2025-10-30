@@ -32,6 +32,22 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            if mysql -h127.0.0.1 -P3306 -uroot -pP@ssw0rd! -e "SELECT 1;" &> /dev/null; then
+              echo "MySQL is up!"
+              break
+            fi
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+
+      - name: Load schema/data
+        run: |
+          mysql -h127.0.0.1 -P3306 -uroot -pP@ssw0rd! world < world-db/world.sql
+      
+
       - name: Unit Tests
         run: mvn -Dtest=com.napier.devops.AppTest test
       - name: List dirs
