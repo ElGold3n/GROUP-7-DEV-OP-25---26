@@ -7,7 +7,7 @@ jobs:
     name: Unit Test Build Action
     runs-on: ubuntu-22.04
   services:
-    db:
+    mysql:
       image: mysql:latest
       container_name: world-mysql
       restart: always
