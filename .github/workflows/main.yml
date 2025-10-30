@@ -18,7 +18,7 @@ jobs:
         run: mvn -Dtest=com.napier.devops.AppTest test
       - name: List dirs
         run: |
-          cd ./target/site/jacoco
+          cd ./target/
           pwd
           ls
       - name: CodeCov
