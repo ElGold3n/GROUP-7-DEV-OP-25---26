@@ -6,25 +6,26 @@ jobs:
   UnitTests:
     name: Unit Test Build Action
     runs-on: ubuntu-22.04
-  services:
-    mysql:
-      image: mysql:latest
-      container_name: world-mysql
-      restart: always
-      environment:
-        MYSQL_ROOT_PASSWORD: P@ssw0rd!
-        MYSQL_DATABASE: world
-      ports:
-        - "33060:3306"
-      volumes:
-        - db_data:/var/lib/mysql
-        - ./world-db:/docker-entrypoint-initdb.d:ro
-      healthcheck:
-        test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pP@ssw0rd!"]
-        interval: 10s
-        timeout: 5s
-        retries: 5
-        start_period: 20s
+    
+    services:
+      mysql:
+        image: mysql:latest
+        container_name: world-mysql
+        restart: always
+        environment:
+          MYSQL_ROOT_PASSWORD: P@ssw0rd!
+          MYSQL_DATABASE: world
+        ports:
+          - "33060:3306"
+        volumes:
+          - db_data:/var/lib/mysql
+          - ./world-db:/docker-entrypoint-initdb.d:ro
+        healthcheck:
+          test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pP@ssw0rd!"]
+          interval: 10s
+          timeout: 5s
+          retries: 5
+          start_period: 20s
 
     steps:
       - name: Checkout
