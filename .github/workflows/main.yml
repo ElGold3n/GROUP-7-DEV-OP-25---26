@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
+      - name: Full Cleanup
+        run: |
+        echo "Cleaning workspace..."
+        git clean -fdx
+        mvn clean
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -22,6 +27,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Install Dependencies
+        run: mvn install -DskipTests
 
       - name: Run Unit Tests
         run: mvn -B test
