@@ -2,9 +2,9 @@ name: DevOps Group 7 CI/CD
 
 on:
   push:
-    branches: [ "main", "release" ]
+    branches: [ "main", "develop", "release" ]
   pull_request:
-
+    branches: [ "main" ]
 jobs:
   unit-tests:
     runs-on: ubuntu-22.04
@@ -51,7 +51,7 @@ jobs:
       - name: Upload HTML coverage report
         uses: actions/upload-artifact@v5
         with:
-          name: jacoco-unit-test-html-report
+          name: "Unit Test Report"
           path: target/site/jacoco
 
   integration-tests:
@@ -100,7 +100,7 @@ jobs:
       - name: Upload HTML coverage report
         uses: actions/upload-artifact@v5
         with:
-          name: jacoco-integration-test-html-report
+          name: "Integration Test Report"
           path: target/site/jacoco
 
 
@@ -116,5 +116,11 @@ jobs:
       - run: mvn -B package -DskipTests
       - run: docker build -t webapp:${{ github.sha }} .
       - run: docker compose up --abort-on-container-exit --build
+
+      - name: Generating Executable JAR
+        uses: actions/upload-artifact@v5
+        with:
+          name: "JAR Package"
+          path: out/artifacts/GROUP_7_DEVOPS_25-26.jar
 
 
