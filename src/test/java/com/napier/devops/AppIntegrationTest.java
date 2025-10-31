@@ -25,9 +25,12 @@ public class AppIntegrationTest {
     @BeforeAll
     void setupDatabase() {
         db = new Database();
-        // In CI, these values come from your workflow’s MySQL service
         db.connect("localhost:33060", 30000, "world", "root", "P@ssw0rd!");
         conn = db.getConnection();
+
+        if (conn == null) {
+            throw new IllegalStateException("Database connection failed. Cannot proceed with tests.");
+        }
 
         countryDAO = new CountryDAO(conn);
         cityDAO = new CityDAO(conn);
