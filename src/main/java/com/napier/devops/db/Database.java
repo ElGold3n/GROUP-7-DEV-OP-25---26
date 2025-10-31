@@ -13,11 +13,37 @@ public class Database {
     private static final String DEFAULT_USER = "root";
     private static final String DEFAULT_PASS = "P@ssw0rd!";
 
+    /**
+     * Connect using environment variables or defaults.
+     */
     public void connect() {
         String url = System.getenv().getOrDefault("DB_URL", DEFAULT_URL);
         String user = System.getenv().getOrDefault("DB_USER", DEFAULT_USER);
         String pass = System.getenv().getOrDefault("DB_PASS", DEFAULT_PASS);
 
+        connect(url, user, pass, 15, 5000);
+    }
+
+    /**
+     * Overloaded connect method with full parameters.
+     *
+     * @param location host:port string (e.g. "localhost:33060")
+     * @param timeoutMillis total time to keep retrying (ms)
+     * @param database database name
+     * @param username database username
+     * @param password database password
+     */
+    public void connect(String location, int timeoutMillis, String database, String username, String password) {
+        String url = "jdbc:mysql://" + location + "/" + database
+                + "?allowPublicKeyRetrieval=true&useSSL=false";
+
+        connect(url, username, password, timeoutMillis / 5000, 5000);
+    }
+
+    /**
+     * Internal connect helper with retries.
+     */
+    private void connect(String url, String user, String pass, int retries, int delayMillis) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -25,16 +51,17 @@ public class Database {
             return;
         }
 
-        int retries = 15;
         for (int i = 0; i < retries; i++) {
             try {
-                System.out.println("Attempting DB connection (" + (i+1) + "/" + retries + ")...");
+                System.out.println("Attempting DB connection (" + (i + 1) + "/" + retries + ")...");
                 connection = DriverManager.getConnection(url, user, pass);
                 System.out.println("Connected to database");
                 break;
             } catch (SQLException e) {
                 System.out.println("Failed: " + e.getMessage());
-                try { Thread.sleep(5000); } catch (InterruptedException ignored) {}
+                try {
+                    Thread.sleep(delayMillis);
+                } catch (InterruptedException ignored) {}
             }
         }
     }
