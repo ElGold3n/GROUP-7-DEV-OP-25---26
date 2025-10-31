@@ -113,15 +113,17 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - run: mvn -B clean package -DskipTests
-      - run: cp target/*.jar out/artifacts/
+      - name: Generating Executable Package
+        run: mvn -B clean package -DskipTests
+      - run: cp target/world-reporting-system-1.0.0-jar-with-dependencies.jar out/artifacts/Group_7_DevOps_2025-26_WRS.jar
       - run: docker build -t webapp:${{ github.sha }} .
       - run: docker compose up --abort-on-container-exit --build
 
-      - name: Generating Executable JAR
+      - name: Uploading Executable Package
         uses: actions/upload-artifact@v5
         with:
-          name: "JAR Package"
-          path: out/artifacts
+          name: "Executable Package"
+          path: out/artifacts/Group_7_DevOps_2025-26_WRS.jar
+          retention-days: 30
 
 
