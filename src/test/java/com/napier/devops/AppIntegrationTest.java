@@ -26,7 +26,7 @@ public class AppIntegrationTest {
     void setupDatabase() {
         db = new Database();
         // In CI, these values come from your workflow’s MySQL service
-        db.connect("localhost:3306", 30000, "world", "testuser", "testpass");
+        db.connect("localhost:33060", 30000, "world", "root", "P@ssw0rd!");
         conn = db.getConnection();
 
         countryDAO = new CountryDAO(conn);
@@ -39,14 +39,14 @@ public class AppIntegrationTest {
 
     @Test
     void testCountryQueryReturnsResults() {
-        List<?> countries = countryDAO.getAllCountriesSortedByPopulation();
+        List<?> countries = countryDAO.getCountriesByPopulation();
         assertNotNull(countries);
         assertFalse(countries.isEmpty(), "Expected at least one country from DB");
     }
 
     @Test
     void testCityQueryByCountry() {
-        List<?> cities = cityDAO.getCitiesByCountry("France");
+        List<?> cities = cityDAO.getCitiesInCountryByName("France");
         assertNotNull(cities);
         assertTrue(cities.stream().anyMatch(c -> c.toString().contains("Paris")));
     }
