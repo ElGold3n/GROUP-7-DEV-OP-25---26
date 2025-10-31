@@ -99,10 +99,20 @@ public class WebServer {
             List<City> cities;
             if ("continent".equalsIgnoreCase(scope)) {
                 if(limit < 0) {
-                    cities = cityDAO.getCitiesInContinent(name);
+                    if (name == null || name.isEmpty() ) {
+                        cities = cityDAO.getCitiesByContinent();
+                    }
+                    else {
+                        cities = cityDAO.getCitiesInContinent(name);
+                    }
                 }
                 else {
-                    cities = cityDAO.getCitiesInContinent(name, limit);
+                    if (name == null || name.isEmpty() ) {
+                        cities = cityDAO.getCitiesByContinent(limit);
+                    }
+                    else {
+                        cities = cityDAO.getCitiesInContinent(name, limit);
+                    }
                 }
             } else if ("country".equalsIgnoreCase(scope)) {
                 if(limit < 0) {
