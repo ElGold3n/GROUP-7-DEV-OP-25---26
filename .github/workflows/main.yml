@@ -47,12 +47,36 @@ jobs:
   integration-tests:
     runs-on: ubuntu-22.04
     needs: unit-tests
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: P@ssw0rd!
+          MYSQL_DATABASE: world
+        ports:
+          - "33060:3306"
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -pP@ssw0rd!"
+          --health-interval=10s --health-timeout=5s --health-retries=5
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! -e "SELECT 1;" && break
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+
+      - name: Load schema/data
+        run: mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! world < world-db/world.sql
+
       - name: Run Integration Tests
         run: mvn -B verify
 
