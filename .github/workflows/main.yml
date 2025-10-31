@@ -14,8 +14,6 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Full Cleanup
-        run:  mvn -B clean verify
       - name: Checkout
         uses: actions/checkout@v4
 
