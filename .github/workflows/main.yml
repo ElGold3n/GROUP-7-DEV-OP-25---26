@@ -15,10 +15,7 @@ jobs:
 
     steps:
       - name: Full Cleanup
-        run: |
-        echo "Cleaning workspace..."
-        git clean -fdx
-        mvn clean
+        run:  mvn clean
       - name: Checkout
         uses: actions/checkout@v4
 
