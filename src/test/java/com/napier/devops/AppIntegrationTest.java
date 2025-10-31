@@ -54,6 +54,27 @@ public class AppIntegrationTest {
         assertTrue(cities.stream().anyMatch(c -> c.toString().contains("Paris")));
     }
 
+    @Test
+    void testCapitalCityQueryByCountry() {
+        List<?> capitals = capitalDAO.getCapitalCitiesInRegion("Caribbean");
+        assertNotNull(capitals);
+        assertTrue(capitals.stream().anyMatch(c -> c.toString().contains("Barbados")));
+    }
+
+    @Test
+    void testPopulationQueryByCountry() {
+        List<?> populations = populationDAO.getCountryPopulations(5);
+        assertNotNull(populations);
+        assertFalse(populations.isEmpty(), "Expected at least one population from DB");
+    }
+
+    @Test
+    void testLanguageQueryReturnsResults() {
+        List<?> languages = languageDAO.getLanguagesByPopulation();
+        assertNotNull(languages);
+        assertFalse(languages.isEmpty(), "Expected at least one language from DB");
+    }
+
     @AfterAll
     void teardown() {
         if (db != null) {
