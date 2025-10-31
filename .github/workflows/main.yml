@@ -10,99 +10,56 @@ defaults:
     working-directory: world-reporting-system
 
 jobs:
-  # -------------------------
-  # 1. Unit Tests (no DB)
-  # -------------------------
   unit-tests:
-    name: Unit Tests
     runs-on: ubuntu-22.04
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Full Cleanup
-        run: |
-          git clean -fdx
-          mvn clean
-
-      - name: Install Dependencies
-        run: mvn install -DskipTests
-
-      - name: Run Unit Tests
-        run: mvn -B test
-
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v5
+      - run: mvn -B clean install -DskipTests
+      - run: mvn -B test
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
-  # -------------------------
-  # 2. Integration Tests (with MySQL)
-  # -------------------------
   integration-tests:
-    name: Integration Tests
     runs-on: ubuntu-22.04
     needs: unit-tests
-
     services:
       mysql:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: P@ssw0rd!
           MYSQL_DATABASE: world
-          MYSQL_USER: testuser
-          MYSQL_PASSWORD: testpass
-        ports:
-          - "33060:3306"
+        ports: [ "33060:3306" ]
         options: >-
           --health-cmd="mysqladmin ping -h localhost -uroot -pP@ssw0rd!"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
+          --health-interval=10s --health-timeout=5s --health-retries=5
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Full Cleanup
-        run: |
-          git clean -fdx
-          mvn clean
-
-      - name: Wait for MySQL
-        run: |
+      - run: |
           for i in {1..30}; do
-            if mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! -e "SELECT 1;" &> /dev/null; then
-              echo "MySQL is up!"
-              break
-            fi
-            echo "Waiting for MySQL..."
+            mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! -e "SELECT 1;" && break
             sleep 2
           done
+      - run: mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! world < world-db/world.sql
+      - run: mvn -B verify
 
-      - name: Load schema/data
-        run: |
-          mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! world < world-db/world.sql
-
-      - name: Verify schema load
+  build:
+    runs-on: ubuntu-22.04
+    needs: [unit-tests, integration-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - run: mvn -B package -DskipTests
+      - run: docker build -t webapp:${{ github.sha }} .
+      - run: docker compose up --abort-on-container-exit --build
