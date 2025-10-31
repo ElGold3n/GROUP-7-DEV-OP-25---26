@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Full Cleanup
-        run:  mvn clean
+        run:  mvn -B clean verify
       - name: Checkout
         uses: actions/checkout@v4
 
