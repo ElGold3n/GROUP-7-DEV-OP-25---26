@@ -24,6 +24,20 @@ public class CityDAO {
         return queryCities(sql, n);
     }
 
+    public List<City> getCitiesByContinent() {
+        String sql = "SELECT city.ID, city.Name, country.Name AS Country, District, city.Population " +
+                "FROM city JOIN country ON city.CountryCode = country.Code " +
+                "ORDER BY city.Population DESC";
+        return queryCities(sql);
+    }
+
+    public List<City> getCitiesByContinent(int n) {
+        String sql = "SELECT city.ID, city.Name, country.Name AS Country, District, city.Population " +
+                "FROM city JOIN country ON city.CountryCode = country.Code " +
+                "ORDER BY city.Population DESC LIMIT ?";
+        return queryCities(sql, n);
+    }
+
     public List<City> getCitiesInContinent(String continent) {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, District, city.Population " +
                 "FROM city JOIN country ON city.CountryCode = country.Code " +
