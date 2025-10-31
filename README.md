@@ -143,7 +143,7 @@ ________________________________________________________________________________
 | Develop | ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/ElGold3n/GROUP-7-DEV-OP-25---26/main.yml?branch=develop&style=for-the-badge-square)     |
 
 ## _Code Coverage_ 
-_The following tracked project's code coverage is an estimation not actuality,will change when i get the codes running properly*_
+# _**The following tracked project's code coverage is an estimation not actuality, CODECOV IS NOT YET SETUP**._
 
 | Branch | Coverage | 
 |---------|-----------|
@@ -161,18 +161,16 @@ _The following tracked project's code coverage is an estimation not actuality,wi
 ___________________________________________________________________
 
 ## Requirements Implementation Evidence Summary
-
-**1 requirement of 32 has been implemented, which is   **3.15%** of the total requirements.**
-
 ---
 
 ## Evidence of Features Implemented   
 
-✅ Yes   ❌ No
+✅ Yes ❌ No
+
 
 ## 🔵 Project Requirements Evidence
 
-**1 of 32 requirements have been implemented (3.15%).**
+**27 of 32 requirements have been implemented (84.4%).**
 
 
 
