@@ -26,6 +26,18 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! -e "SELECT 1;" && break
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+
+      - name: Load schema/data
+        run: mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! world < world-db/world.sql
+
       - run: mvn -B clean install -DskipTests
       - run: mvn -B test
       - uses: codecov/codecov-action@v5
@@ -41,18 +53,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Wait for MySQL
-        run: |
-          for i in {1..30}; do
-            mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! -e "SELECT 1;" && break
-            echo "Waiting for MySQL..."
-            sleep 2
-          done
-
-      - name: Load schema/data
-        run: mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! world < world-db/world.sql
-
       - name: Run Integration Tests
         run: mvn -B verify
 
