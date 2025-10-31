@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    working-directory: world-reporting-system
+    working-directory: tmp
 
 jobs:
   unit-tests:
