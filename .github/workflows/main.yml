@@ -17,7 +17,7 @@ jobs:
         ports:
           - "33060:3306"
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -p$MYSQL_ROOT_PASSWORD || exit 1"
+          --health-cmd="mysqladmin ping -h localhost -u$MYSQL_ROOT_USER -p$MYSQL_ROOT_PASSWORD || exit 1"
           --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
@@ -30,13 +30,13 @@ jobs:
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
-            mysql -h127.0.0.1 -P33060 -p$MYSQL_ROOT_PASSWORD -e "SELECT 1;" && break
+            mysql -h127.0.0.1 -P33060 -u$MYSQL_ROOT_USER -p$MYSQL_ROOT_PASSWORD -e "SELECT 1;" && break
             echo "Waiting for MySQL..."
             sleep 2
           done
 
       - name: Load schema/data
-        run: mysql -h127.0.0.1 -P33060 -p$MYSQL_ROOT_PASSWORD world < world-db/world.sql
+        run: mysql -h127.0.0.1 -P33060 -u$MYSQL_ROOT_USER -p$MYSQL_ROOT_PASSWORD world < world-db/world.sql
 
       - run: mvn -B clean install -DskipTests
       - run: mvn -B test jacoco:report
@@ -66,7 +66,7 @@ jobs:
         ports:
           - "33060:3306"
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -p$MYSQL_ROOT_PASSWORD || exit 1"
+          --health-cmd="mysqladmin ping -h localhost -u$MYSQL_ROOT_USER -p$MYSQL_ROOT_PASSWORD || exit 1"
           --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
@@ -79,13 +79,13 @@ jobs:
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
-            mysql -h127.0.0.1 -P33060 -p$MYSQL_ROOT_PASSWORD -e "SELECT 1;" && break
+            mysql -h127.0.0.1 -P33060 -u$MYSQL_ROOT_USER -p$MYSQL_ROOT_PASSWORD -e "SELECT 1;" && break
             echo "Waiting for MySQL..."
             sleep 2
           done
 
       - name: Load schema/data
-        run: mysql -h127.0.0.1 -P33060 -p$MYSQL_ROOT_PASSWORD world < world-db/world.sql
+        run: mysql -h127.0.0.1 -P33060 -u$MYSQL_ROOT_USER -p$MYSQL_ROOT_PASSWORD world < world-db/world.sql
 
       - name: Run Integration Tests
         run: mvn -B verify jacoco:report
