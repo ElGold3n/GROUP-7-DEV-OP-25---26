@@ -52,8 +52,6 @@ public class MenuManager {
     }
 
 
-    // --- Main Menu ---
-
     /**
      * This initiates the main menu loop.
      * Displays options and processes user choices until they exit.
@@ -86,8 +84,6 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
-
-    // --- Countries Submenu ---
 
     /**
      * Displays the Countries submenu with options for different scopes (Global, Continental, Regional)
@@ -209,8 +205,6 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
-
-    // --- Cities ---
 
     /**
      * Displays the Cities main submenu with various filtering options
@@ -415,8 +409,6 @@ public class MenuManager {
     }
 
 
-    // --- Capitals ---
-
     /**
      * Displays the Capital Cities main submenu
      */
@@ -539,8 +531,6 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
-
-    // --- Languages ---
 
     /**
      * Displays the Languages main submenu
@@ -701,8 +691,6 @@ public class MenuManager {
     }
 
 
-    // --- Populations ---
-
     /**
      * Displays the Population Distribution main submenu
      */
@@ -769,7 +757,7 @@ public class MenuManager {
             showBreadcrumb();
             System.out.println("\n--- Continental Population Reports ---");
             System.out.println("1. All populations in a continent");
-            //System.out.println("2. Top N populations in a continent");
+            System.out.println("2. Top N populations in a continent");
             System.out.println("0. Back");
             System.out.print("Choose an option: ");
 
@@ -778,14 +766,14 @@ public class MenuManager {
                     String continent = chooseContinent();
                     if (continent != null) printPopulations("Continent", populationDAO.getContinentPopulations(continent));
                 }
-                /*case "2" -> {
+                case "2" -> {
                     String continent = chooseContinent();
                     if (continent != null) {
                         System.out.print("Enter N: ");
                         int n = Integer.parseInt(scanner.nextLine());
                         printPopulations("Continent", populationDAO.getContinentPopulations(continent, n));
                     }
-                }*/
+                }
                 case "0" -> running = false;
                 default -> System.out.println("Invalid choice.");
             }
@@ -803,7 +791,7 @@ public class MenuManager {
             showBreadcrumb();
             System.out.println("\n--- Regional Population Reports ---");
             System.out.println("1. All populations in a region");
-            //System.out.println("2. Top N populations in a region");
+            System.out.println("2. Top N populations in a region");
             System.out.println("0. Back");
             System.out.print("Choose an option: ");
 
@@ -812,14 +800,14 @@ public class MenuManager {
                     String region = chooseRegion();
                     if (region != null) printPopulations("Region", populationDAO.getRegionPopulations(region));
                 }
-                /*case "2" -> {
+                case "2" -> {
                     String region = chooseRegion();
                     if (region != null) {
                         System.out.print("Enter N: ");
                         int n = Integer.parseInt(scanner.nextLine());
                         printPopulations("Region", populationDAO.getRegionPopulations(region, n));
                     }
-                }*/
+                }
                 case "0" -> running = false;
                 default -> System.out.println("Invalid choice.");
             }
@@ -837,7 +825,7 @@ public class MenuManager {
             showBreadcrumb();
             System.out.println("\n--- Country Population Reports ---");
             System.out.println("1. All populations in a country");
-            //System.out.println("2. Top N populations in a country");
+            System.out.println("2. Top N populations in a country");
             System.out.println("0. Back");
             System.out.print("Choose an option: ");
 
@@ -846,14 +834,14 @@ public class MenuManager {
                     String country = chooseCountry();
                     if (country != null) printPopulations("Country", populationDAO.getCountryPopulationByCode(country));
                 }
-                /*case "2" -> {
+                case "2" -> {
                     String country = chooseCountry();
                     if (country != null) {
                         System.out.print("Enter N: ");
                         int n = Integer.parseInt(scanner.nextLine());
                         printPopulations("Country", populationDAO.getCountryPopulationByCode(country, n));
                     }
-                }*/
+                }
                 case "0" -> running = false;
                 default -> System.out.println("Invalid choice.");
             }
@@ -861,8 +849,6 @@ public class MenuManager {
         breadcrumb.pop();
     }
 
-
-    // --- Print Utilities ---
 
     /**
      * Prints a list of countries in a formatted table with pagination support
