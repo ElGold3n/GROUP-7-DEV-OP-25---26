@@ -9,6 +9,9 @@ public class DatabaseManager {
     private static final String USER = "root";
     private static final String PASSWORD = "P@ssw0rd!";
 
+    /**
+     * Connect using  variables.
+     */
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
