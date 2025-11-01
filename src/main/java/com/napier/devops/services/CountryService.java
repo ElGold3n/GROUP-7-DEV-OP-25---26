@@ -3,6 +3,10 @@ package com.napier.devops.services;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Service for querying country information from the database.
+ * All queries return countries sorted by population in descending order.
+ */
 public class CountryService {
     private final Connection conn;
 
@@ -39,6 +43,13 @@ public class CountryService {
     public void printCountriesInRegion(String region) { getCountriesInRegion(region).forEach(System.out::println); }
     public void printTopNCountries(int n) { getTopNCountries(n).forEach(System.out::println); }
 
+    /**
+     * Runs a SQL query and returns country data as a list of maps.
+     *
+     * @param sql SQL query with ? placeholders for parameters
+     * @param params Values to fill in the placeholders
+     * @return List of countries, or empty list if query fails
+     */
     private List<Map<String,Object>> queryCountries(String sql, Object... params) {
         List<Map<String,Object>> results = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {

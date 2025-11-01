@@ -3,6 +3,10 @@ package com.napier.devops.services;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Service for querying city information from the database.
+ * All queries return cities sorted by population in descending order.
+ */
 public class CityService {
     private final Connection conn;
 
@@ -59,6 +63,13 @@ public class CityService {
     public void printCitiesInDistrict(String district) { getCitiesInDistrict(district).forEach(System.out::println); }
     public void printTopNCities(int n) { getTopNCities(n).forEach(System.out::println); }
 
+    /**
+     * Runs a SQL query and returns city data as a list of maps.
+     *
+     * @param sql SQL query with ? placeholders for parameters
+     * @param params Values to fill in the placeholders
+     * @return List of cities, or empty list if query fails
+     */
     private List<Map<String,Object>> queryCities(String sql, Object... params) {
         List<Map<String,Object>> results = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
