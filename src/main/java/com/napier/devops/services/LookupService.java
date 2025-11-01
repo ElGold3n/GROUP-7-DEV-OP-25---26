@@ -3,6 +3,10 @@ package com.napier.devops.services;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Service for looking up distinct values from the database.
+ * Used to get lists of continents, regions, countries, and districts.
+ */
 public class LookupService {
     private final Connection conn;
 
@@ -10,7 +14,6 @@ public class LookupService {
         this.conn = conn;
     }
 
-    // --- GET methods ---
     public List<String> getAllContinents() {
         String sql = "SELECT DISTINCT Continent FROM country ORDER BY Continent";
         return queryLookup(sql);
@@ -31,7 +34,6 @@ public class LookupService {
         return queryLookup(sql);
     }
 
-    // --- Search methods ---
     public List<String> searchContinents(String term) {
         String sql = "SELECT DISTINCT Continent FROM country WHERE Continent LIKE ? ORDER BY Continent";
         return queryLookup(sql, "%" + term + "%");
@@ -53,7 +55,13 @@ public class LookupService {
     }
 
 
-    // --- Shared query helper ---
+    /**
+     * Runs a SQL query and returns the first column as a list of strings.
+     *
+     * @param sql SQL query with ? placeholders for parameters
+     * @param params Values to fill in the placeholders
+     * @return List of string values, or empty list if query fails
+     */
     private List<String> queryLookup(String sql, Object... params) {
         List<String> results = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {

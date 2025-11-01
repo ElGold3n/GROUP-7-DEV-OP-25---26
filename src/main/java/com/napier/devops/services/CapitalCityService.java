@@ -3,6 +3,10 @@ package com.napier.devops.services;
 import java.sql.*;
 import java.util.*;
 
+/**
+ * Service for querying capital city information from the database.
+ * All queries return capitals sorted by population in descending order.
+ */
 public class CapitalCityService {
     private final Connection conn;
 
@@ -10,7 +14,6 @@ public class CapitalCityService {
         this.conn = conn;
     }
 
-    // --- GET methods ---
     public List<Map<String,Object>> getAllCapitalCitiesByPopulation() {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, city.Population " +
                 "FROM city JOIN country ON city.ID = country.Capital " +
@@ -45,7 +48,13 @@ public class CapitalCityService {
     public void printCapitalCitiesInRegion(String region) { getCapitalCitiesInRegion(region).forEach(System.out::println); }
     public void printTopNCapitalCities(int n) { getTopNCapitalCities(n).forEach(System.out::println); }
 
-    // --- Shared query helper ---
+    /**
+     * Runs a SQL query and returns capital city data as a list of maps.
+     *
+     * @param sql SQL query with ? placeholders for parameters
+     * @param params Values to fill in the placeholders
+     * @return List of capital cities, or empty list if query fails
+     */
     private List<Map<String,Object>> queryCapitals(String sql, Object... params) {
         List<Map<String,Object>> results = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
