@@ -142,13 +142,13 @@ ________________________________________________________________________________
 | Master  | ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/ElGold3n/GROUP-7-DEV-OP-25---26/main.yml?branch=master&style=social-square) |
 | Develop | ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/ElGold3n/GROUP-7-DEV-OP-25---26/main.yml?branch=develop&style=for-the-badge-square)     |
 
-## _Code Coverage_ 
-# _**The following tracked project's code coverage is an estimation not actuality, CODECOV IS NOT YET SETUP**._
+## _Code Coverage_
 
-| Branch | Coverage | 
-|---------|-----------|
-| Master  |![Coverage Status](https://img.shields.io/badge/Coverage-80%25-brightgreen)|
-[![codecov](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/branch/main/graph/badge.svg?token=YOURTOKEN)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26)
+
+
+| Branch | <img width="80" height="80" alt="Codecov logo" src="https://github.com/user-attachments/assets/62362591-497f-4268-87d4-cc8963b008c2" />|
+|:-------:|:--------------------------------------------------------------------------------:|
+| **master** |      |
 
 
 ## _Release & License_
@@ -170,7 +170,7 @@ ___________________________________________________________________
 
 ## 🔵 Project Requirements Evidence
 
-**27 of 32 requirements have been implemented (84.4%).**
+**32 of 32 requirements have been implemented (100%).**
 
 
 
