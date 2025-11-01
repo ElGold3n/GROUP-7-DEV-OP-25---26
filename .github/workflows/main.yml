@@ -5,19 +5,29 @@ on:
     branches: [ "main", "develop", "release" ]
   pull_request:
     branches: [ "main" ]
+
+env:
+  MYSQL_ROOT_USER: root
+  MYSQL_ROOT_PASSWORD: P@ssw0rd!
+  MYSQL_DATABASE: world
+  MYSQL_USER: worlduser
+  MYSQL_PASSWORD: _ty5g09?
+
 jobs:
-  unit-tests:
+  tests:
     runs-on: ubuntu-22.04
     services:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: P@ssw0rd!
-          MYSQL_DATABASE: world
+          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ env.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ env.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ env.MYSQL_PASSWORD }}
         ports:
           - "33060:3306"
         options: >-
-          --health-cmd="mysqladmin ping -h localhost -uroot -pP@ssw0rd!"
+          --health-cmd="mysqladmin ping -h localhost -u${MYSQL_ROOT_USER} -p${MYSQL_ROOT_PASSWORD} || exit 1"
           --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
@@ -30,62 +40,16 @@ jobs:
       - name: Wait for MySQL
         run: |
           for i in {1..30}; do
-            mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! -e "SELECT 1;" && break
+            mysql -h127.0.0.1 -P33060 -u$MYSQL_USER -p$MYSQL_PASSWORD -e "SELECT 1;" && break
             echo "Waiting for MySQL..."
             sleep 2
           done
 
       - name: Load schema/data
-        run: mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! world < world-db/world.sql
+        run: mysql -h127.0.0.1 -P33060 -u$MYSQL_ROOT_USER -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE < world-db/world.sql
 
-      - run: mvn -B clean install -DskipTests
-      - run: mvn -B test jacoco:report
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./target/site/jacoco/jacoco-unit-test.xml
-          fail_ci_if_error: true
-
-      - name: Upload HTML coverage report
-        uses: actions/upload-artifact@v5
-        with:
-          name: "Unit Test Report"
-          path: target/site/jacoco
-
-  integration-tests:
-    runs-on: ubuntu-22.04
-    needs: unit-tests
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: P@ssw0rd!
-          MYSQL_DATABASE: world
-        ports:
-          - "33060:3306"
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost -uroot -pP@ssw0rd!"
-          --health-interval=10s --health-timeout=5s --health-retries=5
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Wait for MySQL
-        run: |
-          for i in {1..30}; do
-            mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! -e "SELECT 1;" && break
-            echo "Waiting for MySQL..."
-            sleep 2
-          done
-
-      - name: Load schema/data
-        run: mysql -h127.0.0.1 -P33060 -uroot -pP@ssw0rd! world < world-db/world.sql
+      - name: Run Unit Tests
+        run: mvn -B test jacoco:report
 
       - name: Run Integration Tests
         run: mvn -B verify jacoco:report
@@ -94,37 +58,42 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./target/site/jacoco/jacoco-integration-test.xml
+          files: |
+            target/site/jacoco/jacoco-unit-test.xml
+            target/site/jacoco/jacoco-integration-test.xml
           fail_ci_if_error: true
 
       - name: Upload HTML coverage report
         uses: actions/upload-artifact@v5
         with:
-          name: "Integration Test Report"
+          name: "Coverage Report"
           path: target/site/jacoco
-
 
   build:
     runs-on: ubuntu-22.04
-    needs: [unit-tests, integration-tests]
+    needs: tests
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Generating Executable Package
-        run: mvn -B clean package -DskipTests
-      - run: mkdir -p out/artifacts/
-      - run: cp target/world-reporting-system-1.0.0-jar-with-dependencies.jar out/artifacts/Group_7_DevOps_2025-26_WRS.jar
-      - run: docker build -t webapp:${{ github.sha }} .
-      - run: docker compose up --abort-on-container-exit --build
 
-      - name: Uploading Executable Package
+      - name: Package JAR
+        run: mvn -B clean package -DskipTests
+
+      - name: Archive Executable
+        run: |
+          mkdir -p out/artifacts/
+          cp target/world-reporting-system-1.0.0-jar-with-dependencies.jar \
+             out/artifacts/Group_7_DevOps_2025-26_WRS.jar
+
+      - name: Upload Executable Package
         uses: actions/upload-artifact@v5
         with:
           name: "Executable Package"
           path: out/artifacts/Group_7_DevOps_2025-26_WRS.jar
           retention-days: 30
 
-
+      - name: Build Docker image
+        run: docker build -t webapp:${{ github.sha }} .
