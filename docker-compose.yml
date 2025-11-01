@@ -4,15 +4,17 @@ services:
     container_name: world-mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: P@ssw0rd!
-      MYSQL_DATABASE: world
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "33060:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./world-db:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pP@ssw0rd!"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$MYSQL_ROOT_PASSWORD || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -26,9 +28,9 @@ services:
       db:
         condition: service_healthy
     environment:
-      DB_URL: jdbc:mysql://db:3306/world?allowPublicKeyRetrieval=true&useSSL=false
-      DB_USER: root
-      DB_PASS: P@ssw0rd!
+      DB_URL: ${DB_URL}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
       BATCH_MODE: "true"
     command: ["java", "-jar", "app.jar"]
     stdin_open: true
@@ -42,9 +44,9 @@ services:
       db:
         condition: service_healthy
     environment:
-      DB_URL: jdbc:mysql://db:3306/world?allowPublicKeyRetrieval=true&useSSL=false
-      DB_USER: root
-      DB_PASS: P@ssw0rd!
+      DB_URL: ${DB_URL}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
       BATCH_MODE: "false"
       WEB_MODE: "true"
     command: ["java", "-jar", "app.jar"]
