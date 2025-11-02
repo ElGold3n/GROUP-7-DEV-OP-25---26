@@ -148,12 +148,11 @@ ________________________________________________________________________________
 
 | Branch | <img width="80" height="80" alt="Codecov logo" src="https://github.com/user-attachments/assets/62362591-497f-4268-87d4-cc8963b008c2" />|
 |:-------:|:--------------------------------------------------------------------------------:|
-| **master** |  [![codecov](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/graph/badge.svg?token=5VLKOMSIXU)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26)    |
+| **master** | [![codecov](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/graph/badge.svg?token=5VLKOMSIXU)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26)     |
 
-_A reporting system built using the MySQL **World** sample database._
-_It generates analytical and statistical reports from the dataset, including population, language, and country-level insights._
-
----------------------------------------------------------------------------------------------------------------------------
+_A reporting system built using the MySQL **World** sample database._  
+_It provides analytical and statistical reports from the dataset, including population, language, and country-level insights._
+______________________________________________________________________________________________________________________________________________________________________________
 
 ## _Release & License_
 
@@ -167,7 +166,7 @@ ___________________________________________________________________
 ## Requirements Implementation Evidence Summary
 ---
 
-## 🔵 Evidence of Project Features Implemented  
+## 🔵Evidence of Project Features Implemented 
 
 **32 of 32 requirements have been implemented (100%).**
 
@@ -184,22 +183,22 @@ ___________________________________________________________________
 | 6                            | 🔝  Top N of populated countries in a region.                           | ✅ Yes | ![top-n_populated_countries_in_region.jpeg](screenshots/top-n_populated_countries_in_region.jpeg)           |
 | **City Reports**    🌆       |                                                                         |       |                                                                                                             |
 | 7                            | All the cities in the world, sorted by population.                      | ✅ Yes | ![all_cities_by_population.jpeg](screenshots/all_cities_by_population.jpeg)                                 |
-| 8                            | All the cities in a continent, sorted by population.                    | ✅ Yes |                                                                                                             |
-| 9                            | All the cities in a region, sorted by population.                       | ✅ Yes |                                                                                                             |
-| 10                           | All the cities in a country, sorted by population.                      | ✅ Yes |                                                                                                             |
-| 11                           | All the cities in a district, sorted by population.                     | ✅ Yes |                                                                                                             |
-| 12                           | 🔝 Top N of populated cities in the world.                              | ✅ Yes             |
-| 13                           | 🔝 Top N of populated cities in a continent.                            | ✅ Yes |                                                                                                             |
-| 14                           | 🔝 Top N of populated cities in a region.                               | ✅ Yes |                                                                                                             |
-| 15                           | 🔝 Top N of populated cities in a country.                              | ✅ Yes |                                                                                                             |
-| 16                           | 🔝 Top N of populated cities in a district.                             | ✅ Yes |                                                                                                             |
+| 8                            | All the cities in a continent, sorted by population.                    | ✅ Yes | ![all_cities_in_continent_by_pop.png](screenshots/all_cities_in_continent_by_pop.png)                       |
+| 9                            | All the cities in a region, sorted by population.                       | ✅ Yes | ![all_cities_in_region_by_pop.png](screenshots/all_cities_in_region_by_pop.png)                             |
+| 10                           | All the cities in a country, sorted by population.                      | ✅ Yes | ![all_cities_in_a_country_by_pop.png](screenshots/all_cities_in_a_country_by_pop.png)                       |
+| 11                           | All the cities in a district, sorted by population.                     | ✅ Yes | ![all_cities_in_a_district_by_pop.png](screenshots/all_cities_in_a_district_by_pop.png)                     |
+| 12                           | 🔝 Top N of populated cities in the world.                              | ✅ Yes  | ![top_25_pop_cities_in_world.png](screenshots/top_25_pop_cities_in_world.png)                             |
+| 13                           | 🔝 Top N of populated cities in a continent.                            | ✅ Yes |  ![top_25_pop_cities_in_continent.png](screenshots/top_25_pop_cities_in_continent.png)                                                                                                           |
+| 14                           | 🔝 Top N of populated cities in a region.                               | ✅ Yes |  ![top_10_pop_cities_in_region.png](screenshots/top_10_pop_cities_in_region.png)                                                                                                           |
+| 15                           | 🔝 Top N of populated cities in a country.                              | ✅ Yes |  ![top_10_pop_cities_in_country.png](screenshots/top_10_pop_cities_in_country.png)                                                                                                           |
+| 16                           | 🔝 Top N of populated cities in a district.                             | ✅ Yes |  ![top_5_pop_cities_in_district.png](screenshots/top_5_pop_cities_in_district.png)                                                                                                           |
 | **Capital City Reports** 🏛️ |                                                                         |       |                                                                                                             |
-| 17                           | All the capital cities in the world, sorted by population.              | ✅ Yes |                                                                                                             |
-| 18                           | All the capital cities in a continent, sorted by population.            | ✅ Yes |                                                                                                             |
-| 19                           | All the capital cities in a region, sorted by population.               | ✅ Yes |                                                                                                             |
-| 20                           | 🔝 Top N of populated capital cities in the world.                      | ✅ Yes |                                                                                                             |
-| 21                           | 🔝 Top N of populated capital cities in a continent.                    | ✅ Yes |                                                                                                             |
-| 22                           | 🔝 Top N of populated capital cities in a region.                       | ✅ Yes |                                                                                                             |
+| 17                           | All the capital cities in the world, sorted by population.              | ✅ Yes |  ![all_capitals_in_world_by_pop.png](screenshots/all_capitals_in_world_by_pop.png)                                                                                                           |
+| 18                           | All the capital cities in a continent, sorted by population.            | ✅ Yes |  ![all_capitals_in_continent_by_pop.png](screenshots/all_capitals_in_continent_by_pop.png)                                                                                                           |
+| 19                           | All the capital cities in a region, sorted by population.               | ✅ Yes |  ![all_capitals_in_region_by_pop.png](screenshots/all_capitals_in_region_by_pop.png)                                                                                                           |
+| 20                           | 🔝 Top N of populated capital cities in the world.                      | ✅ Yes |   ![top_10_capitals_in_world_by_pop.png](screenshots/top_10_capitals_in_world_by_pop.png)                                                                                                          |
+| 21                           | 🔝 Top N of populated capital cities in a continent.                    | ✅ Yes |   ![top_10_capitals_in_continent_by_pop.png.png](screenshots/top_10_capitals_in_continent_by_pop.png.png)                                                                                                          |
+| 22                           | 🔝 Top N of populated capital cities in a region.                       | ✅ Yes |   ![top_10_capitals_in_region_by_pop.png.png](screenshots/top_10_capitals_in_region_by_pop.png.png)                                                                                                          |
 | **Population Reports**  👥   |                                                                         |       |                                                                                                             |
 | 23                           | All the population data (total, city, non-city) by continent.           | ✅ Yes |                                                                                                             |
 | 24                           | All the population data (total, city, non-city) by region.              | ✅ Yes |                                                                                                             |
