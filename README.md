@@ -148,8 +148,11 @@ ________________________________________________________________________________
 
 | Branch | <img width="80" height="80" alt="Codecov logo" src="https://github.com/user-attachments/assets/62362591-497f-4268-87d4-cc8963b008c2" />|
 |:-------:|:--------------------------------------------------------------------------------:|
-| **master** |      |
+| **master** | [![codecov](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/graph/badge.svg?token=5VLKOMSIXU)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26)     |
 
+_A reporting system built using the MySQL **World** sample database._  
+_It provides analytical and statistical reports from the dataset, including population, language, and country-level insights._
+______________________________________________________________________________________________________________________________________________________________________________
 
 ## _Release & License_
 
