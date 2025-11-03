@@ -146,9 +146,9 @@ ________________________________________________________________________________
 
 
 
-| Branch | <img width="80" height="80" alt="Codecov logo" src="https://github.com/user-attachments/assets/62362591-497f-4268-87d4-cc8963b008c2" />|
-|:-------:|:--------------------------------------------------------------------------------:|
-| **master** | [![codecov](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/graph/badge.svg?token=5VLKOMSIXU)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26)     |
+|   Branch   | <img width="80" height="80" alt="Codecov logo" src="https://github.com/user-attachments/assets/62362591-497f-4268-87d4-cc8963b008c2" />|
+|:----------:|:--------------------------------------------------------------------------------:|
+| **Master** | [![codecov](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/graph/badge.svg?token=5VLKOMSIXU)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26)     |
 
 _A reporting system built using the MySQL **World** sample database._  
 _It provides analytical and statistical reports from the dataset, including population, language, and country-level insights._
@@ -204,7 +204,7 @@ ___________________________________________________________________
 | 24                           | All the population data (total, city, non-city) by region.              | ✅ Yes |                                                                                                                                                         |
 | 25                           | All the population data (total, city, non-city) by country.             | ✅ Yes |                                                                                                                                                         |
 | **Population Access**   🌍   |                                                                         |       |                                                                                                                                                         |
-| 26                           | World population.                                                       | ✅ Yes |                                                                                                                                                         |
+| 26                           | World population.                                                       | ✅ Yes |     ![World_population.png](screenshots/World_population.png)                                                                                                                                                    |
 | 27                           | Continent population.                                                   | ✅ Yes |                                                                                                                                                         |
 | 28                           | Region population.                                                      | ✅ Yes |                                                                                                                                                         |
 | 29                           | Country population.                                                     | ✅ Yes |                                                                                                                                                         |
