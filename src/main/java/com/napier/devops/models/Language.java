@@ -21,6 +21,10 @@ public class Language {
 
     private long globalPopulation; // optional context
 
+    private String scopeType;   // e.g. "Global", "Continent", "Region", "Country"
+    private String scopeName;   // e.g. "Asia", "Caribbean", "France"
+
+
     // --- Constructors ---
 
     // Global
@@ -58,6 +62,8 @@ public class Language {
         this.language = language;
         this.speakers = speakers;
         this.percentOfGlobalPopulation = percentOfGlobalPopulation;
+        setScopeType(type);
+        setScopeName(location);
     }
 /*
     // Continent
@@ -122,4 +128,21 @@ public class Language {
         this.globalPopulation = globalPopulation;
     }
     public long getGlobalPopulation() { return globalPopulation; }
+
+    public String getScopeType() {
+        return scopeType;
+    }
+
+    public void setScopeType(String scopeType) {
+        this.scopeType = scopeType;
+    }
+
+    public String getScopeName() {
+        return scopeName;
+    }
+
+    public void setScopeName(String scopeName) {
+        this.scopeName = scopeName;
+    }
+
 }
