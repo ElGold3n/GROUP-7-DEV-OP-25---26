@@ -41,11 +41,47 @@ public class AppIntegrationTest {
     }
 
     @Test
-    void testCountryQueryReturnsResults() {
+    void testCountriesInWorld() {
         List<?> countries = countryDAO.getCountriesByPopulation();
         assertNotNull(countries);
         assertFalse(countries.isEmpty(), "Expected at least one country from DB");
     }
+
+    @Test
+    void testTopNCountriesInWorld() {
+        List<?> countries = countryDAO.getCountriesByPopulation(5);
+        assertNotNull(countries);
+        assertFalse(countries.isEmpty(), "Expected at least one country from DB");
+    }
+
+    @Test
+    void testCountriesInContinent() {
+        List<?> countries = countryDAO.getCountriesInContinent("North America");
+        assertNotNull(countries);
+        assertFalse(countries.isEmpty(), "Expected at least one country in Continent from DB");
+    }
+
+    @Test
+    void testTopNCountriesInContinent() {
+        List<?> countries = countryDAO.getCountriesInContinent("Asia", 5);
+        assertNotNull(countries);
+        assertFalse(countries.isEmpty(), "Expected at least one country in Continent from DB");
+    }
+
+    @Test
+    void testCountriesInRegion() {
+        List<?> countries = countryDAO.getCountriesInRegion("Caribbean");
+        assertNotNull(countries);
+        assertFalse(countries.isEmpty(), "Expected at least one country in Region from DB");
+    }
+
+    @Test
+    void testTopNCountriesInRegion() {
+        List<?> countries = countryDAO.getCountriesInRegion("Caribbean", 5);
+        assertNotNull(countries);
+        assertFalse(countries.isEmpty(), "Expected at least one country in Region from DB");
+    }
+
 
     @Test
     void testCityQueryByCountry() {
