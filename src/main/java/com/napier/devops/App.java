@@ -124,8 +124,8 @@ public class App {
 
         // Generate top N capital cities
         var topCapitals = capitalDAO.getCapitalCitiesByPopulation(10);
-        TablePrinter tp3 = new TablePrinter("ID", "Capital", "Country", "Continent", "Region", "Population");
-        topCapitals.forEach(c -> tp3.addRow(c.getId(), c.getName(), c.getCountry(), c.getContinent(), c.getRegion(), c.getPopulation()));
+        TablePrinter tp3 = new TablePrinter( "Capital", "Country", "Continent", "Region", "Population");
+        topCapitals.forEach(c -> tp3.addRow(c.getName(), c.getCountry(), c.getContinent(), c.getRegion(), c.getPopulation()));
         System.out.println("\nTop 10 Capital Cities by Population");
         tp3.print(20);
 
