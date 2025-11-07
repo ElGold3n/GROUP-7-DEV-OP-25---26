@@ -2,14 +2,17 @@ package com.napier.devops;
 
 import com.napier.devops.dao.*;
 import com.napier.devops.db.Database;
+import com.napier.devops.models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class AppTest {
