@@ -4,6 +4,8 @@ import com.napier.devops.models.City;
 
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data Access Object for City-related database operations.
@@ -11,6 +13,7 @@ import java.util.*;
  */
 public class CityDAO {
     private final Connection conn;
+    private static final Logger logger = Logger.getLogger(PopulationDAO.class.getName());
 
     /**
      * Constructs a CityDAO with a database connection.
@@ -227,7 +230,9 @@ public class CityDAO {
                 c.setPopulation(rs.getLong("Population"));
                 results.add(c);
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        }
         return results;
     }
 }
