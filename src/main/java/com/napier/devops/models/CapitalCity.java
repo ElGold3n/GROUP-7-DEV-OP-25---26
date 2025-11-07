@@ -1,17 +1,21 @@
 package com.napier.devops.models;
 
 public class CapitalCity {
-    private int id;
     private String name;
     private String country;
     private String continent;
     private String region;
     private long population;
 
-    // Getters & Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public CapitalCity( String name, String country, String continent, String region, long population) {
+        this.name = name;
+        this.country = country;
+        this.continent = continent;
+        this.region = region;
+        this.population = population;
+    }
 
+    // Getters & Setters
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 

@@ -3,6 +3,8 @@ package com.napier.devops.dao;
 import com.napier.devops.models.Population;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data Access Object (DAO) for retrieving population statistics
@@ -10,6 +12,7 @@ import java.util.*;
  */
 public class PopulationDAO {
     private final Connection conn;
+    private static final Logger logger = Logger.getLogger(PopulationDAO.class.getName());
 
     /**
      * Constructs a PopulationDAO with a database connection.
@@ -33,7 +36,7 @@ public class PopulationDAO {
                 return rs.getLong("globalPopulation");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
         return 0L;
     }
@@ -98,8 +101,8 @@ public class PopulationDAO {
                 "FROM country c " +
                 "GROUP BY c.Continent " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, n);
+                " LIMIT " + n;
+        return queryPopulation(sql);
     }
 
     /**
@@ -164,8 +167,8 @@ public class PopulationDAO {
                 "WHERE c.Continent = ? " +
                 "GROUP BY c.Continent " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, name, n);
+                " LIMIT " + n;
+        return queryPopulation(sql, name);
     }
 
     /**
@@ -226,8 +229,8 @@ public class PopulationDAO {
                 "FROM country c " +
                 "GROUP BY c.Region " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, n);
+                " LIMIT " + n;
+        return queryPopulation(sql);
     }
 
     /**
@@ -292,8 +295,8 @@ public class PopulationDAO {
                 "WHERE c.Region = ? " +
                 "GROUP BY c.Region " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, name, n);
+                " LIMIT " + n;
+        return queryPopulation(sql, name);
     }
 
     /**
@@ -302,27 +305,13 @@ public class PopulationDAO {
      * @return List of Population objects for all countries
      */
     public List<Population> getCountryPopulations() {
-        String sql = "SELECT c.Name AS Country, " +
-                "(SELECT SUM(co.Population) " +
-                "FROM country co WHERE co.Code = c.Code) " +
-                "AS total_population, " +
-
-                "(SELECT SUM(ci.Population) " +
-                "FROM city ci JOIN country co2 ON ci.CountryCode = co2.Code " +
-                "WHERE co2.Code  = c.Code) AS city_population, " +
-
-                "(SELECT SUM(co.Population) " +
-                "FROM country co " +
-                "WHERE co.Region = c.Region)" +
-                " - " +
-                "(SELECT SUM(ci.Population) " +
-                "FROM city ci " +
-                "JOIN country co2 ON ci.CountryCode = co2.Code " +
-                "WHERE co2.Code = c.Code) AS non_city_population " +
-
-                "FROM country c " +
-                "GROUP BY c.Code, total_population " +
-                "ORDER BY total_population DESC";
+        String sql = "SELECT c.Name AS Country, c.Population AS total_population, " +
+        "LEAST(IFNULL(SUM(ci.Population), 0), c.Population) AS city_population, " +
+        "c.Population - LEAST(IFNULL(SUM(ci.Population), 0), c.Population) AS non_city_population " +
+        "FROM country c " +
+        "LEFT JOIN city ci ON ci.CountryCode = c.Code " +
+        "GROUP BY c.Code, c.Name, c.Continent, c.Region, c.Population " +
+        "ORDER BY total_population DESC";
         return queryPopulation(sql);
     }
 
@@ -333,29 +322,15 @@ public class PopulationDAO {
      * @return List of top N countries by population
      */
     public List<Population> getCountryPopulations(int n) {
-        String sql = "SELECT c.Name AS Country, " +
-                "(SELECT SUM(co.Population) " +
-                "FROM country co WHERE co.Code = c.Code) " +
-                "AS total_population, " +
-
-                "(SELECT SUM(ci.Population) " +
-                "FROM city ci JOIN country co2 ON ci.CountryCode = co2.Code " +
-                "WHERE co2.Code  = c.Code) AS city_population, " +
-
-                "(SELECT SUM(co.Population) " +
-                "FROM country co " +
-                "WHERE co.Region = c.Region)" +
-                " - " +
-                "(SELECT SUM(ci.Population) " +
-                "FROM city ci " +
-                "JOIN country co2 ON ci.CountryCode = co2.Code " +
-                "WHERE co2.Code = c.Code) AS non_city_population " +
-
+        String sql = "SELECT c.Name AS Country, c.Population AS total_population, " +
+                "IFNULL(SUM(ci.Population), 0) AS city_population, " +
+                "c.Population - IFNULL(SUM(ci.Population), 0) AS non_city_population " +
                 "FROM country c " +
-                "GROUP BY c.Code, total_population " +
+                "LEFT JOIN city ci ON ci.CountryCode = c.Code " +
+                "GROUP BY c.Code, c.Name, c.Continent, c.Region, c.Population " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, n);
+                " LIMIT " + n;
+        return queryPopulation(sql);
     }
 
     /**
@@ -418,8 +393,8 @@ public class PopulationDAO {
                 "WHERE c.Code = ? " +
                 "GROUP BY c.Code, total_population " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, country, n);
+                " LIMIT " + n;
+        return queryPopulation(sql, country);
     }
 
     /**
@@ -483,8 +458,8 @@ public class PopulationDAO {
                 "WHERE c.Name = ? " +
                 "GROUP BY c.Code, total_population " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, country, n);
+                " LIMIT " + n;
+        return queryPopulation(sql, country);
     }
 
     /**
@@ -514,7 +489,7 @@ public class PopulationDAO {
                 results.add(p);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
         return results;
     }

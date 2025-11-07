@@ -3,6 +3,8 @@ package com.napier.devops.dao;
 import com.napier.devops.models.Country;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data Access Object (DAO) for Country entities.
@@ -11,6 +13,7 @@ import java.util.*;
  */
 public class CountryDAO {
     private final Connection conn;
+    private static final Logger logger = Logger.getLogger(CountryDAO.class.getName());
 
     /**
      * Constructs a CountryDAO with the provided database connection.
@@ -40,8 +43,8 @@ public class CountryDAO {
      */
     public List<Country> getCountriesByPopulation(int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Population DESC LIMIT ?";
-        return queryCountries(sql, n);
+                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Population DESC  LIMIT " + n;
+        return queryCountries(sql);
     }
 
     /**
@@ -50,8 +53,9 @@ public class CountryDAO {
      * @return a list of all countries ordered by continent, then population
      */
     public List<Country> getCountriesInContinent() {
-        String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Continent, country.Population DESC";
+        String sql = "SELECT country.Code, country.Name, country.Continent AS Continent, country.Region, country.Population, city.Name AS Capital " +
+                "FROM country LEFT JOIN city ON country.Capital=city.ID " +
+                "ORDER BY UPPER(country.Continent) ASC, country.Population DESC";
         return queryCountries(sql);
     }
 
@@ -63,8 +67,9 @@ public class CountryDAO {
      */
     public List<Country> getCountriesInContinent(int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Continent, country.Population DESC LIMIT ?";
-        return queryCountries(sql, n);
+                "FROM country LEFT JOIN city ON country.Capital=city.ID " +
+                "ORDER BY UPPER(country.Continent) ASC, country.Population DESC  LIMIT " + n;
+        return queryCountries(sql);
     }
 
     /**
@@ -75,7 +80,8 @@ public class CountryDAO {
      */
     public List<Country> getCountriesInContinent(String continent) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID WHERE Continent=? ORDER BY country.Population DESC";
+                "FROM country LEFT JOIN city ON country.Capital=city.ID " +
+                "WHERE Continent=? ORDER BY country.Population DESC";
         return queryCountries(sql, continent);
     }
 
@@ -88,8 +94,9 @@ public class CountryDAO {
      */
     public List<Country> getCountriesInContinent(String continent, int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID WHERE Continent=? ORDER BY country.Population DESC LIMIT ?";
-        return queryCountries(sql, continent, n);
+                "FROM country LEFT JOIN city ON country.Capital=city.ID " +
+                "WHERE Continent=? ORDER BY country.Population DESC  LIMIT " + n;
+        return queryCountries(sql, continent);
     }
 
     /**
@@ -99,7 +106,8 @@ public class CountryDAO {
      */
     public List<Country> getCountriesInRegion() {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Region, country.Population DESC";
+                "FROM country LEFT JOIN city ON country.Capital=city.ID " +
+                "ORDER BY UPPER(TRIM(country.Region)) ASC, country.Population DESC";
         return queryCountries(sql);
     }
 
@@ -111,8 +119,9 @@ public class CountryDAO {
      */
     public List<Country> getCountriesInRegion(int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Region, country.Population DESC LIMIT ?";
-        return queryCountries(sql, n);
+                "FROM country LEFT JOIN city ON country.Capital=city.ID " +
+                "ORDER BY UPPER(TRIM(country.Region)) ASC, country.Population DESC  LIMIT " + n;
+        return queryCountries(sql);
     }
 
     /**
@@ -136,8 +145,8 @@ public class CountryDAO {
      */
     public List<Country> getCountriesInRegion(String region, int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID WHERE Region=? ORDER BY country.Population DESC Limit ?";
-        return queryCountries(sql, region, n);
+                "FROM country LEFT JOIN city ON country.Capital=city.ID WHERE Region=? ORDER BY country.Population DESC  LIMIT " + n;
+        return queryCountries(sql, region);
     }
 
     /**
@@ -156,18 +165,18 @@ public class CountryDAO {
             ResultSet rs = stmt.executeQuery();
             // Map each result row to a Country object
             while (rs.next()) {
-                Country c = new Country();
-                c.setCode(rs.getString("Code"));
-                c.setName(rs.getString("Name"));
-                c.setContinent(rs.getString("Continent"));
-                c.setRegion(rs.getString("Region"));
-                c.setPopulation(rs.getLong("Population"));
-                c.setCapital(rs.getString("Capital"));
+                Country c = new Country(
+                rs.getString("Code"),
+                rs.getString("Name"),
+                rs.getString("Continent"),
+                rs.getString("Region"),
+                rs.getLong("Population"),
+                rs.getString("Capital")
+                );
                 results.add(c);
             }
-        } catch (SQLException e) { 
-            // TODO: Consider using a logger instead of printStackTrace for better error handling
-            e.printStackTrace(); 
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
         return results;
     }

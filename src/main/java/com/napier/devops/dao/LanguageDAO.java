@@ -3,6 +3,8 @@ package com.napier.devops.dao;
 import com.napier.devops.models.Language;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data Access Object (DAO) for querying language statistics and population data.
@@ -11,6 +13,7 @@ import java.util.*;
  */
 public class LanguageDAO {
     private final Connection conn;
+    private static final Logger logger = Logger.getLogger(PopulationDAO.class.getName());
 
     /**
      * Constructs a LanguageDAO with a database connection.
@@ -294,7 +297,7 @@ public class LanguageDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
 
         // Inject global population into each Language object if needed

@@ -5,84 +5,86 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 
 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-
-
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.napier.devops</groupId>
-
     <artifactId>world-reporting-system</artifactId>
-
     <version>1.0.0</version>
-
     <packaging>jar</packaging>
 
-
-
     <properties>
-
         <maven.compiler.source>17</maven.compiler.source>
-
         <maven.compiler.target>17</maven.compiler.target>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
     </properties>
 
-
-
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.12</version>
+        </dependency>
+
         <!-- Database -->
         <dependency>
-
             <groupId>com.mysql</groupId>
-
             <artifactId>mysql-connector-j</artifactId>
             <version>8.4.0</version>
         </dependency>
 
         <!-- JUnit 5 -->
         <dependency>
-
             <groupId>org.junit.jupiter</groupId>
-
             <artifactId>junit-jupiter</artifactId>
             <version>5.11.3</version>
             <scope>test</scope>
-
         </dependency>
 
         <!-- Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.11.0</version>
+            <version>5.12.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.11.0</version>
+            <version>5.12.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>5.2.0</version>
             <scope>test</scope>
         </dependency>
 
         <!-- SparkJava -->
         <dependency>
-
             <groupId>com.sparkjava</groupId>
-
             <artifactId>spark-core</artifactId>
-
             <version>2.9.4</version>
+        </dependency>
 
+        <!-- RestAssured for HTTP integration tests -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JSON Path (used by RestAssured for JSON assertions) -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Gson -->
         <dependency>
-
             <groupId>com.google.code.gson</groupId>
-
             <artifactId>gson</artifactId>
             <version>2.11.0</version>
         </dependency>
@@ -91,71 +93,43 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 
     <build>
-
         <plugins>
             <!-- Compiler -->
             <plugin>
-
                 <groupId>org.apache.maven.plugins</groupId>
-
                 <artifactId>maven-compiler-plugin</artifactId>
-
                 <version>3.11.0</version>
-
                 <configuration>
                     <source>17</source>
                     <target>17</target>
                 </configuration>
-
             </plugin>
 
             <!-- Assembly (fat JAR) -->
             <plugin>
-
                 <groupId>org.apache.maven.plugins</groupId>
-
                 <artifactId>maven-assembly-plugin</artifactId>
-
                 <version>3.6.0</version>
-
                 <configuration>
-
                     <descriptorRefs>
-
                         <descriptorRef>jar-with-dependencies</descriptorRef>
-
                     </descriptorRefs>
 
                     <archive>
-
                         <manifest>
-
                             <mainClass>com.napier.devops.App</mainClass>
-
                         </manifest>
-
                     </archive>
-
                 </configuration>
-
                 <executions>
-
                     <execution>
-
                         <id>make-assembly</id>
-
                         <phase>package</phase>
-
                         <goals>
-
                             <goal>single</goal>
-
                         </goals>
-
                     </execution>
-
                 </executions>
-
             </plugin>
 
             <!-- Jacoco plugin for code coverage -->
@@ -234,4 +208,3 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
     </build>
 
 </project>
-

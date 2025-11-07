@@ -34,6 +34,7 @@ public class WebServer {
     /// Constructor initializes the database connection and DAO objects.
     /// This ensures that all endpoints can have access to the data consistently via the DAO layer.
 
+// constructor uses DatabaseManager
     public WebServer() throws SQLException {
         Connection conn = DatabaseManager.getConnection();
         this.countryDAO = new CountryDAO(conn);
@@ -42,6 +43,18 @@ public class WebServer {
         this.populationDAO = new PopulationDAO(conn);
         this.languageDAO = new LanguageDAO(conn);
         this.lookupDAO = new LookupDAO(conn);
+    }
+
+    // constructor for testing
+    public WebServer(CountryDAO countryDAO, CityDAO cityDAO,
+                     CapitalCityDAO capitalDAO, PopulationDAO populationDAO,
+                     LanguageDAO languageDAO, LookupDAO lookupDAO) {
+        this.countryDAO = countryDAO;
+        this.cityDAO = cityDAO;
+        this.capitalDAO = capitalDAO;
+        this.populationDAO = populationDAO;
+        this.languageDAO = languageDAO;
+        this.lookupDAO = lookupDAO;
     }
 
     /// Initializes the Spark web server, sets up routing, and defines all REST endpoints.

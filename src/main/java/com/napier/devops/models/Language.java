@@ -20,6 +20,7 @@ public class Language {
     private String percentOfCountryPopulation;
 
     private long globalPopulation; // optional context
+    private double globalPopulationPercentage;
 
     private String scopeType;   // e.g. "Global", "Continent", "Region", "Country"
     private String scopeName;   // e.g. "Asia", "Caribbean", "France"
@@ -65,37 +66,14 @@ public class Language {
         setScopeType(type);
         setScopeName(location);
     }
-/*
-    // Continent
-    public Language(String continent, String language, long speakers,
-                    String percentOfContinentPopulation, String percentOfGlobalPopulation) {
-        this.region = region;
+
+    public Language(String language, long speakers, double globalPopulationPercentage) {
         this.language = language;
         this.speakers = speakers;
-        this.percentOfRegionPopulation = percentOfRegionPopulation;
-        this.percentOfGlobalPopulation = percentOfGlobalPopulation;
+        this.globalPopulationPercentage = globalPopulationPercentage;
     }
 
-    // Region
-    public Language(String region, String language, long speakers,
-                    String percentOfRegionPopulation, String percentOfGlobalPopulation) {
-        this.region = region;
-        this.language = language;
-        this.speakers = speakers;
-        this.percentOfRegionPopulation = percentOfRegionPopulation;
-        this.percentOfGlobalPopulation = percentOfGlobalPopulation;
-    }
 
-    // Country
-    public Language(String country, String language, long speakers,
-                    String percentOfCountryPopulation, String percentOfGlobalPopulation) {
-        this.country = country;
-        this.language = language;
-        this.speakers = speakers;
-        this.percentOfCountryPopulation = percentOfCountryPopulation;
-        this.percentOfGlobalPopulation = percentOfGlobalPopulation;
-    }
-*/
     // --- Getters/Setters ---
     public boolean isContinent() { return isContinent; }
     public boolean isRegion() { return isRegion; }

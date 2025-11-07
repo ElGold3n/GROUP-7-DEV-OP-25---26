@@ -3,6 +3,8 @@ package com.napier.devops.dao;
 import com.napier.devops.models.Lookup;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data Access Object (DAO) for managing lookup/reference data queries.
@@ -11,6 +13,7 @@ import java.util.*;
  */
 public class LookupDAO {
     private final Connection conn;
+    private static final Logger logger = Logger.getLogger(CountryDAO.class.getName());
 
     /**
      * Constructs a LookupDAO with the provided database connection.
@@ -188,7 +191,7 @@ public class LookupDAO {
                 results.add(new Lookup(code, name));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
         return results;
     }
