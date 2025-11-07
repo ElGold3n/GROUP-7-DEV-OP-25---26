@@ -3,6 +3,8 @@ package com.napier.devops.dao;
 import com.napier.devops.models.Population;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data Access Object (DAO) for retrieving population statistics
@@ -10,6 +12,7 @@ import java.util.*;
  */
 public class PopulationDAO {
     private final Connection conn;
+    private static final Logger logger = Logger.getLogger(PopulationDAO.class.getName());
 
     /**
      * Constructs a PopulationDAO with a database connection.
@@ -486,7 +489,7 @@ public class PopulationDAO {
                 results.add(p);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
         return results;
     }
