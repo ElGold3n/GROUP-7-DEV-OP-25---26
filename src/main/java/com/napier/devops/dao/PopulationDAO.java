@@ -36,7 +36,7 @@ public class PopulationDAO {
                 return rs.getLong("globalPopulation");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
         return 0L;
     }
@@ -101,8 +101,8 @@ public class PopulationDAO {
                 "FROM country c " +
                 "GROUP BY c.Continent " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, n);
+                " LIMIT " + n;
+        return queryPopulation(sql);
     }
 
     /**
@@ -167,8 +167,8 @@ public class PopulationDAO {
                 "WHERE c.Continent = ? " +
                 "GROUP BY c.Continent " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, name, n);
+                " LIMIT " + n;
+        return queryPopulation(sql, name);
     }
 
     /**
@@ -229,8 +229,8 @@ public class PopulationDAO {
                 "FROM country c " +
                 "GROUP BY c.Region " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, n);
+                " LIMIT " + n;
+        return queryPopulation(sql);
     }
 
     /**
@@ -295,8 +295,8 @@ public class PopulationDAO {
                 "WHERE c.Region = ? " +
                 "GROUP BY c.Region " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, name, n);
+                " LIMIT " + n;
+        return queryPopulation(sql, name);
     }
 
     /**
@@ -329,8 +329,8 @@ public class PopulationDAO {
                 "LEFT JOIN city ci ON ci.CountryCode = c.Code " +
                 "GROUP BY c.Code, c.Name, c.Continent, c.Region, c.Population " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, n);
+                " LIMIT " + n;
+        return queryPopulation(sql);
     }
 
     /**
@@ -393,8 +393,8 @@ public class PopulationDAO {
                 "WHERE c.Code = ? " +
                 "GROUP BY c.Code, total_population " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, country, n);
+                " LIMIT " + n;
+        return queryPopulation(sql, country);
     }
 
     /**
@@ -458,8 +458,8 @@ public class PopulationDAO {
                 "WHERE c.Name = ? " +
                 "GROUP BY c.Code, total_population " +
                 "ORDER BY total_population DESC " +
-                "LIMIT ?";
-        return queryPopulation(sql, country, n);
+                " LIMIT " + n;
+        return queryPopulation(sql, country);
     }
 
     /**

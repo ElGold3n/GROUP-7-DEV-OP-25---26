@@ -120,12 +120,13 @@ public class CapitalCityDAO {
             // Execute the query and process results
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                CapitalCity c = new CapitalCity();
-                c.setName(rs.getString("Name"));
-                c.setCountry(rs.getString("Country"));
-                c.setContinent(rs.getString("Continent"));
-                c.setRegion(rs.getString("Region"));
-                c.setPopulation(rs.getLong("Population"));
+                CapitalCity c = new CapitalCity(
+                rs.getString("Name"),
+                rs.getString("Country"),
+                rs.getString("Continent"),
+                rs.getString("Region"),
+                rs.getLong("Population")
+                );
                 results.add(c);
             }
         } catch (SQLException e) {

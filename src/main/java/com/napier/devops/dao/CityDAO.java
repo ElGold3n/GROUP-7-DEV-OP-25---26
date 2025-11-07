@@ -1,7 +1,6 @@
 package com.napier.devops.dao;
 
 import com.napier.devops.models.City;
-
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -13,7 +12,7 @@ import java.util.logging.Logger;
  */
 public class CityDAO {
     private final Connection conn;
-    private static final Logger logger = Logger.getLogger(PopulationDAO.class.getName());
+        private static final Logger logger = Logger.getLogger(CityDAO.class.getName());
 
     /**
      * Constructs a CityDAO with a database connection.
@@ -43,8 +42,8 @@ public class CityDAO {
      */
     public List<City> getCitiesByPopulation(int n) {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, country.Continent, city.District, city.Population " +
-                "FROM city JOIN country ON city.CountryCode=country.Code ORDER BY city.Population DESC LIMIT ?";
-        return queryCities(sql, n);
+                "FROM city JOIN country ON city.CountryCode=country.Code ORDER BY city.Population DESC LIMIT " + n;
+        return queryCities(sql);
     }
 
     /**
@@ -68,8 +67,8 @@ public class CityDAO {
     public List<City> getCitiesByContinent(int n) {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, country.Continent, city.District, city.Population " +
                 "FROM city JOIN country ON city.CountryCode = country.Code " +
-                "ORDER BY UPPER(country.Continent) ASC, city.Population DESC LIMIT ?";
-        return queryCities(sql, n);
+                "ORDER BY UPPER(country.Continent) ASC, city.Population DESC LIMIT " + n;
+        return queryCities(sql);
     }
 
     /**
@@ -95,8 +94,8 @@ public class CityDAO {
     public List<City> getCitiesInContinent(String continent, int n) {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, country.Continent, District, city.Population " +
                 "FROM city JOIN country ON city.CountryCode = country.Code " +
-                "WHERE country.Continent=? ORDER BY city.Population DESC LIMIT ?";
-        return queryCities(sql, continent, n);
+                "WHERE country.Continent=? ORDER BY city.Population DESC LIMIT " + n;
+        return queryCities(sql, continent);
     }
 
     /**
@@ -122,8 +121,8 @@ public class CityDAO {
     public List<City> getCitiesInRegion(String region, int n) {
         String sql = "SELECT city.Name, city.District, country.Name AS Country, country.Continent, city.Population, country.Region " +
                 "FROM city JOIN country ON city.CountryCode = country.Code " +
-                "WHERE country.Region = ? ORDER BY city.Population DESC LIMIT ?";
-        return queryCities(sql, region, n);
+                "WHERE country.Region = ? ORDER BY city.Population DESC LIMIT " + n;
+        return queryCities(sql, region);
     }
 
     /**
@@ -149,8 +148,8 @@ public class CityDAO {
     public List<City> getCitiesInCountryByCode(String country, int n) {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, country.Continent, District, city.Population " +
                 "FROM city JOIN country ON city.CountryCode = country.Code " +
-                "WHERE country.Code=? ORDER BY city.Population DESC LIMIT ?";
-        return queryCities(sql, country, n);
+                "WHERE country.Code=? ORDER BY city.Population DESC LIMIT " + n;
+        return queryCities(sql, country);
     }
 
     /**
@@ -176,8 +175,8 @@ public class CityDAO {
     public List<City> getCitiesInCountryByName(String country, int n) {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, country.Continent, District, city.Population " +
                 "FROM city JOIN country ON city.CountryCode = country.Code " +
-                "WHERE country.Name=? ORDER BY city.Population DESC LIMIT ?";
-        return queryCities(sql, country, n);
+                "WHERE country.Name=? ORDER BY city.Population DESC LIMIT " + n;
+        return queryCities(sql, country);
     }
 
     /**
@@ -203,8 +202,8 @@ public class CityDAO {
     public List<City> getCitiesInDistrict(String district, int n) {
         String sql = "SELECT city.ID, city.Name, country.Name AS Country, country.Continent, city.District, city.Population " +
                 "FROM city JOIN country ON city.CountryCode = country.Code " +
-                "WHERE city.District=? ORDER BY city.Population DESC LIMIT ?";
-        return queryCities(sql, district, n);
+                "WHERE city.District=? ORDER BY city.Population DESC LIMIT " + n;
+        return queryCities(sql, district);
     }
 
     /**
@@ -217,17 +216,19 @@ public class CityDAO {
     private List<City> queryCities(String sql, Object... params) {
         List<City> results = new ArrayList<>();
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            // Set query parameters dynamically
-            for (int i=0; i<params.length; i++) stmt.setObject(i+1, params[i]);
+            // Bind all parameters to the prepared statement
+            for (int i = 0; i < params.length; i++) {
+                stmt.setObject(i + 1, params[i]);
+            }
             ResultSet rs = stmt.executeQuery();
-            // Map ResultSet rows to City objects
             while (rs.next()) {
-                City c = new City();
-                c.setName(rs.getString("Name"));
-                c.setCountry(rs.getString("Country"));
-                c.setContinent(rs.getString("Continent"));
-                c.setDistrict(rs.getString("District"));
-                c.setPopulation(rs.getLong("Population"));
+                City c = new City(
+                    rs.getString("Name"),
+                    rs.getString("District"),
+                    rs.getString("Country"),
+                    rs.getString("Continent"),
+                    rs.getInt("Population")
+                );
                 results.add(c);
             }
         } catch (SQLException e) {

@@ -43,8 +43,8 @@ public class CountryDAO {
      */
     public List<Country> getCountriesByPopulation(int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Population DESC LIMIT ?";
-        return queryCountries(sql, n);
+                "FROM country LEFT JOIN city ON country.Capital=city.ID ORDER BY country.Population DESC  LIMIT " + n;
+        return queryCountries(sql);
     }
 
     /**
@@ -68,8 +68,8 @@ public class CountryDAO {
     public List<Country> getCountriesInContinent(int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
                 "FROM country LEFT JOIN city ON country.Capital=city.ID " +
-                "ORDER BY UPPER(country.Continent) ASC, country.Population DESC LIMIT ?";
-        return queryCountries(sql, n);
+                "ORDER BY UPPER(country.Continent) ASC, country.Population DESC  LIMIT " + n;
+        return queryCountries(sql);
     }
 
     /**
@@ -95,8 +95,8 @@ public class CountryDAO {
     public List<Country> getCountriesInContinent(String continent, int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
                 "FROM country LEFT JOIN city ON country.Capital=city.ID " +
-                "WHERE Continent=? ORDER BY country.Population DESC LIMIT ?";
-        return queryCountries(sql, continent, n);
+                "WHERE Continent=? ORDER BY country.Population DESC  LIMIT " + n;
+        return queryCountries(sql, continent);
     }
 
     /**
@@ -120,8 +120,8 @@ public class CountryDAO {
     public List<Country> getCountriesInRegion(int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
                 "FROM country LEFT JOIN city ON country.Capital=city.ID " +
-                "ORDER BY UPPER(TRIM(country.Region)) ASC, country.Population DESC LIMIT ?";
-        return queryCountries(sql, n);
+                "ORDER BY UPPER(TRIM(country.Region)) ASC, country.Population DESC  LIMIT " + n;
+        return queryCountries(sql);
     }
 
     /**
@@ -145,8 +145,8 @@ public class CountryDAO {
      */
     public List<Country> getCountriesInRegion(String region, int n) {
         String sql = "SELECT country.Code, country.Name, country.Continent, country.Region, country.Population, city.Name AS Capital " +
-                "FROM country LEFT JOIN city ON country.Capital=city.ID WHERE Region=? ORDER BY country.Population DESC Limit ?";
-        return queryCountries(sql, region, n);
+                "FROM country LEFT JOIN city ON country.Capital=city.ID WHERE Region=? ORDER BY country.Population DESC  LIMIT " + n;
+        return queryCountries(sql, region);
     }
 
     /**
