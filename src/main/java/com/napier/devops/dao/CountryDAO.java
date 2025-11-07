@@ -3,6 +3,8 @@ package com.napier.devops.dao;
 import com.napier.devops.models.Country;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data Access Object (DAO) for Country entities.
@@ -11,6 +13,7 @@ import java.util.*;
  */
 public class CountryDAO {
     private final Connection conn;
+    private static final Logger logger = Logger.getLogger(CountryDAO.class.getName());
 
     /**
      * Constructs a CountryDAO with the provided database connection.
@@ -172,9 +175,8 @@ public class CountryDAO {
                 );
                 results.add(c);
             }
-        } catch (SQLException e) { 
-            // TODO: Consider using a logger instead of printStackTrace for better error handling
-            e.printStackTrace(); 
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
         return results;
     }
