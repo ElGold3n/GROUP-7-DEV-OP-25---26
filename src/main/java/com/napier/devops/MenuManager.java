@@ -57,7 +57,7 @@ public class MenuManager {
      * Displays options and processes user choices until they exit.
      */
     public void start() {
-        breadcrumb.push("Main Menu");
+        breadcrumb.push("\nMain Menu");
         boolean running = true;
         while (running) {
             showBreadcrumb();
