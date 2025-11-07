@@ -7,8 +7,15 @@ public class City {
     private String district;
     private long population;
 
-    // Getters & Setters
+    public City(String name, String district, String country, String continent, long population) {
+        this.name = name;
+        this.district = district;
+        this.country = country;
+        this.continent = continent;
+        this.population = population;
+    }
 
+    // Getters & Setters
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
@@ -24,8 +31,5 @@ public class City {
     public long getPopulation() { return population; }
     public void setPopulation(long population) { this.population = population; }
 
-    @Override
-    public String toString() {
-        return String.format("%s, %s (%s) | Pop: %d", name, district, country, population);
-    }
+
 }
