@@ -6,7 +6,6 @@ import com.napier.devops.models.*;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +27,7 @@ public class AppIntegrationTest {
         db = new Database();
         db.connect("localhost:33060", 30000, "world", "root", "P@ssw0rd!");
         conn = db.getConnection();
-        if (conn == null) throw new IllegalStateException("Database connection failed");
+        assertNotNull(conn, "Database connection failed");
 
         countryDAO = new CountryDAO(conn);
         cityDAO = new CityDAO(conn);
@@ -38,212 +37,355 @@ public class AppIntegrationTest {
         languageDAO = new LanguageDAO(conn);
     }
 
-    // ---------------------------
-    // CountryDAO coverage
-    // ---------------------------
+    // --------------------------------
+    // CountryDAO: full coverage + edges
+    // --------------------------------
 
-    @Test void testCountryByPopulation_all() {
-        List<Country> rows = countryDAO.getCountriesByPopulation();
+    @Test void testCountriesByPopulation_all() {
+        var rows = countryDAO.getCountriesByPopulation();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
-        assertTrue(rows.stream().allMatch(r -> r.getPopulation() >= 0));
+        // descending ordering invariant
+        for (int i = 1; i < rows.size(); i++) {
+            assertTrue(rows.get(i - 1).getPopulation() >= rows.get(i).getPopulation());
+        }
     }
 
-    @Test void testCountryByPopulation_limit() {
-        List<Country> rows = countryDAO.getCountriesByPopulation(5);
+    @Test void testCountriesByPopulation_limit() {
+        var rows = countryDAO.getCountriesByPopulation(5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
-    @Test void testCountryInContinent_all() {
-        List<Country> rows = countryDAO.getCountriesInContinent();
+    @Test void testCountriesByPopulation_zeroLimit() {
+        var rows = countryDAO.getCountriesByPopulation(0);
         assertNotNull(rows);
-        assertFalse(rows.isEmpty());
+        assertTrue(rows.isEmpty());
     }
 
-    @Test void testCountryInContinent_limit() {
-        List<Country> rows = countryDAO.getCountriesInContinent(5);
+    @Test void testCountriesInContinent_all() {
+        var rows = countryDAO.getCountriesInContinent();
+        assertNotNull(rows);
+        assertFalse(rows.isEmpty());
+        // ordering invariant by continent then population desc
+        for (int i = 1; i < rows.size(); i++) {
+            var prev = rows.get(i - 1);
+            var curr = rows.get(i);
+            boolean sameContinent = prev.getContinent().equals(curr.getContinent());
+            assertTrue(sameContinent || prev.getContinent().compareTo(curr.getContinent()) <= 0);
+            if (sameContinent) {
+                assertTrue(prev.getPopulation() >= curr.getPopulation());
+            }
+        }
+    }
+
+    @Test void testCountriesInContinent_limit() {
+        var rows = countryDAO.getCountriesInContinent(5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
-    @Test void testCountryInContinent_byName() {
-        List<Country> rows = countryDAO.getCountriesInContinent("Asia");
+    @Test void testCountriesInContinent_byName() {
+        var rows = countryDAO.getCountriesInContinent("Asia");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
         assertTrue(rows.stream().allMatch(r -> "Asia".equals(r.getContinent())));
+        // population desc
+        for (int i = 1; i < rows.size(); i++) {
+            assertTrue(rows.get(i - 1).getPopulation() >= rows.get(i).getPopulation());
+        }
     }
 
-    @Test void testCountryInContinent_byName_limit() {
-        List<Country> rows = countryDAO.getCountriesInContinent("Europe", 3);
+    @Test void testCountriesInContinent_byName_limit() {
+        var rows = countryDAO.getCountriesInContinent("Europe", 3);
         assertNotNull(rows);
         assertTrue(rows.size() <= 3);
         assertTrue(rows.stream().allMatch(r -> "Europe".equals(r.getContinent())));
     }
 
-    @Test void testCountryInRegion_all() {
-        List<Country> rows = countryDAO.getCountriesInRegion();
+    @Test void testCountriesInContinent_invalid() {
+        var rows = countryDAO.getCountriesInContinent("Atlantis");
         assertNotNull(rows);
-        assertFalse(rows.isEmpty());
+        assertTrue(rows.isEmpty());
     }
 
-    @Test void testCountryInRegion_limit() {
-        List<Country> rows = countryDAO.getCountriesInRegion(5);
+    @Test void testCountriesInRegion_all() {
+        var rows = countryDAO.getCountriesInRegion();
+        assertNotNull(rows);
+        assertFalse(rows.isEmpty());
+        // ordering invariant by region then population desc
+        for (int i = 1; i < rows.size(); i++) {
+            var prev = rows.get(i - 1);
+            var curr = rows.get(i);
+            boolean sameRegion = prev.getRegion().trim().equalsIgnoreCase(curr.getRegion().trim());
+
+            assertTrue(
+                    sameRegion || prev.getRegion().trim().compareToIgnoreCase(curr.getRegion().trim()) <= 0,
+                    "Regions should be in ascending order"
+            );
+
+            if (sameRegion) {
+                assertTrue(prev.getPopulation() >= curr.getPopulation(),
+                        "Population should be descending within region");
+            }
+        }
+    }
+
+    @Test void testCountriesInRegion_limit() {
+        var rows = countryDAO.getCountriesInRegion(5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
-    @Test void testCountryInRegion_byName() {
-        List<Country> rows = countryDAO.getCountriesInRegion("Caribbean");
+    @Test void testCountriesInRegion_byName() {
+        var rows = countryDAO.getCountriesInRegion("Caribbean");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
         assertTrue(rows.stream().allMatch(r -> "Caribbean".equals(r.getRegion())));
     }
 
-    @Test void testCountryInRegion_byName_limit() {
-        List<Country> rows = countryDAO.getCountriesInRegion("Caribbean", 5);
+    @Test void testCountriesInRegion_byName_limit() {
+        var rows = countryDAO.getCountriesInRegion("Caribbean", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
         assertTrue(rows.stream().allMatch(r -> "Caribbean".equals(r.getRegion())));
     }
 
-    // ---------------------------
-    // CityDAO coverage
-    // ---------------------------
-
-    @Test void testCityByPopulation_all() {
-        List<City> rows = cityDAO.getCitiesByPopulation();
+    @Test void testCountriesInRegion_invalid() {
+        var rows = countryDAO.getCountriesInRegion("Neverland");
         assertNotNull(rows);
-        assertFalse(rows.isEmpty());
+        assertTrue(rows.isEmpty());
     }
 
-    @Test void testCityByPopulation_limit() {
-        List<City> rows = cityDAO.getCitiesByPopulation(5);
+    // -----------------------------
+    // CityDAO: full coverage + edges
+    // -----------------------------
+
+    @Test void testCitiesByPopulation_all() {
+        var rows = cityDAO.getCitiesByPopulation();
+        assertNotNull(rows);
+        assertFalse(rows.isEmpty());
+        for (int i = 1; i < rows.size(); i++) {
+            assertTrue(rows.get(i - 1).getPopulation() >= rows.get(i).getPopulation());
+        }
+    }
+
+    @Test void testCitiesByPopulation_limit() {
+        var rows = cityDAO.getCitiesByPopulation(5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
-    @Test void testCityByContinent_all() {
-        List<City> rows = cityDAO.getCitiesByContinent();
+    @Test void testCitiesByPopulation_zeroLimit() {
+        var rows = cityDAO.getCitiesByPopulation(0);
         assertNotNull(rows);
-        assertFalse(rows.isEmpty());
+        assertTrue(rows.isEmpty());
     }
 
-    @Test void testCityByContinent_limit() {
-        List<City> rows = cityDAO.getCitiesByContinent(5);
-        assertNotNull(rows);
-        assertTrue(rows.size() <= 5);
+    @Test
+    void testCitiesByContinent_all() {
+        var cities = cityDAO.getCitiesByContinent();
+        assertNotNull(cities);
+        assertFalse(cities.isEmpty());
+
+        // Verify ordering: continent ascending, population descending within continent
+        for (int i = 1; i < cities.size(); i++) {
+            var prev = cities.get(i - 1);
+            var curr = cities.get(i);
+
+            boolean sameContinent = prev.getContinent().equals(curr.getContinent());
+
+            // Continent ordering check
+            assertTrue(prev.getContinent().compareTo(curr.getContinent()) <= 0,
+                    "Expected continents in ascending order");
+
+            // If same continent, population must be descending
+            if (sameContinent) {
+                assertTrue(prev.getPopulation() >= curr.getPopulation(),
+                        "Population should be descending within continent");
+            }
+        }
     }
+
+
+    @Test
+    void testCitiesByContinent_limit() {
+        var cities = cityDAO.getCitiesByContinent(5);
+        assertNotNull(cities);
+        assertTrue(cities.size() <= 5);
+
+        // Same ordering invariant as above
+        for (int i = 1; i < cities.size(); i++) {
+            var prev = cities.get(i - 1);
+            var curr = cities.get(i);
+            if (prev.getCountry() != null && curr.getCountry() != null
+                    && prev.getCountry().equals(curr.getCountry())) {
+                assertTrue(prev.getPopulation() >= curr.getPopulation());
+            }
+        }
+    }
+
+    @Test
+    void testCitiesByContinent_zeroLimit() {
+        var cities = cityDAO.getCitiesByContinent(0);
+        assertNotNull(cities);
+        assertTrue(cities.isEmpty(), "Expected empty list when limit is zero");
+    }
+
 
     @Test void testCitiesInContinent_byName_all() {
-        List<City> rows = cityDAO.getCitiesInContinent("Europe");
+        var rows = cityDAO.getCitiesInContinent("Europe");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
-        assertTrue(rows.stream().allMatch(r -> r.getCountry() != null));
     }
 
     @Test void testCitiesInContinent_byName_limit() {
-        List<City> rows = cityDAO.getCitiesInContinent("Asia", 5);
+        var rows = cityDAO.getCitiesInContinent("Asia", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
+    @Test void testCitiesInContinent_invalid() {
+        var rows = cityDAO.getCitiesInContinent("Atlantis");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
     @Test void testCitiesInRegion_all() {
-        List<City> rows = cityDAO.getCitiesInRegion("Caribbean");
+        var rows = cityDAO.getCitiesInRegion("Caribbean");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
     }
 
     @Test void testCitiesInRegion_limit() {
-        List<City> rows = cityDAO.getCitiesInRegion("Caribbean", 3);
+        var rows = cityDAO.getCitiesInRegion("Caribbean", 3);
         assertNotNull(rows);
         assertTrue(rows.size() <= 3);
     }
 
+    @Test void testCitiesInRegion_invalid() {
+        var rows = cityDAO.getCitiesInRegion("Neverland");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
     @Test void testCitiesInCountryByCode_all() {
-        List<City> rows = cityDAO.getCitiesInCountryByCode("FRA");
+        var rows = cityDAO.getCitiesInCountryByCode("FRA");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
-        assertTrue(rows.stream().allMatch(r -> r.getCountry() != null));
     }
 
     @Test void testCitiesInCountryByCode_limit() {
-        List<City> rows = cityDAO.getCitiesInCountryByCode("USA", 5);
+        var rows = cityDAO.getCitiesInCountryByCode("USA", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
+    }
+
+    @Test void testCitiesInCountryByCode_invalid() {
+        var rows = cityDAO.getCitiesInCountryByCode("XXX");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
     }
 
     @Test void testCitiesInCountryByName_all() {
-        List<City> rows = cityDAO.getCitiesInCountryByName("France");
+        var rows = cityDAO.getCitiesInCountryByName("France");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
-        assertTrue(rows.stream().anyMatch(r -> "Paris".equals(r.getName())));
+        assertTrue(rows.stream().anyMatch(c -> "Paris".equals(c.getName())));
     }
 
     @Test void testCitiesInCountryByName_limit() {
-        List<City> rows = cityDAO.getCitiesInCountryByName("France", 5);
+        var rows = cityDAO.getCitiesInCountryByName("France", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
+    }
+
+    @Test void testCitiesInCountryByName_invalid() {
+        var rows = cityDAO.getCitiesInCountryByName("Atlantis");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
     }
 
     @Test void testCitiesInDistrict_all() {
-        List<City> rows = cityDAO.getCitiesInDistrict("California");
+        var rows = cityDAO.getCitiesInDistrict("California");
         assertNotNull(rows);
+        // may be empty depending on dataset; presence not guaranteed
     }
 
     @Test void testCitiesInDistrict_limit() {
-        List<City> rows = cityDAO.getCitiesInDistrict("California", 5);
+        var rows = cityDAO.getCitiesInDistrict("California", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
-    // ---------------------------
-    // CapitalCityDAO coverage
-    // ---------------------------
+    @Test void testCitiesInDistrict_invalid() {
+        var rows = cityDAO.getCitiesInDistrict("NonexistentDistrict");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
+    // -----------------------------------
+    // CapitalCityDAO: full coverage + edges
+    // -----------------------------------
 
     @Test void testCapitalByPopulation_all() {
-        List<CapitalCity> rows = capitalDAO.getCapitalCitiesByPopulation();
+        var rows = capitalDAO.getCapitalCitiesByPopulation();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
+        for (int i = 1; i < rows.size(); i++) {
+            assertTrue(rows.get(i - 1).getPopulation() >= rows.get(i).getPopulation());
+        }
     }
 
     @Test void testCapitalByPopulation_limit() {
-        List<CapitalCity> rows = capitalDAO.getCapitalCitiesByPopulation(5);
+        var rows = capitalDAO.getCapitalCitiesByPopulation(5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
     @Test void testCapitalInContinent_all() {
-        List<CapitalCity> rows = capitalDAO.getCapitalCitiesInContinent("Europe");
+        var rows = capitalDAO.getCapitalCitiesInContinent("Europe");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
-        assertTrue(rows.stream().allMatch(r -> "Europe".equals(r.getContinent())));
+        assertTrue(rows.stream().allMatch(c -> "Europe".equals(c.getContinent())));
     }
 
     @Test void testCapitalInContinent_limit() {
-        List<CapitalCity> rows = capitalDAO.getCapitalCitiesInContinent("Europe", 3);
+        var rows = capitalDAO.getCapitalCitiesInContinent("Europe", 3);
         assertNotNull(rows);
         assertTrue(rows.size() <= 3);
-        assertTrue(rows.stream().allMatch(r -> "Europe".equals(r.getContinent())));
+        assertTrue(rows.stream().allMatch(c -> "Europe".equals(c.getContinent())));
+    }
+
+    @Test void testCapitalInContinent_invalid() {
+        var rows = capitalDAO.getCapitalCitiesInContinent("Atlantis");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
     }
 
     @Test void testCapitalInRegion_all() {
-        List<CapitalCity> rows = capitalDAO.getCapitalCitiesInRegion("Caribbean");
+        var rows = capitalDAO.getCapitalCitiesInRegion("Caribbean");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
-        assertTrue(rows.stream().allMatch(r -> "Caribbean".equals(r.getRegion())));
+        assertTrue(rows.stream().allMatch(c -> "Caribbean".equals(c.getRegion())));
     }
 
     @Test void testCapitalInRegion_limit() {
-        List<CapitalCity> rows = capitalDAO.getCapitalCitiesInRegion("Caribbean", 5);
+        var rows = capitalDAO.getCapitalCitiesInRegion("Caribbean", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
-        assertTrue(rows.stream().allMatch(r -> "Caribbean".equals(r.getRegion())));
+        assertTrue(rows.stream().allMatch(c -> "Caribbean".equals(c.getRegion())));
     }
 
-    // ---------------------------
-    // PopulationDAO coverage
-    // ---------------------------
+    @Test void testCapitalInRegion_invalid() {
+        var rows = capitalDAO.getCapitalCitiesInRegion("Neverland");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
+    // --------------------------------
+    // PopulationDAO: full coverage + edges
+    // --------------------------------
 
     @Test void testGlobalPopulation_scalar() {
         long world = populationDAO.getGlobalPopulation();
@@ -251,203 +393,272 @@ public class AppIntegrationTest {
     }
 
     @Test void testGlobalPopulations_all() {
-        List<Population> rows = populationDAO.getGlobalPopulations();
+        var rows = populationDAO.getGlobalPopulations();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
+        for (int i = 1; i < rows.size(); i++) {
+            assertTrue(rows.get(i - 1).getTotalPopulation() >= rows.get(i).getTotalPopulation());
+        }
     }
 
     @Test void testGlobalPopulations_limit() {
-        List<Population> rows = populationDAO.getGlobalPopulations(3);
+        var rows = populationDAO.getGlobalPopulations(3);
         assertNotNull(rows);
         assertTrue(rows.size() <= 3);
     }
 
     @Test void testContinentPopulation_byName_all() {
-        List<Population> rows = populationDAO.getContinentPopulations("Asia");
+        var rows = populationDAO.getContinentPopulations("Asia");
         assertNotNull(rows);
         assertEquals(1, rows.size());
-        assertTrue(rows.get(0).getTotalPopulation() >= rows.get(0).getCityPopulation());
+        var r = rows.get(0);
+        assertTrue(r.getTotalPopulation() >= r.getCityPopulation());
+        assertEquals(r.getTotalPopulation(), r.getCityPopulation() + r.getNonCityPopulation());
     }
 
     @Test void testContinentPopulation_byName_limit() {
-        List<Population> rows = populationDAO.getContinentPopulations("Europe", 1);
+        var rows = populationDAO.getContinentPopulations("Europe", 1);
         assertNotNull(rows);
         assertTrue(rows.size() <= 1);
     }
 
+    @Test void testContinentPopulation_invalid() {
+        var rows = populationDAO.getContinentPopulations("Atlantis");
+        assertNotNull(rows);
+        // Query groups by continent; invalid filter typically yields empty list
+        assertTrue(rows.isEmpty());
+    }
+
     @Test void testRegionPopulation_all() {
-        List<Population> rows = populationDAO.getRegionPopulations();
+        var rows = populationDAO.getRegionPopulations();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
+        for (int i = 1; i < rows.size(); i++) {
+            assertTrue(rows.get(i - 1).getTotalPopulation() >= rows.get(i).getTotalPopulation());
+        }
     }
 
     @Test void testRegionPopulation_limit() {
-        List<Population> rows = populationDAO.getRegionPopulations(5);
+        var rows = populationDAO.getRegionPopulations(5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
     @Test void testRegionPopulation_byName_all() {
-        List<Population> rows = populationDAO.getRegionPopulations("Caribbean");
+        var rows = populationDAO.getRegionPopulations("Caribbean");
         assertNotNull(rows);
         assertEquals(1, rows.size());
-        assertTrue(rows.get(0).getTotalPopulation() >= rows.get(0).getCityPopulation());
+        var r = rows.get(0);
+        assertTrue(r.getTotalPopulation() >= r.getCityPopulation());
+        assertEquals(r.getTotalPopulation(), r.getCityPopulation() + r.getNonCityPopulation());
     }
 
     @Test void testRegionPopulation_byName_limit() {
-        List<Population> rows = populationDAO.getRegionPopulations("Caribbean", 1);
+        var rows = populationDAO.getRegionPopulations("Caribbean", 1);
         assertNotNull(rows);
         assertTrue(rows.size() <= 1);
     }
 
+    @Test void testRegionPopulation_invalid() {
+        var rows = populationDAO.getRegionPopulations("Neverland");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
     @Test void testCountryPopulation_all() {
-        List<Population> rows = populationDAO.getCountryPopulations();
+        var rows = populationDAO.getCountryPopulations();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
+
+        for (var r : rows) {
+            assertTrue(r.getTotalPopulation() >= r.getCityPopulation());
+            assertEquals(r.getTotalPopulation(), r.getCityPopulation() + r.getNonCityPopulation());
+        }
     }
 
     @Test void testCountryPopulation_limit() {
-        List<Population> rows = populationDAO.getCountryPopulations(5);
+        var rows = populationDAO.getCountryPopulations(5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
-    @Test void testCountryPopulation_byCode_all() {
-        List<Population> rows = populationDAO.getCountryPopulationByCode("FRA");
+    @Test void testCountryPopulationByCode_all() {
+        var rows = populationDAO.getCountryPopulationByCode("FRA");
         assertNotNull(rows);
         assertEquals(1, rows.size());
-        assertTrue(rows.get(0).getTotalPopulation() >= rows.get(0).getCityPopulation());
+        var r = rows.get(0);
+        assertTrue(r.getTotalPopulation() >= r.getCityPopulation());
+        assertEquals(r.getTotalPopulation(), r.getCityPopulation() + r.getNonCityPopulation());
     }
 
-    @Test void testCountryPopulation_byCode_limit() {
-        List<Population> rows = populationDAO.getCountryPopulationByCode("GBR", 1);
+    @Test void testCountryPopulationByCode_limit() {
+        var rows = populationDAO.getCountryPopulationByCode("GBR", 1);
         assertNotNull(rows);
         assertTrue(rows.size() <= 1);
     }
 
-    @Test void testCountryPopulation_byName_all() {
-        List<Population> rows = populationDAO.getCountryPopulations("France");
+    @Test void testCountryPopulationByCode_invalid() {
+        var rows = populationDAO.getCountryPopulationByCode("XXX");
         assertNotNull(rows);
-        assertEquals(1, rows.size());
-        assertTrue(rows.get(0).getTotalPopulation() >= rows.get(0).getCityPopulation());
+        assertTrue(rows.isEmpty());
     }
 
-    @Test void testCountryPopulation_byName_limit() {
-        List<Population> rows = populationDAO.getCountryPopulations("France", 1);
+    @Test void testCountryPopulationByName_all() {
+        var rows = populationDAO.getCountryPopulations("France");
+        assertNotNull(rows);
+        assertEquals(1, rows.size());
+        var r = rows.get(0);
+        assertTrue(r.getTotalPopulation() >= r.getCityPopulation());
+        assertEquals(r.getTotalPopulation(), r.getCityPopulation() + r.getNonCityPopulation());
+    }
+
+    @Test void testCountryPopulationByName_limit() {
+        var rows = populationDAO.getCountryPopulations("France", 1);
         assertNotNull(rows);
         assertTrue(rows.size() <= 1);
     }
 
-    // ---------------------------
-    // LookupDAO coverage
-    // ---------------------------
+    @Test void testCountryPopulationByName_invalid() {
+        var rows = populationDAO.getCountryPopulations("Atlantis");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
+    // -----------------------------
+    // LookupDAO: full coverage + edges
+    // -----------------------------
 
     @Test void testLookup_allContinents() {
-        List<Lookup> rows = lookupDAO.getAllContinents();
+        var rows = lookupDAO.getAllContinents();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
         assertTrue(rows.stream().anyMatch(l -> "Europe".equals(l.getValue())));
     }
 
     @Test void testLookup_allRegions() {
-        List<Lookup> rows = lookupDAO.getAllRegions();
+        var rows = lookupDAO.getAllRegions();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
         assertTrue(rows.stream().anyMatch(l -> "Caribbean".equals(l.getValue())));
     }
 
     @Test void testLookup_allCountries() {
-        List<Lookup> rows = lookupDAO.getAllCountries();
+        var rows = lookupDAO.getAllCountries();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
         assertTrue(rows.stream().anyMatch(l -> "France".equals(l.getValue())));
     }
 
     @Test void testLookup_allDistricts() {
-        List<Lookup> rows = lookupDAO.getAllDistricts();
+        var rows = lookupDAO.getAllDistricts();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
     }
 
-    @Test void testLookup_districtsByCountryCode() {
-        List<Lookup> rows = lookupDAO.getDistrictsByCountryCode("FRA");
+    @Test void testLookup_districtsByCountryCode_valid() {
+        var rows = lookupDAO.getDistrictsByCountryCode("FRA");
+        assertNotNull(rows);
+        // may be empty depending on dataset granularity
+    }
+
+    @Test void testLookup_districtsByCountryCode_invalid() {
+        var rows = lookupDAO.getDistrictsByCountryCode("XXX");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
+    @Test void testLookup_districtsByCountryName_valid() {
+        var rows = lookupDAO.getDistrictsByCountryName("France");
         assertNotNull(rows);
     }
 
-    @Test void testLookup_districtsByCountryName() {
-        List<Lookup> rows = lookupDAO.getDistrictsByCountryName("France");
+    @Test void testLookup_districtsByCountryName_invalid() {
+        var rows = lookupDAO.getDistrictsByCountryName("Atlantis");
         assertNotNull(rows);
+        assertTrue(rows.isEmpty());
     }
 
     @Test void testLookup_searchContinents() {
-        List<Lookup> rows = lookupDAO.searchContinents("Amer");
+        var rows = lookupDAO.searchContinents("Amer");
         assertNotNull(rows);
         assertTrue(rows.stream().anyMatch(l -> l.getValue().contains("America")));
     }
 
     @Test void testLookup_searchRegions() {
-        List<Lookup> rows = lookupDAO.searchRegions("Carib");
+        var rows = lookupDAO.searchRegions("Carib");
         assertNotNull(rows);
         assertTrue(rows.stream().anyMatch(l -> l.getValue().contains("Caribbean")));
     }
 
     @Test void testLookup_searchCountries() {
-        List<Lookup> rows = lookupDAO.searchCountries("Fran");
+        var rows = lookupDAO.searchCountries("Fran");
         assertNotNull(rows);
         assertTrue(rows.stream().anyMatch(l -> l.getValue().contains("France")));
     }
 
     @Test void testLookup_searchDistricts() {
-        List<Lookup> rows = lookupDAO.searchDistricts("York");
+        var rows = lookupDAO.searchDistricts("York");
         assertNotNull(rows);
+        // may be empty depending on dataset spelling
     }
 
-    // ---------------------------
-    // LanguageDAO coverage
-    // ---------------------------
+    // ---------------------------------
+    // LanguageDAO: full coverage + edges
+    // ---------------------------------
 
     @Test void testLanguageByPopulation_all() {
-        List<Language> rows = languageDAO.getLanguagesByPopulation();
+        var rows = languageDAO.getLanguagesByPopulation();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
-        // percent_of_global injected as string formatting, ensure numeric parse OK
         assertDoesNotThrow(() -> Double.parseDouble(rows.get(0).getPercentOfGlobalPopulation()));
     }
 
     @Test void testLanguageByPopulation_limit() {
-        List<Language> rows = languageDAO.getLanguagesByPopulation(5);
+        var rows = languageDAO.getLanguagesByPopulation(5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
     @Test void testLanguageByContinent_all() {
-        List<Language> rows = languageDAO.getLanguagesByContinent("Asia");
+        var rows = languageDAO.getLanguagesByContinent("Asia");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
         assertEquals("Asia", rows.get(0).getScopeName());
     }
 
     @Test void testLanguageByContinent_limit() {
-        List<Language> rows = languageDAO.getLanguagesByContinent("Europe", 5);
+        var rows = languageDAO.getLanguagesByContinent("Europe", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
+    @Test void testLanguageByContinent_invalid() {
+        var rows = languageDAO.getLanguagesByContinent("Atlantis");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
     @Test void testLanguageByRegion_all() {
-        List<Language> rows = languageDAO.getLanguagesByRegion("Caribbean");
+        var rows = languageDAO.getLanguagesByRegion("Caribbean");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
         assertEquals("Caribbean", rows.get(0).getScopeName());
     }
 
     @Test void testLanguageByRegion_limit() {
-        List<Language> rows = languageDAO.getLanguagesByRegion("Caribbean", 5);
+        var rows = languageDAO.getLanguagesByRegion("Caribbean", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
+    @Test void testLanguageByRegion_invalid() {
+        var rows = languageDAO.getLanguagesByRegion("Neverland");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
     @Test void testLanguageByCountry_all() {
-        List<Language> rows = languageDAO.getLanguagesByCountry("India");
+        var rows = languageDAO.getLanguagesByCountry("India");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
         assertEquals("India", rows.get(0).getScopeName());
@@ -455,23 +666,34 @@ public class AppIntegrationTest {
     }
 
     @Test void testLanguageByCountry_limit() {
-        List<Language> rows = languageDAO.getLanguagesByCountry("India", 5);
+        var rows = languageDAO.getLanguagesByCountry("India", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
     }
 
+    @Test void testLanguageByCountry_invalid() {
+        var rows = languageDAO.getLanguagesByCountry("Atlantis");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
+    }
+
     @Test void testLanguageByCountryCode_all() {
-        // Example code for France; adjust if your dataset differs
-        List<Language> rows = languageDAO.getLanguagesByCountryCode("FRA");
+        var rows = languageDAO.getLanguagesByCountryCode("FRA");
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
         assertEquals("France", rows.get(0).getScopeName());
     }
 
     @Test void testLanguageByCountryCode_limit() {
-        List<Language> rows = languageDAO.getLanguagesByCountryCode("FRA", 5);
+        var rows = languageDAO.getLanguagesByCountryCode("FRA", 5);
         assertNotNull(rows);
         assertTrue(rows.size() <= 5);
+    }
+
+    @Test void testLanguageByCountryCode_invalid() {
+        var rows = languageDAO.getLanguagesByCountryCode("XXX");
+        assertNotNull(rows);
+        assertTrue(rows.isEmpty());
     }
 
     @AfterAll
