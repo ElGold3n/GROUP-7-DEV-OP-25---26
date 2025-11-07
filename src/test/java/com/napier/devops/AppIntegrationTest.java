@@ -5,9 +5,14 @@ import com.napier.devops.db.Database;
 import com.napier.devops.models.*;
 import org.junit.jupiter.api.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AppIntegrationTest {
@@ -610,7 +615,7 @@ public class AppIntegrationTest {
         var rows = languageDAO.getLanguagesByPopulation();
         assertNotNull(rows);
         assertFalse(rows.isEmpty());
-        assertDoesNotThrow(() -> Double.parseDouble(rows.get(0).getPercentOfGlobalPopulation()));
+        assertDoesNotThrow(() -> (Double) Double.parseDouble(rows.get(0).getPercentOfGlobalPopulation()));
     }
 
     @Test void testLanguageByPopulation_limit() {
@@ -695,6 +700,41 @@ public class AppIntegrationTest {
         assertNotNull(rows);
         assertTrue(rows.isEmpty());
     }
+
+
+    @Test
+    void testRunBatchReports_printsReports() {
+        CountryDAO countryDAO = mock(CountryDAO.class);
+        CityDAO cityDAO = mock(CityDAO.class);
+        CapitalCityDAO capitalDAO = mock(CapitalCityDAO.class);
+        PopulationDAO populationDAO = mock(PopulationDAO.class);
+        LanguageDAO languageDAO = mock(LanguageDAO.class);
+
+        when(countryDAO.getCountriesByPopulation(10))
+                .thenReturn(List.of(new Country("C1","Testland","Europe","RegionX",1000,"CapitalX")));
+        when(cityDAO.getCitiesByPopulation(10))
+                .thenReturn(List.of(new City("CityX","Testland","DistrictX","Europe",500)));
+        when(capitalDAO.getCapitalCitiesByPopulation(10))
+                .thenReturn(List.of(new CapitalCity("CapitalX","Testland","Europe","RegionX",500)));
+        when(populationDAO.getGlobalPopulations(10))
+                .thenReturn(List.of(new Population("Europe",1000,500,500)));
+        when(languageDAO.getLanguagesByPopulation(5))
+                .thenReturn(List.of(new Language("English",500,50.0)));
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+
+        App.runBatchReports(countryDAO, cityDAO, capitalDAO, populationDAO, languageDAO);
+
+        String output = out.toString();
+        assertTrue(output.contains("Top 10 Countries by Population"));
+        assertTrue(output.contains("Top 10 Cities by Population"));
+        assertTrue(output.contains("Top 10 Capital Cities by Population"));
+        assertTrue(output.contains("Top 10 Populations Globally"));
+        assertTrue(output.contains("Top 5 Languages"));
+    }
+
+
 
     @AfterAll
     void teardown() {
