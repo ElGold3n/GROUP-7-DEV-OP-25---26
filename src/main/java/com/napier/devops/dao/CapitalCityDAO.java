@@ -3,6 +3,8 @@ package com.napier.devops.dao;
 import com.napier.devops.models.CapitalCity;
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Data Access Object (DAO) for retrieving capital city information from the database.
@@ -11,6 +13,7 @@ import java.util.*;
  */
 public class CapitalCityDAO {
     private final Connection conn;
+    private static final Logger logger = Logger.getLogger(CapitalCityDAO.class.getName());
 
     /**
      * Constructs a CapitalCityDAO with the provided database connection.
@@ -125,7 +128,9 @@ public class CapitalCityDAO {
                 c.setPopulation(rs.getLong("Population"));
                 results.add(c);
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        }
         return results;
     }
 }
