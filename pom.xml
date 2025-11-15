@@ -154,13 +154,9 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.14</version>
                 <configuration>
-                    <includes>
-                        <include>com/napier/devops/dao/**</include>
-                        <include>com/napier/devops/models/**</include>
-                    </includes>
                     <excludes>
                         <exclude>com/napier/devops/web/**</exclude>
-                        <exclude>com/napier/devops/db/**</exclude>
+                        <exclude>com/napier/devops/db/DatabaseManager.java</exclude>
                     </excludes>
                 </configuration>
                 <executions>
