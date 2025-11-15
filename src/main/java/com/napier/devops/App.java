@@ -67,8 +67,8 @@ public class App {
             // Run predefined batch reports
             runBatchReports(countryDAO, cityDAO, capitalDAO, populationDAO, languageDAO);
         }
-        else {
-            // Run predefined batch reports
+        if (System.getenv("CONSOLE_MODE") != null  && System.getenv("BATCH_MODE").equals("CONSOLE_MODE")) {
+            // Run in console
             Scanner scanner = new Scanner(System.in);
             MenuManager menu = new MenuManager(scanner, countryDAO, cityDAO, capitalDAO, populationDAO, lookupDAO, languageDAO);
             menu.start();

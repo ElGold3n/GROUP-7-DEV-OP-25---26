@@ -39,6 +39,22 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <scope>test</scope>
         </dependency>
 
+        <!-- Testcontainers core -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.20.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- MySQL Testcontainer -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <version>1.20.1</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -136,7 +152,17 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.10</version>
+                <version>0.8.14</version>
+                <configuration>
+                    <includes>
+                        <include>com/napier/devops/dao/**</include>
+                        <include>com/napier/devops/models/**</include>
+                    </includes>
+                    <excludes>
+                        <exclude>com/napier/devops/web/**</exclude>
+                        <exclude>com/napier/devops/db/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <!-- prepare agent before tests run -->
                     <execution>
