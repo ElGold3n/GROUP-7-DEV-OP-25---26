@@ -9,12 +9,12 @@ public class Country {
     private String capital;
 
     public Country(String code, String name, String continent, String region, long population, String capital) {
-        this.code = code;
-        this.name = name;
-        this.continent = continent;
-        this.region = region;
-        this.population = population;
-        this.capital = capital;
+        setCode(code);
+        setName(name);
+        setContinent(continent);
+        setRegion(region);
+        setPopulation(population);
+        setCapital(capital);
     }
 
     // Getters & Setters

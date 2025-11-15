@@ -11,7 +11,7 @@ public class Lookup {
     }
 
     public Lookup(String type) {
-        this.type = type;
+        setType(type);
     }
 
     public String getType() { return type; }
@@ -20,8 +20,4 @@ public class Lookup {
     public String getValue() { return value; }
     public void setValue(String value) { this.value = value; }
 
-    @Override
-    public String toString() {
-        return String.format("%s: %s", type, value);
-    }
 }

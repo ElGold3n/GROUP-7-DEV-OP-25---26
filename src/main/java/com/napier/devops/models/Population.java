@@ -10,7 +10,6 @@ public class Population {
     private double nonCityPercentage;
 
     // --- Constructors ---
-
     // Full constructor with global population
     public Population(String label,
                       long totalPopulation,
@@ -19,13 +18,13 @@ public class Population {
                       long cityPopulation,
                       double cityPercentage,
                       long globalPopulation) {
-        this.label = label;
-        this.totalPopulation = totalPopulation;
-        this.nonCityPopulation = nonCityPopulation;
-        this.nonCityPercentage = nonCityPercentage;
-        this.cityPopulation = cityPopulation;
-        this.cityPercentage = cityPercentage;
-        this.globalPopulation = globalPopulation;
+        setLabel(label);
+        setTotalPopulation(totalPopulation);
+        setCityPopulation(cityPopulation);
+        setCityPercentage(cityPercentage);
+        setNonCityPopulation(nonCityPopulation);
+        setNonCityPercentage(nonCityPercentage);
+        setGlobalPopulation(globalPopulation);
     }
 
     // 6‑argument constructor (matches your test)
@@ -35,20 +34,20 @@ public class Population {
                       double cityPercentage,
                       long nonCityPopulation,
                       double nonCityPercentage) {
-        this.label = label;
-        this.totalPopulation = totalPopulation;
-        this.cityPopulation = cityPopulation;
-        this.cityPercentage = cityPercentage;
-        this.nonCityPopulation = nonCityPopulation;
-        this.nonCityPercentage = nonCityPercentage;
+        setLabel(label);
+        setTotalPopulation(totalPopulation);
+        setCityPopulation(cityPopulation);
+        setCityPercentage(cityPercentage);
+        setNonCityPopulation(nonCityPopulation);
+        setNonCityPercentage(nonCityPercentage);
     }
 
     // Simplified constructor
     public Population(String label, long totalPopulation, long cityPopulation, long nonCityPopulation) {
-        this.label = label;
-        this.totalPopulation = totalPopulation;
-        this.cityPopulation = cityPopulation;
-        this.nonCityPopulation = nonCityPopulation;
+        setLabel(label);
+        setTotalPopulation(totalPopulation);
+        setCityPopulation(cityPopulation);
+        setNonCityPopulation(nonCityPopulation);
     }
 
     // --- Getters & Setters ---
@@ -67,11 +66,9 @@ public class Population {
     public long getNonCityPopulation() { return nonCityPopulation; }
     public void setNonCityPopulation(long nonCityPopulation) { this.nonCityPopulation = nonCityPopulation; }
 
-    public double getCityPercentage() {
-        return totalPopulation == 0 ? 0 : ((double) cityPopulation / totalPopulation * 100.0);
-    }
+    public double getCityPercentage() { return totalPopulation == 0 ? 0 : ((double) cityPopulation / totalPopulation * 100.0); }
+    public void setCityPercentage(double cityPercentage) { this.cityPercentage = cityPercentage; }
 
-    public double getNonCityPercentage() {
-        return totalPopulation == 0 ? 0 : ((double) nonCityPopulation / totalPopulation * 100.0);
-    }
+    public double getNonCityPercentage() { return totalPopulation == 0 ? 0 : ((double) nonCityPopulation / totalPopulation * 100.0); }
+    public void setNonCityPercentage(double nonCityPercentage) { this.nonCityPercentage = nonCityPercentage; }
 }

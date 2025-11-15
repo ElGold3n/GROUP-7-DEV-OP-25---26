@@ -933,9 +933,9 @@ public class MenuManager {
         TablePrinter tp;
 
         // Example: if a continent / region / country is included in the report
-        boolean hasContinent = reports.get(0).isContinent();
-        boolean hasRegion    = reports.get(0).isRegion();
-        boolean hasCountry   = reports.get(0).isCountry();
+        boolean hasContinent = reports.get(0).getContinentStatus();
+        boolean hasRegion    = reports.get(0).getRegionStatus();
+        boolean hasCountry   = reports.get(0).getCountryStatus();
 
         if (hasContinent) {
             // Continental report - shows language data grouped by continent
