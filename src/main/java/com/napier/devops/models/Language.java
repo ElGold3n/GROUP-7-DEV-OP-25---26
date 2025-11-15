@@ -49,17 +49,18 @@ public class Language {
 
         if (type.equals("Region")) {
             setRegion(location, true);
-            this.isContinent = false;
-            this.isCountry   = false;
+            setContinentStatus(false);
+            setCountryStatus(false);
             this.percentOfRegionPopulation = percentOfPopulation;
         }
 
         if (type.equals("Country")) {
             setCountry(location, true);
-            this.isContinent = false;
-            this.isRegion    = false;
+            setContinentStatus(false);
+            setRegionStatus(false);
             this.percentOfCountryPopulation = percentOfPopulation;
        }
+
         this.language = language;
         this.speakers = speakers;
         this.percentOfGlobalPopulation = percentOfGlobalPopulation;
@@ -75,9 +76,12 @@ public class Language {
 
 
     // --- Getters/Setters ---
-    public boolean isContinent() { return isContinent; }
-    public boolean isRegion() { return isRegion; }
-    public boolean isCountry() { return isCountry; }
+    public boolean getContinentStatus() { return isContinent; }
+    public void setContinentStatus(boolean isContinent) { this.isContinent = isContinent; }
+    public boolean getRegionStatus() { return isRegion; }
+    public void setRegionStatus(boolean isRegion) { this.isRegion = isRegion; }
+    public boolean getCountryStatus() { return isCountry; }
+    public void setCountryStatus(boolean isCountry) { this.isCountry = isCountry; }
 
     public String getLanguage() { return language; }
     public long getSpeakers() { return speakers; }
