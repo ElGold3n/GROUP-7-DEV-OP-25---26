@@ -8,11 +8,11 @@ public class City {
     private long population;
 
     public City(String name, String district, String country, String continent, long population) {
-        this.name = name;
-        this.district = district;
-        this.country = country;
-        this.continent = continent;
-        this.population = population;
+        setName(name);
+        setDistrict(district);
+        setCountry(country);
+        setContinent(continent);
+        setPopulation(population);
     }
 
     // Getters & Setters
@@ -30,6 +30,5 @@ public class City {
 
     public long getPopulation() { return population; }
     public void setPopulation(long population) { this.population = population; }
-
 
 }
