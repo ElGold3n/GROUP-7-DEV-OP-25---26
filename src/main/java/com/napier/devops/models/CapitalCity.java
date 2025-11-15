@@ -8,11 +8,11 @@ public class CapitalCity {
     private long population;
 
     public CapitalCity( String name, String country, String continent, String region, long population) {
-        this.name = name;
-        this.country = country;
-        this.continent = continent;
-        this.region = region;
-        this.population = population;
+        setName(name);
+        setCountry(country);
+        setContinent(continent);
+        setRegion(region);
+        setPopulation(population);
     }
 
     // Getters & Setters
