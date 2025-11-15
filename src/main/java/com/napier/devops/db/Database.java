@@ -9,9 +9,9 @@ public class Database {
 
     // Default values (can be overridden by environment variables)
     private static final String DEFAULT_URL =
-            "jdbc:mysql://localhost:33060/world?allowPublicKeyRetrieval=true&useSSL=false";
-    private static final String DEFAULT_USER = "root";
-    private static final String DEFAULT_PASS = "P@ssw0rd!";
+            "jdbc:mysql://db:3306/world?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String DEFAULT_USER = "worlduser";
+    private static final String DEFAULT_PASS = "_ty5g09^tt";
 
     /**
      * Connect using environment variables or defaults.

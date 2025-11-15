@@ -5,15 +5,28 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-    private static final String DEFAULT_URL =
-            "jdbc:mysql://localhost:33060/world?allowPublicKeyRetrieval=true&useSSL=false";
-    private static final String DEFAULT_USER = "root";
-    private static final String DEFAULT_PASS = "P@ssw0rd!";
+    private static final String URL = "jdbc:mysql://db:3306/world?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String USER = "root";
+    private static final String PASSWORD = "P@ssw0rd!";
 
-    /**
-     * Connect using  variables.
-     */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DEFAULT_URL, DEFAULT_USER, DEFAULT_PASS);
+        String url = System.getenv().getOrDefault("DB_URL", URL);
+        String user = System.getenv().getOrDefault("DB_USER", USER);
+        String pass = System.getenv().getOrDefault("DB_PASS", PASSWORD);
+
+        int attempts = 0;
+        while (attempts < 15) {
+            try {
+                return DriverManager.getConnection(URL, USER, PASSWORD);
+            } catch (SQLException e) {
+                attempts++;
+                System.out.println("Attempting DB connection (" + attempts + "/15)... " +  e.getMessage());
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ignored) {}
+            }
+        }
+        throw new SQLException("Unable to connect to database after 15 attempts.");
     }
+
 }
