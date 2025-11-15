@@ -6,8 +6,8 @@ public class Lookup {
 
 
     public Lookup(String type, String value) {
-        this.type = type;
-        this.value = value;
+        setType(type);
+        setValue(value);
     }
 
     public Lookup(String type) {
