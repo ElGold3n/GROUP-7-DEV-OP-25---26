@@ -366,7 +366,7 @@ ________________________________________________________________________________
 
 [![Build Status](https://travis-ci.com/ElGold3n/GROUP-7-DEV-OP-25---26.svg?branch=release)](https://travis-ci.com/ElGold3n/GROUP-7-DEV-OP-25---26)
 [![codecov](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/branch/release/graph/badge.svg)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26)
-![Docker Build](https://img.shields.io/docker/cloud/build/group7/world-population?label=docker%20build)
+![Docker Build](https://img.shields.io/docker/cloud/build/group7/world-population?label=docker%20build) 
 
 _A reporting system built using the MySQL **World** sample database._  
 _It provides analytical and statistical reports from the dataset, including population, language, and country-level insights._
