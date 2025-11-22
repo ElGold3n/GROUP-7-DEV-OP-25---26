@@ -1,0 +1,43 @@
+language: java
+jdk:
+  - openjdk17
+
+services:
+  - mysql
+  - docker
+
+env:
+  global:
+    - MYSQL_DATABASE=world
+    - MYSQL_USER=${MYSQL_USER}
+    - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    - CODECOV_TOKEN=${secrets.CODECOV_TOKEN}
+
+before_install:
+  - echo "Waiting for MySQL to be ready..."
+  - while ! mysqladmin ping -h "127.0.0.1" --silent; do sleep 1; done
+  - echo "Loading schema..."
+  - mysql -u root -proot < src/main/resources/schema.sql
+
+install:
+  - mvn clean install -DskipTests=true
+
+script:
+  - mvn test
+  - mvn verify
+  - mvn jacoco:report
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+before_deploy:
+  - echo "Building Docker image..."
+  - docker build -t group7/world-population .
+
+notifications:
+  email:
+    recipients:
+      - whashby@gmail.com
+    on_success: change
+    on_failure: always
