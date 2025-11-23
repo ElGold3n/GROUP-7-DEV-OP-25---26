@@ -9,16 +9,16 @@ services:
 env:
   global:
     - MYSQL_DATABASE=world
-    - MYSQL_USER=${MYSQL_USER}
-    - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    - MYSQL_USER=worlduser
+    - MYSQL_PASSWORD=_ty5g09^tt
+    - MYSQL_ROOT_PASSWORD=P@ssw0rd!
     - CODECOV_TOKEN=${secrets.CODECOV_TOKEN}
 
 before_install:
   - echo "Waiting for MySQL to be ready..."
   - while ! mysqladmin ping -h "127.0.0.1" --silent; do sleep 1; done
   - echo "Loading schema..."
-  - mysql -u root -p$MYSQL_ROOT_PASSWORD < world-db/world.sql
+  - mysql -u root -pP@ssw0rd! < world-db/world.sql
 
 install:
   - mvn clean install -DskipTests=true
