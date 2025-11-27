@@ -46,6 +46,6 @@ before_deploy:
 notifications:
   email:
     recipients:
-      - whashby@gmail.com
+      - habib.shoala@gmail.com
     on_success: change
     on_failure: always
