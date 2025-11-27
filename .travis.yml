@@ -14,19 +14,18 @@ env:
     - MYSQL_ROOT_PASSWORD=P@ssw0rd!
     - CODECOV_TOKEN=${CODECOV_TOKEN}
 
-before_install:   - sudo mysqladmin -u root password "${MYSQL_ROOT_PASSWORD}"
-  # Wait for MySQL to be ready
+before_install:
+  # Wait for MySQL
   - echo "Waiting for MySQL to be ready..."
   - while ! mysqladmin ping -h "127.0.0.1" --silent; do sleep 1; done
 
-  # Create database and user explicitly
-  - mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" mysql -u root -e "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';" mysql -u root -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'localhost'; FLUSH PRIVILEGES;"\`${MYSQL_DATABASE}\`;"
-  - mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-  - mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%'; FLUSH PRIVILEGES;"
+  # Create DB and user
+  - mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
+  - mysql -u root -e "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%'; FLUSH PRIVILEGES;"
 
   # Load schema
-  - echo "Loading schema..."
-  - mysql -uroot -p"${MYSQL_ROOT_PASSWORD}" "${MYSQL_DATABASE}" < world-db/world.sql
+  - mysql -u root ${MYSQL_DATABASE} < world-db/world.sql
 
 install:
   - mvn clean install -DskipTests=true
