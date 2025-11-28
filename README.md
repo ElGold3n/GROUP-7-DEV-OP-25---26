@@ -197,8 +197,8 @@ ___________________________________________________________________
 | 18                           | All the capital cities in a continent, sorted by population.            | ✅ Yes | ![all_capitals_in_continent_by_pop.png](screenshots/all_capitals_in_continent_by_pop.png)                                                               |
 | 19                           | All the capital cities in a region, sorted by population.               | ✅ Yes | ![all_capitals_in_region_by_pop.png](screenshots/all_capitals_in_region_by_pop.png)                                                                     |
 | 20                           | 🔝 Top N of populated capital cities in the world.                      | ✅ Yes | ![top_10_capitals_in_world_by_pop.png](screenshots/top_10_capitals_in_world_by_pop.png)                                                                 |
-| 21                           | 🔝 Top N of populated capital cities in a continent.                    | ✅ Yes | ![top_10_capitals_in_continent_by_pop.png.png](screenshots/top_10_capitals_in_continent_by_pop.png.png)                                                 |
-| 22                           | 🔝 Top N of populated capital cities in a region.                       | ✅ Yes | ![top_10_capitals_in_region_by_pop.png.png](screenshots/top_10_capitals_in_region_by_pop.png.png)                                                       |
+| 21                           | 🔝 Top N of populated capital cities in a continent.                    | ✅ Yes | ![top_10_capitals_in_continent_by_pop.png](screenshots/top_10_capitals_in_continent_by_pop.png)                                                 |
+| 22                           | 🔝 Top N of populated capital cities in a region.                       | ✅ Yes | ![top_10_capitals_in_region_by_pop.png](screenshots/top_10_capitals_in_region_by_pop.png)                                                       |
 | **Population Reports**  👥   |                                                                         |       |                                                                                                                                                         |
 | 23                           | All the population data (total, city, non-city) by continent.           | ✅ Yes |                                                                                                                                                         |
 | 24                           | All the population data (total, city, non-city) by region.              | ✅ Yes |                                                                                                                                                         |
@@ -363,6 +363,10 @@ ________________________________________________________________________________
 |   Branch   | <img width="80" height="80" alt="Codecov logo" src="https://github.com/user-attachments/assets/62362591-497f-4268-87d4-cc8963b008c2" />|
 |:----------:|:--------------------------------------------------------------------------------:|
 | **Master** | [![codecov](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/graph/badge.svg?token=5VLKOMSIXU)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26)     |
+
+[![Build Status](https://travis-ci.com/ElGold3n/GROUP-7-DEV-OP-25---26.svg?branch=release)](https://travis-ci.com/ElGold3n/GROUP-7-DEV-OP-25---26)
+[![codecov](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26/branch/release/graph/badge.svg)](https://codecov.io/gh/ElGold3n/GROUP-7-DEV-OP-25---26)
+![Docker Build](https://img.shields.io/docker/cloud/build/group7/world-population?label=docker%20build) 
 
 _A reporting system built using the MySQL **World** sample database._  
 _It provides analytical and statistical reports from the dataset, including population, language, and country-level insights._
