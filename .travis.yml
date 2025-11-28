@@ -1,85 +1,50 @@
-name: Java CI with MySQL and Docker
+language: java
+jdk:
+  - openjdk17
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+services:
+  - mysql
+  - docker
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+env:
+  global:
+    - MYSQL_DATABASE=world
+    - MYSQL_USER=worlduser
+    - MYSQL_PASSWORD=_ty5g09^tt
+    - MYSQL_ROOT_PASSWORD=P@ssw0rd!
+    - CODECOV_TOKEN=${secrets.CODECOV_TOKEN}
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_DATABASE: world
-          MYSQL_USER: worlduser
-          MYSQL_PASSWORD: _ty5g09^tt
-          MYSQL_ROOT_PASSWORD: P@ssw0rd!
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
+before_install:
+  # Wait for MySQL to be ready
+  - echo "Waiting for MySQL to be ready..."
+  - while ! mysqladmin ping -h "127.0.0.1" --silent; do sleep 1; done
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # Create database and user using no-password root access
+  - mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
+  - mysql -u root -e "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+  - mysql -u root -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'localhost'; FLUSH PRIVILEGES;"
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+  # Load schema
+  - echo "Loading schema..."
+  - mysql -u root ${MYSQL_DATABASE} < world-db/world.sql
+install:
+  - mvn clean install -DskipTests=true
 
-      - name: Wait for MySQL
-        run: |
-          echo "Waiting for MySQL to be ready..."
-          for i in {1..30}; do
-            if mysqladmin ping -h127.0.0.1 --silent; then
-              echo "MySQL is up!"
-              break
-            fi
-            sleep 2
-          done
+script:
+  - mvn test
+  - mvn verify
+  - mvn jacoco:report
 
-      - name: Create database and user
-        run: |
-          mysql -h127.0.0.1 -uroot -p${{ env.MYSQL_ROOT_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS world;"
-          mysql -h127.0.0.1 -uroot -p${{ env.MYSQL_ROOT_PASSWORD }} -e "CREATE USER IF NOT EXISTS 'worlduser'@'%' IDENTIFIED BY '_ty5g09^tt';"
-          mysql -h127.0.0.1 -uroot -p${{ env.MYSQL_ROOT_PASSWORD }} -e "GRANT ALL PRIVILEGES ON world.* TO 'worlduser'@'%'; FLUSH PRIVILEGES;"
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 
-      - name: Load schema
-        run: |
-          mysql -h127.0.0.1 -uroot -p${{ env.MYSQL_ROOT_PASSWORD }} world < world-db/world.sql
+before_deploy:
+  - echo "Building Docker image..."
+  - docker build -t group7/world-population .
 
-      - name: Build with Maven (skip tests)
-        run: mvn clean install -DskipTests=true
-
-      - name: Run tests
-        run: mvn test
-
-      - name: Verify build
-        run: mvn verify
-
-      - name: Generate JaCoCo report
-        run: mvn jacoco:report
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Build Docker image
-        run: docker build -t group7/world-population .
-        notifications:
+notifications:
   email:
     recipients:
       - habib.shoala@gmail.com
     on_success: change
     on_failure: always
-
